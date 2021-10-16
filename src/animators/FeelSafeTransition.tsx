@@ -14,7 +14,7 @@ interface Props {
  children:ReactNode
 }
 
-const  Intro =({
+const  FeelSafeTransition=({
   
   isVisible= false,
   delay= 0,
@@ -48,7 +48,7 @@ const  Intro =({
     },
   
     delay: delay,
-    onRest:()=>{set(true)},
+  
     //   opacity: 0,
 
     // },
@@ -64,7 +64,7 @@ const  Intro =({
   
   </animated.div>;
 }
-export default Intro
+export default FeelSafeTransition
 // export default FadeIn;
 // import { animated, useSpring, useSpringRef, useTransition, useChain } from "react-spring";
 // import React, { useEffect, useState } from "react";

@@ -1,2 +1,9 @@
 
 
+.text-container{
+    text-align: center!important;
+ position:absolute;
+    bottom:15vw;
+    justify-content:center!important;
+    width: 100%;left: 0px;
+}
