@@ -1,26 +1,43 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from "@mui/material/Typography";
 import Intro from "../animators/Intro"
-export default function Welcome(props:any) {
+import styles from  "../animators/styles.module.css"
+import Experiment from "../animators/TrailExperiment"
+import Transition from "../animators/TransitionExperiment"
+export default function Welcome(props: any) {
 
-const [introText, setIntroText] = useState(["Welcome", "Please find a safe location"])
+  const [introText, setIntroText] = useState(["Welcome", "Please find a safe location"])
+const [open, set] = useState(true)
+ 
 
 
 
+  return (
+    <div className={styles.container} onClick={() => set(!open)}>
+    <Transition></Transition>
+    
+    {/* <Experiment  open={open}>
+      
+  
+          <Typography  variant="h1" >
+
+            Welcome
 
 
-    return(
-        <div>
-            {introText.map(text=>(
-              <Intro isVisible={true} delay={150} fromY={-200} x={0} y={0} fromX={0} rotation={0} scale={1} fromScale={1} >
-        <Typography sx={{justifyContent: 'center', textAlign: 'center', marginTop:"18vw"}} variant="h1">
-         
-           {text}
-       
+          </Typography>
+      
+    
+          <Typography   variant="h1" >
 
-        </Typography>
-        </Intro>
-      ))}
-        </div>
-    )
+            Please find a safe location
+
+
+          </Typography>
+        
+        
+          </Experiment> */}
+   
+
+    </div>
+  )
 }
