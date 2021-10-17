@@ -4,7 +4,7 @@ import FeelSafeTransition from "../animators/FeelSafeTransition";
 
 import Container from "react-bootstrap/Container"
 import FeelSafeButton from "../components/FeelSafeButton"
-export default function FeelSafe(props: any) {
+export default function SignIn(props: any) {
 
 const [clicked, setClicked] = useState(false)
 
@@ -17,11 +17,11 @@ const [clicked, setClicked] = useState(false)
      
      <Container className="feelSafeContainer">
           <Typography variant="h3">
-            Do you feel safe enough to continue?
+            Would you like to sign in?
           </Typography>
 
           <div className="feelSafeButton">
-            <FeelSafeButton onClick={() => props.click()} />
+            <FeelSafeButton onClick={() => setClicked(true)} />
           </div>
         </Container>
 
