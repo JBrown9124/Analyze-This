@@ -163,7 +163,7 @@ export default function WelcomeTransition({child1, child2, isClicked=false}:Prop
                     style={{...style,}}
 
                 >
-                    <Typography className="text-container" component="span" variant="h1" >
+                    <Typography className="text-container"  variant="h1" >
                         {slides[i]}</Typography>
                 </animated.div>
 
