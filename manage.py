@@ -2,7 +2,12 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+import time
+from datetime import timedelta
+from uuid import uuid4
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
 def main():
     """Run administrative tasks."""
@@ -16,7 +21,12 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
-
+    cred = credentials.Certificate("./serviceAccountKey.json")
+    default_app = firebase_admin.initialize_app(cred)
+    db = firestore.client()
+    
 if __name__ == '__main__':
     main()
+
+
+

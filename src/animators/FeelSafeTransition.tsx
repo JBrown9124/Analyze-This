@@ -2,7 +2,7 @@ import { animated, useSpring, useTransition } from "react-spring";
 import React, { useEffect, FC,useState, ReactNode } from "react";
 import Typography from "@mui/material/Typography";
 interface Props {
- isClicked: boolean,
+ 
  delay:number,
  x:number,
  y:number,
@@ -16,7 +16,7 @@ interface Props {
 
 const  FeelSafeTransition=({
   
-  isClicked= false,
+  
   delay= 0,
   x= 0,
   y = 0,
@@ -41,13 +41,10 @@ const  FeelSafeTransition=({
       opacity: 0,
     },
     
-    transform: isClicked===false ? `translate(${x}px, ${y}px)
+    transform: `translate(${x}px, ${y}px)
          rotate(${rotation}deg)
-         scale(${scale})`: `translate(${fromX}px, ${fromY}px)
-         rotate(0deg)
-         
-         scale(${fromScale})`,
-      opacity: isClicked===false ? 1:0,
+         scale(${scale})`,
+      opacity:  1,
    
     delay: delay,
   

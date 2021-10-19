@@ -4,10 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
-
+/venv
 # testing
 /coverage
-
+/serviceAccountKey.json
 # production
 /build
 

@@ -5,21 +5,23 @@ import Container from "react-bootstrap/Container";
 import FeelSafeButton from "../components/FeelSafeButton";
 import WelcomeTransition from "../animators/WelcomeTransition";
 import FeelSafe from "./FeelSafe";
-import SignIn from "./SignIn"
+import Name from "./Name"
+import SignIn from "./SignIn";
 export default function Welcome(props: any) {
-  const [clicked, setClicked] = useState(false);
+  const [toggle, set] = useState(false);
   const [introText, setIntroText] = useState([
     "Welcome",
     "Please find a safe location",
   ]);
-  const [open, set] = useState(true);
 
   return (
     <>
-      <WelcomeTransition isClicked={clicked} child1={<FeelSafe click={()=>setClicked(true)}/>} child2={<SignIn/>} />
-       
-     
-      
+      <WelcomeTransition
+        isClicked={toggle}
+        child1={<FeelSafe click={() => set(!toggle)} />}
+        child2={<SignIn click={() => set(!toggle)} />}
+        child3={<Name click={() => set(!toggle)}/>}
+      />
 
       {/* <Experiment  open={open}>
       
