@@ -12,6 +12,7 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import { OutlinedInputProps } from '@mui/material/OutlinedInput';
 
+
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
     color: 'green',
@@ -147,15 +148,18 @@ function CustomizedInputs() {
   );
 }
 interface Props {
-  click: ()=>void;
-
+  handleName: (props:string)=>void;
+  
 }
 
-export default function Name({click}:Props) {
+export default function Name({handleName}:Props) {
 
  
+  const[name, setName]= useState("")
+  const handleSubmit = () => {
+handleName(name)
 
-
+  }
 
 
   return (
@@ -163,17 +167,11 @@ export default function Name({click}:Props) {
      
      <Container className="feelSafeContainer">
           <Typography variant="h3">
-           What would you like us to call you?
+           What would you like to be called for this session?
           </Typography>
-          <CssTextField label="Custom CSS" id="custom-css-outlined-input" />
-      <ValidationTextField
-        label="CSS validation style"
-        required
-        variant="outlined"
-        defaultValue="Success"
-        id="validation-outlined-input"
-      />
-         
+          <CssTextField label="Custom CSS" id="custom-css-outlined-input" value={name} onChange={(e)=>setName(e.target.value)}/>
+     
+         <FeelSafeButton onClick={()=>handleSubmit()} message={'Continue'}/>
         </Container>
 
 

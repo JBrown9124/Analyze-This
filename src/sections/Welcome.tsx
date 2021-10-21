@@ -8,7 +8,7 @@ import FeelSafe from "./FeelSafe";
 import Name from "./Name"
 import SignIn from "./SignIn";
 export default function Welcome(props: any) {
-  const [toggle, set] = useState(false);
+ 
   const [introText, setIntroText] = useState([
     "Welcome",
     "Please find a safe location",
@@ -16,12 +16,7 @@ export default function Welcome(props: any) {
 
   return (
     <>
-      <WelcomeTransition
-        isClicked={toggle}
-        child1={<FeelSafe click={() => set(!toggle)} />}
-        child2={<SignIn click={() => set(!toggle)} />}
-        child3={<Name click={() => set(!toggle)}/>}
-      />
+     
 
       {/* <Experiment  open={open}>
       
