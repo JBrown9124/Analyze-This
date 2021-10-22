@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import { OutlinedInputProps } from '@mui/material/OutlinedInput';
+import { number } from 'prop-types';
 
 
 const CssTextField = styled(TextField)({
@@ -35,16 +36,21 @@ const CssTextField = styled(TextField)({
 
 
 interface Props {
-  handleName: (props:string)=>void;
+  handleLocation: (props:object)=>void;
   
 }
 
-export default function Name({handleName}:Props) {
+export default function Location({handleLocation}:Props) {
 
  
-  const[name, setName]= useState("")
+  const [address, setAddress] = useState("")
+  const [city, setCity] = useState("")
+  const [state, setState] = useState("")
+  const [zipcode, setZipCode] = useState<number>()
+
   const handleSubmit = ():void => {
-handleName(name)
+   const locationData = {address:address, city:city, state:state, zipcode:zipcode}
+handleLocation(locationData)
 
   }
 
@@ -56,7 +62,10 @@ handleName(name)
           <Typography variant="h3">
            What would you like to be called for this session?
           </Typography>
-          <CssTextField label="Custom CSS" id="custom-css-outlined-input" value={name} onChange={(e)=>setName(e.target.value)}/>
+          <CssTextField label="Address" id="custom-css-outlined-input" value={address} onChange={(e)=>setAddress(e.target.value)}/>
+          <CssTextField label="City" id="custom-css-outlined-input" value={city} onChange={(e)=>setCity(e.target.value)}/>
+          <CssTextField label="State" id="custom-css-outlined-input" value={state} onChange={(e)=>setState(e.target.value)}/>
+          <CssTextField label="Zip Code" id="custom-css-outlined-input" type='number' value={zipcode} onChange={(e)=>setZipCode(parseInt(e.target.value))}/>
      
          <FeelSafeButton onClick={()=>handleSubmit()} message={'Continue'}/>
         </Container>

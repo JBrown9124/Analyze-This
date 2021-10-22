@@ -17,6 +17,7 @@ interface Props {
   child1: ReactNode;
   child2: ReactNode;
   child3: ReactNode;
+  child4: ReactNode;
   isClicked: boolean;
 }
 
@@ -24,6 +25,7 @@ export default function WelcomeTransition({
   child1,
   child2,
   child3,
+  child4,
   isClicked = false,
 }: Props) {
   const slides: any = [
@@ -32,6 +34,7 @@ export default function WelcomeTransition({
     child1,
     child2,
     child3,
+    child4,
   ];
 
   const [index, set] = useState(0);
