@@ -1,3 +1,4 @@
+from typing import List, Dict
 conflict_type:Dict[str,str or dict] = {"alcohol": "addiction", "ayahuasca": "addiction",
                          "sedatives": "addiction", "tranquilizers": "addiction",
                          "hypnotics": "addiction",

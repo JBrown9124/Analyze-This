@@ -2,12 +2,14 @@ import re
 
 from spellchecker import SpellChecker
 from typing import List, Dict
+import sys
+sys.path.append("C:\\Users\\Jonathan\\Documents\\My_Workspaces\\new_project\\helpapp")
 
-from helpapp.wordsdata.conflictdata.conflict_type import conflict_type
+from WordData.ConflictData.conflict_type import conflict_type
 class Analysis(object):
     def __init__(self, description: str):
         self.description = description
-        self.results = {"suicidal":self.is_suicide(),"others_danger":self.others_danger(), "self_danger":self.self_danger(), "type":self.find_type(), "description":self.description}
+        # self.results = {"suicidal":self.is_suicide(),"others_danger":self.others_danger(), "self_danger":self.self_danger(), "type":self.find_type(), "description":self.description}
     def __iter__(self) -> str:
         description:List[str] = self.description.split()
         spell = SpellChecker(distance=1)

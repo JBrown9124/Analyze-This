@@ -1,0 +1,10 @@
+{
+    "python.analysis.extraPaths": [
+        "C:\\Users\\Jonathan\\Documents\\My_Workspaces\\new_project\\helpapp"
+    ],
+    "python.autoComplete.extraPaths": [
+        "C:\\Users\\Jonathan\\Documents\\My_Workspaces\\new_project\\helpapp\\*"
+    ],
+    "python.analysis.useImportHeuristic": true,
+    "python.jediEnabled": false
+}
