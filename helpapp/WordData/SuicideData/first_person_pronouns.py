@@ -1,1 +1,0 @@
-first_person_pronouns=['i', 'me', 'my', 'mine','myself']

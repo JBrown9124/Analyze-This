@@ -1,0 +1,1 @@
+first_person_pronouns:set ={'i', 'me', 'my', 'mine','myself'}

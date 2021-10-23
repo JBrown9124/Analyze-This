@@ -1,4 +1,4 @@
-suicide_words:Dict[str, str or dict] = {'bump': 'off', 'butcher': first_person_pronouns, 'cut': 'down',
+suicide_words:Dict[str, str|dict] = {'bump': 'off', 'butcher': first_person_pronouns, 'cut': 'down',
                          'finish': 'living', 'ice': 'myself', 'knock': 'off',
                          'murder': 'myself', 'neutralize': 'myself',
                          'off': 'myself',
