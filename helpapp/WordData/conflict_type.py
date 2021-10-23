@@ -1,5 +1,5 @@
 from typing import List, Dict
-conflict_type:Dict[str,str or dict] = {"alcohol": "addiction", "ayahuasca": "addiction",
+conflict_type:Dict[str,str] = {"alcohol": "addiction", "ayahuasca": "addiction",
                          "sedatives": "addiction", "tranquilizers": "addiction",
                          "hypnotics": "addiction",
                          "cocaine": "addiction", "dmt": "addiction",

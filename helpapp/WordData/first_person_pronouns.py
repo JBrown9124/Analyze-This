@@ -1,1 +1,1 @@
-first_person_pronouns:set ={'i', 'me', 'my', 'mine','myself'}
+first_person_pronouns:set[str] ={'i', 'me', 'my', 'mine','myself'}
