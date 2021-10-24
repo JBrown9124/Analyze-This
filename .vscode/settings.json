@@ -7,5 +7,5 @@
     ],
     "python.analysis.useImportHeuristic": true,
     "python.jediEnabled": false,
-    "python.languageServer": "Microsoft"
+    "python.languageServer": "Pylance"
 }

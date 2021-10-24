@@ -10,6 +10,7 @@ from WordData.life_death_synonyms import life_death_synonyms
 from WordData.conflict_type import conflict_type
 from WordData.first_person_pronouns import first_person_pronouns
 from WordData.suicide_words_context import suicide_words_context
+from WordData.suicide_words import suicide_words
 class Analysis(object):
     def __init__(self, description: str):
         self.description = description
@@ -47,44 +48,68 @@ class Analysis(object):
         # associated to high levels of suicide.
 
         
-        conflicts: List[str] = []
+       
         suicide_probability: int = 0
         # words = [description[i], description[j], description[k]]
         for words in self:
-            # if the description contains a synonym for suicide then we add .50 to probability of suicide.
-            if words[0] in suicide_words_context:
-                suicide_probability += .50
+            # if the first word in words contains a synonym for suicide then we add .50 to probability of suicide.
+            
+            if words[0] in suicide_words_context or first_person_pronouns:
+                
                 # if the synonym as a key in suicide_words_context has a dict for a value then we refer
                 # to the first_person_pronouns list to see if the word after suicide synonym is a first person pronoun.
-
-                if type(suicide_words_context[words[0]]) == dict:
+                first_word_value_type = type(suicide_words_context[words[0]])
+                first_word_value = suicide_words_context[words[0]]
+                if first_word_value_type  == dict:
+                    # if the lenght of words is greater than or equal to 2 and the second word in words is a first person pronoun then go into this condition ex. "claim my"
                     if len(words) >= 2 and words[1] in first_person_pronouns:
-                        # If it is a first person pronoun then at .25 probability
-                       
-                        if len(words) >= 3 and words[2] in suicide_words_context[words[0]]['first_person_pronouns']:
-                            # If the word in the description after the pronoun is in life_death_synonyms list
-                            # then add .25 probability to the suicide_probability
-                            suicide_probability += .75
+                        # if the lenght of words is greater than or equal to 3 and the third word in words is a in the value of dict[words[0]][words[1]]then go into this condition ex. "claim my life"
+                        # Value could be a set of words synonymous with life and death or a string.
+                        first_word_second_word_value = suicide_words_context[words[0]]['first_person_pronouns']
+                        if len(words) >= 3 and words[2] in first_word_second_word_value:
+                            
+                            suicide_probability += 1.0
+                            continue
+                    #if words is length of 3 second word in words is a key in value of suicide_words_context[first_word]
+                    elif len(words) >= 2 and words[1] in first_word_value:
+                        #if 3rd word is in value of dict[first_Word][second_word] then we say suicidal_probability+=1.0. ex: "want to die" = high probability of suicide
+                        first_word_second_word_value = suicide_words_context[words[0]][words[1]]
+                        if len(words) >= 3 and words[2] in first_word_second_word_value:
+                            suicide_probability += 1.0
+                            continue
                 # if the word after first word in words has a set value in our dict go into this condition.
-                if type(suicide_words_context[words[0]]) == set:
-                    # if the word after our first word in words in our value which is a set then add probability. ex. Off myself.
-                    if len(words) >= 2 and words[1] in suicide_words_context[words[0]]:
-                        suicide_probability += .50
-                if type(suicide_words_context[words[0]]) == str:
-                    if len(words) >= 3 and words[2] == suicide_words_context[words[0]]:
-                        suicide_probability += .50
+                elif first_word_value_type == set:
+                    # if the seond word in words in our value (set) then add probability. ex. Off myself.
+                    if len(words) >= 2 and words[1] in first_word_value:
+                        suicide_probability += 1
+                        continue
+                # if the suicide_words_context[first_word] value is a string
+                elif first_word_value_type == str:
+                    if len(words) >= 3 and words[2] == first_word_value:
+                        suicide_probability += 1.0
+                        continue
             # if the middle pointer contain a suicide word add .50 probability.           
+            
             if  len(words) >= 2 and words[1] in suicide_words_context:
-                suicide_probability += .50
+                second_word_value_type = type(suicide_words_context[words[1]])
+                second_word_value = suicide_words_context[words[1]]
                 # if the last pointer continaers value of suicide word in dict which is eithr a life_death_synonym list or first_person_pronoun list then add .50
-                if type(suicide_words_context[words[1]]) == set:
-                    if len(words) >= 3 and  words[2] in suicide_words_context[words[1]]:
-                        suicide_probability += .50
-                if type(suicide_words_context[words[1]]) == str:
-                    if len(words) >= 3 and words[2] == suicide_words_context[words[1]]:
-                        suicide_probability += .50
-
-        return suicide_probability
+                if second_word_value_type == set:
+                    if len(words) >= 3 and words[2] in second_word_value:
+                        suicide_probability += 1.0
+                        continue
+                if second_word_value_type == str:
+                    if len(words) >= 3 and words[2] == second_word_value:
+                        suicide_probability += 1.0
+                        continue
+            if words[0] in suicide_words or first_person_pronouns:
+                suicide_probability += .15
+            if len(words) == 2 and words[1] in suicide_words:
+                suicide_probability += .15
+            if len(words) == 3 and words[2] in suicide_words:
+                suicide_probability += .15
+        suicide_results = {'suicide_probability':suicide_probability, 'is_suicide':suicide_probability>=1.0}
+        return suicide_results
 
     def others_danger(self):
         # compare dict values to the string to see if there are words
@@ -98,28 +123,27 @@ class Analysis(object):
         # check for nouns related to self, check for nouns related to others
         pass
 
-    def find_type(self) -> List[str]:
+    def find_causes(self) -> List[str]:
         # compare dict values to the string to see what type of conflict the
         # person is dealing with.
 
-        conflicts: set[str] = set()
+        potential_causes: set[str] = set()
         for words in self:
 
             if words[0] in conflict_type:
-                conflicts.add(conflict_type[words[0]])
+                potential_causes.add(conflict_type[words[0]])
             if len(words)>= 2 and words[1] in conflict_type:
-                conflicts.add(conflict_type[words[1]])
+                potential_causes.add(conflict_type[words[1]])
             if len(words) >=3 and words[2] in conflict_type:
-                conflicts.add(conflict_type[words[2]])
-        return conflicts
+                potential_causes.add(conflict_type[words[2]])
+        return list(potential_causes)
 
     def results(self) -> Dict:
-        return self.results
-
+        results = {'is_suicide': self.is_suicide(), 'potential_causes': self.find_causes()}
+        return results
 
 if __name__ == "__main__":
     analysis = Analysis(
-        description=u"I cut a piece of paper today weed I cut myself I cut I cut I cut I cut I cut I cut I cut I cut I cut I")
+        description=u"I wish I hadnt been born")
 
-    print(analysis.is_suicide())
-    print(analysis.find_type())
+    print(analysis.results())

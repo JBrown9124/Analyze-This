@@ -38,4 +38,12 @@ conflict_type:Dict[str,str] = {"alcohol": "addiction", "ayahuasca": "addiction",
                          "bath salts": "addiction",
                          "tobacco": "addiction", "nicotine": "addiction",
                          "cigarette": "addiction", "cigar": "addiction",
-                         "vape": "addiction", "vape pen": "addiction", }
+                         "vape": "addiction", "vape pen": "addiction", 'pills':'addiction', 'booze':'addiction', 
+                         
+                         'friends':'social', 
+                         'family':'social', 'grandpa':'social', 'papa':'social', 'mother':'social', 'grandma':'social',
+                         'brother':'social', 'sister':'social', 'school':'social', 'college':'social', 'alone':'social', 'lonely':'social', 'child':'social',
+                         
+                         
+                         
+                          }
