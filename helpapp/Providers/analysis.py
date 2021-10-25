@@ -14,10 +14,13 @@ from WordData.suicide_words import suicide_words
 class Analysis(object):
     def __init__(self, description: str):
         self.description = description
+       
         # self.results = {"suicidal":self.is_suicide(),"others_danger":self.others_danger(), "self_danger":self.self_danger(), "type":self.find_type(), "description":self.description}
 
     def __iter__(self) -> List[str]:
-        description: List[str] = self.description.split()
+        description = self.description.lower()
+        description= re.sub('[^a-zA-Z ]','',description)
+        description: List[str] = description.split()
         # spell = SpellChecker(distance=1)
         i=0
         j = i+1
@@ -41,7 +44,15 @@ class Analysis(object):
             j = i+1
             k = j+1
             output = []
-            
+        
+        j = 1
+        k = 2
+        if len(description) > 3:
+            for i, word in enumerate(description):
+                if k <= len(description)-1:
+                    yield [description[i], description[j], description[k]]
+                    j+=1
+                    k+=1
 
     def is_suicide(self) -> bool:
         # compare dict values to the string to see if there are words
@@ -87,7 +98,7 @@ class Analysis(object):
                         continue
                 # if the suicide_words_context[first_word] value is a string
                 elif first_word_value_type == str:
-                    if len(words) >= 3 and words[2] == first_word_value:
+                    if len(words) >= 2 and words[1] == first_word_value:
                         suicide_mentioned += 1
                         suicide_probability += 1.0
                         continue
@@ -138,7 +149,7 @@ class Analysis(object):
                 if len(words) == 3 and words[1] in suicide_words:
                     suicide_probability +=.50
                     suicide_mentioned += 1
-        suicide_results = {'suicide_probability':suicide_probability, 'is_suicide':suicide_probability>=.75, 'suicide_mentioned':suicide_mentioned}
+        suicide_results = {'suicide_probability':suicide_probability if suicide_probability < 1.00 else 1.00, 'is_suicide':suicide_probability>=.75, 'suicide_mentioned':suicide_mentioned}
         return suicide_results
 
     def others_danger(self):
@@ -174,6 +185,6 @@ class Analysis(object):
 
 if __name__ == "__main__":
     analysis = Analysis(
-        description=u"death is approaching weed weed weed")
+        description=u"life feels pointless")
 
     print(analysis.results())

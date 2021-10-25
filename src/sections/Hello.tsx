@@ -7,7 +7,11 @@ import WelcomeTransition from "../animators/WelcomeTransition";
 import FeelSafe from "./FeelSafe";
 import Name from "./Name"
 import SignIn from "./SignIn";
-export default function Welcome(props: any) {
+
+interface Props{
+    name:string
+}
+export default function Hello({name}:Props) {
  
   const [introText, setIntroText] = useState([
     "Welcome",
@@ -19,16 +23,16 @@ export default function Welcome(props: any) {
     
 
    
-      <Container className="welcomeContainer">
+      <Container className="helloContainer">
   
           <Typography  variant="h1" >
 
-            Welcome
+            Hello {name}
 
 
           </Typography>
-      
           </Container>
+    
  
     </>
   );

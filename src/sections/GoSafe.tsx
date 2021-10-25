@@ -7,7 +7,7 @@ import WelcomeTransition from "../animators/WelcomeTransition";
 import FeelSafe from "./FeelSafe";
 import Name from "./Name"
 import SignIn from "./SignIn";
-export default function Welcome(props: any) {
+export default function GoSafe(props: any) {
  
   const [introText, setIntroText] = useState([
     "Welcome",
@@ -17,13 +17,13 @@ export default function Welcome(props: any) {
   return (
     <>
     
-
+<Container className="goSafeContainer">
    
-      <Container className="welcomeContainer">
+      
   
           <Typography  variant="h1" >
 
-            Welcome
+            Please go to the safest location available to you before continuing.
 
 
           </Typography>

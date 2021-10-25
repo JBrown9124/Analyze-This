@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .firestore import db
-
+import json
 from .ResponseModels.conflict import Conflict
 from .ResponseModels.location import Location
 from .ResponseModels.user import User
@@ -31,12 +31,14 @@ def index(request):
 def user(request):
     #register user
     if request.method == 'POST':
+        json_data = json.loads(request.body)
+        
         user_id = str(uuid.uuid4())
         doc_ref = db.collection(u'user').document()
-        analysis = Analysis( description="I smoke too much weed and I can't stop anymore I feel like I just want to die"   )
+        analysis = Analysis( description=json_data['description']  )
         analysis_results = analysis.results()
-        conflict = Conflict(type=analysis_results['potential_causes'],description="I smoke too much weed and I can't stop anymore I feel like I just want to die",
+        conflict = Conflict(type=analysis_results['potential_causes'],description=json_data['description'] ,
         suicidal=analysis_results['is_suicide'])
-        location = Location(address=u"36 Martin Lane", city=u"Westbury", state=u"NY", zipcode=11590)
-        doc_ref.set(User(u'Jonathan', user_id, location.to_dict(), conflict.to_dict()).to_dict())
-        return HttpResponse("success")
+        location = Location(address=json_data['location']['address'], city=json_data['location']['city'], state=json_data['location']['state'], zipcode=json_data['location']['zipcode'])
+        doc_ref.set(User(json_data['name'], user_id, location.to_dict(), conflict.to_dict()).to_dict())
+        return JsonResponse({'name':json_data['name'], 'analysis_results':analysis_results})

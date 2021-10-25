@@ -8,33 +8,45 @@ import React, {
 import { useTransition, animated, config } from "react-spring";
 import Typography from "@mui/material/Typography";
 import Welcome from "../sections/Welcome";
+import Container from "react-bootstrap/Container";
 import ReactDOM from "react-dom";
 
 
 
 
 interface Props {
-  child1: ReactNode;
-  child2: ReactNode;
-  child3: ReactNode;
-  child4: ReactNode;
+  welcomeSlide: ReactNode;
+  goSafeSlide: ReactNode;
+  feelSafeSlide: ReactNode;
+  signInSlide: ReactNode;
+  nameSlide: ReactNode;
+  helloSlide: ReactNode;
+  locationSlide: ReactNode;
+  analysisSlide: ReactNode;
   isClicked: boolean;
 }
 
 export default function WelcomeTransition({
-  child1,
-  child2,
-  child3,
-  child4,
+  welcomeSlide,
+  goSafeSlide,
+  feelSafeSlide,
+  signInSlide,
+  nameSlide,
+  helloSlide,
+  locationSlide,
+  analysisSlide,
   isClicked = false,
+ 
 }: Props) {
-  const slides: any = [
-    "Welcome",
-    "Please go to the safest location available to you before continuing",
-    child1,
-    child2,
-    child3,
-    child4,
+  const slides: Array<ReactNode> = [
+    welcomeSlide,
+    goSafeSlide,
+    feelSafeSlide,
+  signInSlide,
+  nameSlide,
+  helloSlide,
+  locationSlide,
+  analysisSlide
   ];
 
   const [index, set] = useState(0);
@@ -55,7 +67,7 @@ export default function WelcomeTransition({
   //     }
   // }, [index])
   useEffect(() => {
-    if (index < 2) {
+    if (index < 2 || index === 5) {
       const t = setInterval(() => set((state) => state + 1), 6000);
       return () => clearTimeout(t);
     }
@@ -67,14 +79,16 @@ export default function WelcomeTransition({
   }}, [isClicked]);
 
   return (
-    <div>
+    
+  <>
       {transitions((style, i) => (
-        <animated.div style={{ ...style }}>
-          <Typography className="text-container" variant="h1">
+        <animated.div className="welcomeTransitionContainer" style={{ ...style }}>
+          
             {slides[i]}
-          </Typography>
+         
         </animated.div>
       ))}
-    </div>
+    </>
+   
   );
 }

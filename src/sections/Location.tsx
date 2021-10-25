@@ -60,7 +60,7 @@ handleLocation(locationData)
      
      <Container className="feelSafeContainer">
           <Typography variant="h3">
-           What would you like to be called for this session?
+           Where would you like us to find services for you
           </Typography>
           <CssTextField label="Address" id="custom-css-outlined-input" value={address} onChange={(e)=>setAddress(e.target.value)}/>
           <CssTextField label="City" id="custom-css-outlined-input" value={city} onChange={(e)=>setCity(e.target.value)}/>
