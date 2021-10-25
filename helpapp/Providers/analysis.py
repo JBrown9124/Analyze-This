@@ -54,7 +54,7 @@ class Analysis(object):
         for words in self:
             # if the first word in words contains a synonym for suicide then we add .50 to probability of suicide.
             
-            if words[0] in suicide_words_context or first_person_pronouns:
+            if words[0] in suicide_words_context:
                 
                 # if the synonym as a key in suicide_words_context has a dict for a value then we refer
                 # to the first_person_pronouns list to see if the word after suicide synonym is a first person pronoun.
@@ -102,7 +102,7 @@ class Analysis(object):
                     if len(words) >= 3 and words[2] == second_word_value:
                         suicide_probability += 1.0
                         continue
-            if words[0] in suicide_words or first_person_pronouns:
+            if words[0] in suicide_words:
                 suicide_probability += .15
             if len(words) == 2 and words[1] in suicide_words:
                 suicide_probability += .15
