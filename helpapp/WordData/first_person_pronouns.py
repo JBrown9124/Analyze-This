@@ -1,1 +1,0 @@
-first_person_pronouns:set[str] ={'i', 'me', 'my', 'mine','myself', 'im'}
