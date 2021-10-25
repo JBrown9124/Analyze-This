@@ -5,7 +5,7 @@
 /node_modules
 
 
-helpapp/WordData/
+helpapp/WordData
 helpapp/venv
 /.pnp
 .pnp.js

@@ -47,7 +47,7 @@ class Analysis(object):
         # compare dict values to the string to see if there are words
         # associated to high levels of suicide.
 
-        
+        suicide_mentioned:int = 0
        
         suicide_probability: int = 0
         # words = [description[i], description[j], description[k]]
@@ -67,7 +67,7 @@ class Analysis(object):
                         # Value could be a set of words synonymous with life and death or a string.
                         first_word_second_word_value = suicide_words_context[words[0]]['first_person_pronouns']
                         if len(words) >= 3 and words[2] in first_word_second_word_value:
-                            
+                            suicide_mentioned += 1
                             suicide_probability += 1.0
                             continue
                     #if words is length of 3 second word in words is a key in value of suicide_words_context[first_word]
@@ -75,17 +75,20 @@ class Analysis(object):
                         #if 3rd word is in value of dict[first_Word][second_word] then we say suicidal_probability+=1.0. ex: "want to die" = high probability of suicide
                         first_word_second_word_value = suicide_words_context[words[0]][words[1]]
                         if len(words) >= 3 and words[2] in first_word_second_word_value:
+                            suicide_mentioned += 1
                             suicide_probability += 1.0
                             continue
                 # if the word after first word in words has a set value in our dict go into this condition.
                 elif first_word_value_type == set:
                     # if the seond word in words in our value (set) then add probability. ex. Off myself.
                     if len(words) >= 2 and words[1] in first_word_value:
+                        suicide_mentioned += 1
                         suicide_probability += 1
                         continue
                 # if the suicide_words_context[first_word] value is a string
                 elif first_word_value_type == str:
                     if len(words) >= 3 and words[2] == first_word_value:
+                        suicide_mentioned += 1
                         suicide_probability += 1.0
                         continue
             # if the middle pointer contain a suicide word add .50 probability.           
@@ -96,19 +99,46 @@ class Analysis(object):
                 # if the last pointer continaers value of suicide word in dict which is eithr a life_death_synonym list or first_person_pronoun list then add .50
                 if second_word_value_type == set:
                     if len(words) >= 3 and words[2] in second_word_value:
+                        suicide_mentioned += 1
                         suicide_probability += 1.0
                         continue
                 if second_word_value_type == str:
                     if len(words) >= 3 and words[2] == second_word_value:
+                        suicide_mentioned += 1
                         suicide_probability += 1.0
                         continue
             if words[0] in suicide_words:
-                suicide_probability += .15
+                suicide_probability += .25
             if len(words) == 2 and words[1] in suicide_words:
-                suicide_probability += .15
+                suicide_probability += .25
             if len(words) == 3 and words[2] in suicide_words:
-                suicide_probability += .15
-        suicide_results = {'suicide_probability':suicide_probability, 'is_suicide':suicide_probability>=1.0}
+                suicide_probability += .25
+            if words[0] in life_death_synonyms:
+                suicide_probability += .25
+                if len(words) == 2 and words[1] in suicide_words:
+                    suicide_mentioned += 1
+                    suicide_probability +=.50
+                if len(words) == 3 and words[2] in suicide_words:
+                    suicide_mentioned += 1
+                    suicide_probability +=.50
+            if len(words) == 2 and words[1] in life_death_synonyms:
+                suicide_probability += .25
+                
+                if len(words) == 2 and words[0] in suicide_words:
+                    suicide_probability +=.50
+                    suicide_mentioned += 1
+                if len(words) == 3 and words[2] in suicide_words:
+                    suicide_probability +=.50
+                    suicide_mentioned += 1
+            if len(words) == 3 and words[2] in life_death_synonyms:
+                suicide_probability += .25
+                if len(words) == 2 and words[0] in suicide_words:
+                    suicide_probability +=.50
+                    suicide_mentioned += 1
+                if len(words) == 3 and words[1] in suicide_words:
+                    suicide_probability +=.50
+                    suicide_mentioned += 1
+        suicide_results = {'suicide_probability':suicide_probability, 'is_suicide':suicide_probability>=.75, 'suicide_mentioned':suicide_mentioned}
         return suicide_results
 
     def others_danger(self):
@@ -127,15 +157,15 @@ class Analysis(object):
         # compare dict values to the string to see what type of conflict the
         # person is dealing with.
 
-        potential_causes: set[str] = set()
+        potential_causes: set[str] = []
         for words in self:
 
             if words[0] in conflict_type:
-                potential_causes.add(conflict_type[words[0]])
+                potential_causes.append({words[0]:conflict_type[words[0]]})
             if len(words)>= 2 and words[1] in conflict_type:
-                potential_causes.add(conflict_type[words[1]])
+                potential_causes.append({words[1]:conflict_type[words[1]]})
             if len(words) >=3 and words[2] in conflict_type:
-                potential_causes.add(conflict_type[words[2]])
+                potential_causes.append({words[2]:conflict_type[words[2]]})
         return list(potential_causes)
 
     def results(self) -> Dict:
@@ -144,6 +174,6 @@ class Analysis(object):
 
 if __name__ == "__main__":
     analysis = Analysis(
-        description=u"I wish I hadnt been born")
+        description=u"death is approaching weed weed weed")
 
     print(analysis.results())
