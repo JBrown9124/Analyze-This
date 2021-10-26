@@ -20,6 +20,7 @@ import Location from "./sections/Location";
 import Name from "./sections/Name";
 import FeelSafe from "./sections/FeelSafe";
 import Analysis from "./sections/Analysis";
+
 import Container from "react-bootstrap/Container";
 function App() {
   const [name, setName] = useState("");

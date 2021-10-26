@@ -11,9 +11,6 @@ import Welcome from "../sections/Welcome";
 import Container from "react-bootstrap/Container";
 import ReactDOM from "react-dom";
 
-
-
-
 interface Props {
   welcomeSlide: ReactNode;
   goSafeSlide: ReactNode;
@@ -36,17 +33,16 @@ export default function WelcomeTransition({
   locationSlide,
   analysisSlide,
   isClicked = false,
- 
 }: Props) {
   const slides: Array<ReactNode> = [
     welcomeSlide,
     goSafeSlide,
     feelSafeSlide,
-  signInSlide,
-  nameSlide,
-  helloSlide,
-  locationSlide,
-  analysisSlide
+    signInSlide,
+    nameSlide,
+    helloSlide,
+    locationSlide,
+    analysisSlide,
   ];
 
   const [index, set] = useState(0);
@@ -73,22 +69,21 @@ export default function WelcomeTransition({
     }
   }, [index]);
   useEffect(() => {
-    if (index>=2){
+    if (index >= 2) {
       set((state) => state + 1);
-    
-  }}, [isClicked]);
+    }
+  }, [isClicked]);
 
   return (
-    
-  <>
+    <>
       {transitions((style, i) => (
-        <animated.div className="welcomeTransitionContainer" style={{ ...style }}>
-          
-            {slides[i]}
-         
+        <animated.div
+          className="welcomeTransitionContainer"
+          style={{ ...style }}
+        >
+          {slides[4]}
         </animated.div>
       ))}
     </>
-   
   );
 }
