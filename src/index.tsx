@@ -14,6 +14,7 @@ import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyBgMwl85sMUg-KaJhjiU7gd-HjVAz69tV4",
   authDomain: "tranquil-journey-341e7.firebaseapp.com",
+  databaseURL: "https://tranquil-journey-341e7-default-rtdb.firebaseio.com",
   projectId: "tranquil-journey-341e7",
   storageBucket: "tranquil-journey-341e7.appspot.com",
   messagingSenderId: "795132584659",

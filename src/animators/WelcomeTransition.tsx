@@ -21,6 +21,7 @@ interface Props {
   locationSlide: ReactNode;
   analysisSlide: ReactNode;
   isClicked: boolean;
+  isBackClicked:boolean;
 }
 
 export default function WelcomeTransition({
@@ -33,6 +34,7 @@ export default function WelcomeTransition({
   locationSlide,
   analysisSlide,
   isClicked = false,
+  isBackClicked = false,
 }: Props) {
   const slides: Array<ReactNode> = [
     welcomeSlide,
@@ -46,14 +48,14 @@ export default function WelcomeTransition({
   ];
 
   const [index, set] = useState(0);
-  const [clicked, setClicked] = useState(false);
+  
   const transitions = useTransition(index, {
     key: index,
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
 
-    config: config.molasses,
+    config: {tension:280, friction:80},
     trail: 1500,
   });
   // useEffect(() => {
@@ -73,6 +75,17 @@ export default function WelcomeTransition({
       set((state) => state + 1);
     }
   }, [isClicked]);
+  useEffect(() => {
+    if (index === 2) {
+      set((state) => state - 2);
+    }
+    if (index >= 3) {
+      set((state) => state - 1);
+    }
+    if (index === 6) {
+      set((state) => state - 1);
+    }
+  }, [isBackClicked]);
 
   return (
     <>
@@ -81,7 +94,7 @@ export default function WelcomeTransition({
           className="welcomeTransitionContainer"
           style={{ ...style }}
         >
-          {slides[4]}
+          {slides[6]}
         </animated.div>
       ))}
     </>

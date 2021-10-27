@@ -35,9 +35,10 @@ const CssTextField = styled(TextField)({
 
 interface Props {
   handleDescription: (props: string) => void;
+  clickBack:()=>void;
 }
 
-export default function Analysis({ handleDescription }: Props) {
+export default function Analysis({ handleDescription, clickBack}: Props) {
   const [description, setDescription] = useState("");
   
 
@@ -60,6 +61,7 @@ export default function Analysis({ handleDescription }: Props) {
       
     <CssTextField
         multiline={true}
+        autoComplete='off'
         sx={{width: '50%', marginTop:"30px"}}
         rows={5}
           label="Address"
@@ -67,7 +69,8 @@ export default function Analysis({ handleDescription }: Props) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-      <FeelSafeButton onClick={()=>handleSubmit()} message={'Continue'}/>
+        <div> <FeelSafeButton onClick={()=>handleSubmit()} message={'Continue'}/>
+      <FeelSafeButton onClick={()=>clickBack()} message={'Back'}/></div>
       </Container>
     </>
   );

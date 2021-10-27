@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import FeelSafeButton from "../components/FeelSafeButton";
-import { green } from '@mui/material/colors';
+import { green } from "@mui/material/colors";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { alpha, styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -43,17 +43,22 @@ const CssTextField = styled(TextField)({
 
 interface Props {
   handleName: (props: string) => void;
+  clickBack: () => void;
 }
 
-export default function Name({ handleName }: Props) {
-  
- 
-  const ref = useRef();
+export default function Name({ handleName, clickBack }: Props) {
+  const ref = useRef<any>();
   useOnClickOutside(ref, () => setClickedBox(false));
   const [name, setName] = useState("");
-  const [clickedBox, setClickedBox] = useState(false)
+  const [isError, setIsError] = useState(false);
+  const [clickedBox, setClickedBox] = useState(false);
   const handleSubmit = (): void => {
-    handleName(name);
+    if (name.length > 0) {
+      handleName(name);
+      setIsError(false);
+    } else {
+      setIsError(true);
+    }
   };
 
   return (
@@ -65,9 +70,19 @@ export default function Name({ handleName }: Props) {
           </Typography>
         </Row>
         <Row>
-          <Box ref={ref}sx={{ marginTop: "30px", justifyContent: "center" }}>
-            <AccountCircle sx={{ color:clickedBox===true?green[600]:"action",  mr: 1, my: 2.5 }} />
+          <Box sx={{ marginTop: "30px", justifyContent: "center" }}>
+            <AccountCircle
+              sx={{
+                color:
+                  clickedBox === true ? green[600] : isError ? "red" : "black",
+                mr: 1,
+                my: 2.5,
+              }}
+            />
             <CssTextField
+              error={isError}
+              onClick={() => setIsError(false)}
+              inputRef={ref}
               onKeyPress={(ev) => {
                 console.log(`Pressed keyCode ${ev.key}`);
                 if (ev.key === "Enter") {
@@ -78,8 +93,7 @@ export default function Name({ handleName }: Props) {
               id="input-with-sx"
               label="Your name"
               variant="standard"
-              onFocus={()=>setClickedBox(true)}
-           
+              onFocus={() => setClickedBox(true)}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -91,6 +105,9 @@ export default function Name({ handleName }: Props) {
               onClick={() => handleSubmit()}
               message={"Continue"}
             />
+          </div>
+          <div className="nameButton">
+            <FeelSafeButton onClick={() => clickBack()} message={"Back"} />
           </div>
         </Row>
       </Container>

@@ -28,18 +28,19 @@ function App() {
   const [location, setLocation] = useState({});
   const [description, setDescription] = useState("");
   const [analysisResults, setAnalysisResults] = useState({});
-  const [toggle, set] = useState(false);
+  const [toggleContinue, setToggleContinue] = useState(false);
+  const [toggleBack, setToggleBack] = useState(false);
   const nameChange = (nameInput: string): void => {
     /*Tell welcome transition to go to the next section then set the name input to our name state */
-    set(!toggle);
+    setToggleContinue(!toggleContinue);
     setName(nameInput);
   };
-  const locationChange = (locationInput: object): void => {
-    set(!toggle);
+  const locationChange = (locationInput: string): void => {
+    setToggleContinue(!toggleContinue);
     setLocation(locationInput);
   };
   const descriptionChange = (descriptionInput: string): void => {
-    set(!toggle);
+    setToggleContinue(!toggleContinue);
     setDescription(descriptionInput);
   };
   const handleData = (): void => {
@@ -63,19 +64,19 @@ function App() {
     <>
       <WelcomeTransition
         // handleName={(props:string)=>setName(props)}
-
-        isClicked={toggle}
+        isBackClicked={toggleBack}
+        isClicked={toggleContinue}
         welcomeSlide={<Welcome />}
         goSafeSlide={<GoSafe />}
-        feelSafeSlide={<FeelSafe click={() => set(!toggle)} />}
-        signInSlide={<SignIn click={() => set(!toggle)} />}
-        nameSlide={<Name handleName={(props) => nameChange(props)} />}
+        feelSafeSlide={<FeelSafe clickBack={()=> setToggleBack(!toggleBack)} clickContinue={() => setToggleContinue(!toggleContinue)} />}
+        signInSlide={<SignIn clickBack={()=> setToggleBack(!toggleBack)} clickContinue={() => setToggleContinue(!toggleContinue)} />}
+        nameSlide={<Name clickBack={()=> setToggleBack(!toggleBack)} handleName={(props) => nameChange(props)} />}
         helloSlide={<Hello name={name} />}
         locationSlide={
-          <Location handleLocation={(props) => locationChange(props)} />
+          <Location handleLocation={(props) => locationChange(props)} clickBack={()=> setToggleBack(!toggleBack)}/>
         }
         analysisSlide={
-          <Analysis handleDescription={(props) => descriptionChange(props)} />
+          <Analysis clickBack={()=> setToggleBack(!toggleBack)}  handleDescription={(props) => descriptionChange(props)} />
         }
       />
     </>

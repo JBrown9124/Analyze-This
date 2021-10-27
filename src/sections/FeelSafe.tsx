@@ -5,11 +5,11 @@ import FeelSafeTransition from "../animators/FeelSafeTransition";
 import Container from "react-bootstrap/Container"
 import FeelSafeButton from "../components/FeelSafeButton"
 interface Props {
-  click: ()=>void;
-
+  clickContinue: ()=>void;
+  clickBack: ()=>void;
 }
 
-export default function FeelSafe({click}:Props) {
+export default function FeelSafe({clickContinue, clickBack}:Props) {
 
  
 
@@ -25,7 +25,10 @@ export default function FeelSafe({click}:Props) {
           </Typography>
 
           <div className="feelSafeButton">
-            <FeelSafeButton onClick={() => click()} message="Yes" />
+            <FeelSafeButton onClick={() => clickContinue()} message="Yes" />
+          </div>
+          <div className="feelSafeButton">
+            <FeelSafeButton onClick={() => clickBack()} message="Back" />
           </div>
         </Container>
 
