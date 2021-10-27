@@ -55,7 +55,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
   
   const { ref } = usePlacesWidget<HTMLDivElement>({
    
-    apiKey: "AIzaSyAubwK3iN_-okxx-NO554BxUjl7efVshng",
+    apiKey: ,
     onPlaceSelected: (place) => {
       setPlaceSelected(true);
       setLocation(place.formatted_address);
