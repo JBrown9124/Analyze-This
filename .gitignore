@@ -3,7 +3,7 @@
 # dependencies
 
 /node_modules
-
+src/services/googleAPI
 
 helpapp/WordData
 helpapp/venv

@@ -1,1 +1,0 @@
-export const api="AIzaSyAubwK3iN_-okxx-NO554BxUjl7efVshng"
