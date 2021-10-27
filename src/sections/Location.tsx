@@ -52,12 +52,15 @@ export default function Location({ handleLocation, clickBack }: Props) {
   const [location, setLocation] = useState("");
   const [placeSelected, setPlaceSelected] = useState(false);
   const [isError, setIsError] = useState(false);
+  
   const { ref } = usePlacesWidget<HTMLDivElement>({
+   
     apiKey: "AIzaSyAubwK3iN_-okxx-NO554BxUjl7efVshng",
     onPlaceSelected: (place) => {
       setPlaceSelected(true);
       setLocation(place.formatted_address);
     },
+    
     inputAutocompleteValue: "off",
  
     options: {
