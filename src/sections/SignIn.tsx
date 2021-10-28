@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import FeelSafeTransition from "../animators/FeelSafeTransition";
 import GoogleLogin from "react-google-login";
-
+import clientID from "../services/clientID"
 import Container from "react-bootstrap/Container";
 import FeelSafeButton from "../components/FeelSafeButton";
 interface Props {
@@ -36,7 +36,7 @@ export default function SignIn({clickContinue, clickBack }:Props) {
         <Typography variant="h3">Would you like to sign in?</Typography>
         <GoogleLogin
         
-          clientId="795132584659-7lfan4jq4ecf07c4u86d9jrqf9s9rf8a.apps.googleusercontent.com"
+          clientId={clientID}
           buttonText="Sign in with Google"
           onSuccess={success}
       onFailure={error}
