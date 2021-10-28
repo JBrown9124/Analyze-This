@@ -64,12 +64,12 @@ export default function WelcomeTransition({
   //         return () => clearTimeout(t)
   //     }
   // }, [index])
-  useEffect(() => {
-    if (index < 2 || index === 5) {
-      const t = setInterval(() => set((state) => state + 1), 6000);
-      return () => clearTimeout(t);
-    }
-  }, [index]);
+  // useEffect(() => {
+  //   if (index < 2 || index === 5) {
+  //     const t = setInterval(() => set((state) => state + 1), 6000);
+  //     return () => clearTimeout(t);
+  //   }
+  // }, [index]);
   useEffect(() => {
     if (index >= 2) {
       set((state) => state + 1);
@@ -94,7 +94,7 @@ export default function WelcomeTransition({
           className="welcomeTransitionContainer"
           style={{ ...style }}
         >
-          {slides[6]}
+          {slides[3]}
         </animated.div>
       ))}
     </>

@@ -11,20 +11,41 @@ interface Props {
 }
 export default function SignIn({clickContinue, clickBack }:Props) {
   const [clicked, setClicked] = useState(false);
-
+  const [response, setResponse] = useState();
   const responseGoogle = (response: any) => {
-    console.log(response);
+    setResponse(response.getGrantedScopes())
   };
-
+  const success = (response: any) => {
+    console.log(response) // eslint-disable-line
+  }
+  
+  const error = (response: any) => {
+    console.error(response) // eslint-disable-line
+  }
+  
+  const loading = () => {
+    console.log('loading') // eslint-disable-line
+  }
+  
+  const logout = () => {
+    console.log('logout') // eslint-disable-line
+  }
   return (
     <>
       <Container className="feelSafeContainer">
         <Typography variant="h3">Would you like to sign in?</Typography>
         <GoogleLogin
+        
           clientId="795132584659-7lfan4jq4ecf07c4u86d9jrqf9s9rf8a.apps.googleusercontent.com"
           buttonText="Sign in with Google"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
+          onSuccess={success}
+      onFailure={error}
+      onRequest={loading}
+      
+     
+      responseType="id_token"
+      isSignedIn
+      theme="dark"
           cookiePolicy={"single_host_origin"}
         />
         <div className="feelSafeButton">
