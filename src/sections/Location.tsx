@@ -1,4 +1,4 @@
-import React, { Ref, useEffect, useRef, useState } from "react";
+import React, { ReactNode, Ref, useEffect, useRef, useState } from "react";
 import Typography from "@mui/material/Typography";
 import FeelSafeTransition from "../animators/FeelSafeTransition";
 import Container from "react-bootstrap/Container";
@@ -21,7 +21,7 @@ import { number } from "prop-types";
 import Autocomplete from "react-google-autocomplete";
 import { green } from "@mui/material/colors";
 import api from "../services/googleAPI";
-
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -68,7 +68,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
     getPlacePredictions:(arg0:Object)=>void
     isPlacePredictionsLoading:boolean
   }
-  const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } =
+  const { placePredictions, getPlacePredictions, isPlacePredictionsLoading }:PlaceProps =
     useGoogle({
       debounce: 500,
       sessionToken: true,
@@ -152,7 +152,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
             textAlign: "center",
           }}
         >
-          <AccountCircle
+          < AddLocationAltIcon
             sx={{
               color:
                 clickedBox === true ? "blue" : isError ? "red" : primaryColor,
