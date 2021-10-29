@@ -63,8 +63,8 @@ class Analysis(object):
         # words = [description[i], description[j], description[k]]
         for words in self:
             # if the first word in words contains a synonym for suicide then we add .50 to probability of suicide.
-            
-            if words[0] in suicide_words_context:
+            first_word = words[0]
+            if first_word in suicide_words_context:
                 
                 # if the synonym as a key in suicide_words_context has a dict for a value then we refer
                 # to the first_person_pronouns list to see if the word after suicide synonym is a first person pronoun.
@@ -120,37 +120,37 @@ class Analysis(object):
             # The conditions below are to catch anywords synonymous with suicide that are not caught by our context loop.
             # Suicide probability only increased by .25 because they are not in context of the person's self. ex of word synonymous with suicide:"Kill"
             #ex. of words in context of the person's self in context with synonym of suicide: ex. kill my self'
-            # if words[0] in suicide_words:
-            #     suicide_probability += .25
-            # if len(words) == 2 and words[1] in suicide_words:
-            #     suicide_probability += .25
-            # if len(words) == 3 and words[2] in suicide_words:
-            #     suicide_probability += .25
-            # if words[0] in life_death_synonyms:
-            #     suicide_probability += .25
-            #     if len(words) == 2 and words[1] in suicide_words:
-            #         suicide_mentioned += 1
-            #         suicide_probability +=.50
-            #     if len(words) == 3 and words[2] in suicide_words:
-            #         suicide_mentioned += 1
-            #         suicide_probability +=.50
-            # if len(words) == 2 and words[1] in life_death_synonyms:
-            #     suicide_probability += .25
+            if words[0] in suicide_words:
+                suicide_probability += .25
+            if len(words) == 2 and words[1] in suicide_words:
+                suicide_probability += .25
+            if len(words) == 3 and words[2] in suicide_words:
+                suicide_probability += .25
+            if words[0] in life_death_synonyms:
+                suicide_probability += .25
+                if len(words) == 2 and words[1] in suicide_words:
+                    suicide_mentioned += 1
+                    suicide_probability +=.50
+                if len(words) == 3 and words[2] in suicide_words:
+                    suicide_mentioned += 1
+                    suicide_probability +=.50
+            if len(words) == 2 and words[1] in life_death_synonyms:
+                suicide_probability += .25
                 
-            #     if len(words) == 2 and words[0] in suicide_words:
-            #         suicide_probability +=.50
-            #         suicide_mentioned += 1
-            #     if len(words) == 3 and words[2] in suicide_words:
-            #         suicide_probability +=.50
-            #         suicide_mentioned += 1
-            # if len(words) == 3 and words[2] in life_death_synonyms:
-            #     suicide_probability += .25
-            #     if len(words) == 2 and words[0] in suicide_words:
-            #         suicide_probability +=.50
-            #         suicide_mentioned += 1
-            #     if len(words) == 3 and words[1] in suicide_words:
-            #         suicide_probability +=.50
-            #         suicide_mentioned += 1
+                if len(words) == 2 and words[0] in suicide_words:
+                    suicide_probability +=.50
+                    suicide_mentioned += 1
+                if len(words) == 3 and words[2] in suicide_words:
+                    suicide_probability +=.50
+                    suicide_mentioned += 1
+            if len(words) == 3 and words[2] in life_death_synonyms:
+                suicide_probability += .25
+                if len(words) == 2 and words[0] in suicide_words:
+                    suicide_probability +=.50
+                    suicide_mentioned += 1
+                if len(words) == 3 and words[1] in suicide_words:
+                    suicide_probability +=.50
+                    suicide_mentioned += 1
         suicide_results = {'suicide_probability':suicide_probability if suicide_probability < 1.00 else 1.00, 'is_suicide':suicide_probability>=.75, 'suicide_mentioned':suicide_mentioned}
         return suicide_results
 
@@ -283,6 +283,6 @@ class Analysis(object):
 
 if __name__ == "__main__":
     analysis = Analysis(
-        description=u"everyday I think about killing someone")
+        description=u"death death death")
 
     print(analysis.results())

@@ -39,6 +39,6 @@ def user(request):
         analysis_results = analysis.results()
         conflict = Conflict(type=analysis_results['potential_causes'],description=json_data['description'] ,
         suicidal=analysis_results['is_suicide'])
-        location = Location(address=json_data['location']['address'], city=json_data['location']['city'], state=json_data['location']['state'], zipcode=json_data['location']['zipcode'])
-        doc_ref.set(User(json_data['name'], user_id, location.to_dict(), conflict.to_dict()).to_dict())
+        
+        # doc_ref.set(User(json_data['name'], user_id, json_data['location'], conflict.to_dict()).to_dict())
         return JsonResponse({'name':json_data['name'], 'analysis_results':analysis_results})

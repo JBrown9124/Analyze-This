@@ -70,7 +70,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
   }
   const { placePredictions, getPlacePredictions, isPlacePredictionsLoading }:PlaceProps =
     useGoogle({
-      debounce: 500,
+      debounce: 200,
       sessionToken: true,
       apiKey: api,})
     //      options: {
@@ -128,6 +128,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
     setLocation(e);
   };
   useEffect(()=>{
+    
     setPlaces(placePredictions)
     return ()=>{
      placePredictions.forEach(element=>element=[])
@@ -196,7 +197,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
             }}
             disablePadding
           >
-            {showPlaces && places.map((item:any) => (
+            {showPlaces && places.map((item:any)=> (
               <Row>
                 <ListItem
                   button

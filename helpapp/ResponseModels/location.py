@@ -16,3 +16,4 @@ class Location(object):
                 city = {self.city}, \
                     state = {self.state}, \
                         zipcode = {self.zipcode},)')
+                        

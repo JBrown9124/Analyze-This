@@ -20,10 +20,14 @@ interface Props {
   helloSlide: ReactNode;
   locationSlide: ReactNode;
   analysisSlide: ReactNode;
+  analysisResultsSlide: ReactNode;
   isClicked: boolean;
   isBackClicked:boolean;
   signedIn: boolean;
+  
+  
   currentSlide:(slide:number)=>void
+  currentSlideCookie:number,
 }
 
 export default function WelcomeTransition({
@@ -35,10 +39,13 @@ export default function WelcomeTransition({
   helloSlide,
   locationSlide,
   analysisSlide,
+  analysisResultsSlide,
   isClicked = false,
   isBackClicked = false,
   signedIn=false,
   currentSlide,
+  currentSlideCookie,
+ 
 }: Props) {
   const slides: Array<ReactNode> = [
     welcomeSlide,
@@ -49,6 +56,7 @@ export default function WelcomeTransition({
     helloSlide,
     locationSlide,
     analysisSlide,
+    analysisResultsSlide,
   ];
   const signedInSlides: Array<ReactNode> = [
     
@@ -56,10 +64,11 @@ export default function WelcomeTransition({
     
     locationSlide,
     analysisSlide,
+    analysisResultsSlide,
   ];
 
   const [index, set] = useState(0);
-  
+  const [isCurrentSlide, setIsCurrentSlide] = useState(false)
   const transitions = useTransition(index, {
     key: index,
     from: { opacity: 0 },
@@ -75,6 +84,7 @@ export default function WelcomeTransition({
   //         return () => clearTimeout(t)
   //     }
   // }, [index])
+  
   useEffect(() => {
     /* when to allow timed animations for signedIn and !signedIn states*/
     if (!signedIn){
@@ -102,7 +112,7 @@ export default function WelcomeTransition({
       set((state) => state + 1);
     }
    }
-   currentSlide(index); 
+
   }, [isClicked]);
   useEffect(() => {
     /* to skip timed animations when they  select back button*/
@@ -120,15 +130,15 @@ export default function WelcomeTransition({
       set((state)=> state - 1)
 
     }
-    currentSlide(index); 
+    
   }, [isBackClicked]);
   /* if they sign in or sign out while using the app we set bring them to specific slide*/
   useEffect(() => {
-    if (signedIn && index !==0){
+    if (signedIn){
       set(0);
     }
-    else if (!signedIn && index!==0){
-      set(3)
+    else if (!signedIn ){
+      set(0)
     }
     
   },[signedIn])

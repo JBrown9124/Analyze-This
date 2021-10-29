@@ -64,7 +64,7 @@ export default function Analysis({ handleDescription, clickBack}: Props) {
         autoComplete='off'
         sx={{width: '50%', marginTop:"30px"}}
         rows={5}
-          label="Address"
+          
           id="custom-css-outlined-input"
           value={description}
           onChange={(e) => setDescription(e.target.value)}

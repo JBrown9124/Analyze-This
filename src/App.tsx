@@ -10,6 +10,7 @@ import "./sections/Location.css";
 import "./sections/Name.css";
 import "./sections/SignIn.css";
 import "./animators/WelcomeTransition.css";
+import AnalysisResults from "./sections/AnalysisResults";
 import axios from "axios";
 import Welcome from "./sections/Welcome";
 import GoSafe from "./sections/GoSafe";
@@ -22,16 +23,29 @@ import FeelSafe from "./sections/FeelSafe";
 import Analysis from "./sections/Analysis";
 import NavBar from "./components/NavBar";
 import { useCookies } from "react-cookie";
-
+import EnableCookies from "./components/EnableCookies";
 import GoogleLogin, {
   GoogleLoginProps,
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
 import Container from "react-bootstrap/Container";
+interface Results {
+  is_suicide: {
+    suicide_probability: number;
+    is_suicide: boolean;
+    suicide_mentiond: number;
+  };
+  is_danger: {
+    danger_probability: number;
+    is_danger: boolean;
+    danger_mentioned: number;
+  };
+  potential_cause: {};
+}
 function App() {
-  const [sessionCookie, setSessionCookie] = useCookies(['profileObj']);
-
+  const [sessionCookie, setSessionCookie, removeSessionCookie] = useCookies(["profileObj"]);
+  const [isCookiesEnabled, setIsCookiesEnabled] = useState(false);
   const [sessionData, setSessionData] = useState({
     name: "",
     location: "",
@@ -40,62 +54,101 @@ function App() {
 
   const [id, setId] = useState<string>("");
   const [signedIn, setSignedIn] = useState<boolean>(false);
-  const [analysisResults, setAnalysisResults] = useState({});
+  const [results, setResults] = useState<Results>({
+    is_suicide: {
+      suicide_probability: 0,
+      is_suicide: false,
+      suicide_mentiond: 0,
+    },
+    is_danger: { danger_probability: 0, is_danger: false, danger_mentioned: 0 },
+    potential_cause: {},
+  });
   const [toggleContinue, setToggleContinue] = useState<boolean>(false);
-  const [toggleBack, setToggleBack] = useState(false);
-  
-  
+  const [toggleBack, setToggleBack] = useState<boolean>(false);
+
   const nameChange = (nameInput: string): void => {
     /*Tell welcome transition to go to the next section then set the name input to our name state */
     setToggleContinue(!toggleContinue);
-    setSessionCookie("profileObj", {...sessionCookie.profileObj,name:nameInput}, { path: "/" });
-
-    setSessionData({ ...sessionData, name: nameInput });
+    // if (isCookiesEnabled) {
+      setSessionCookie(
+        "profileObj",
+        { ...sessionCookie.profileObj, name: nameInput },
+        { path: "/" }
+      );
+   
+      setSessionData({ ...sessionData, name: nameInput });
+    
   };
   const locationChange = (locationInput: string): void => {
     setToggleContinue(!toggleContinue);
-    setSessionCookie("profileObj", {...sessionCookie.profileObj,location: locationInput}, { path: "/" });
-
-    setSessionData({ ...sessionData, location: locationInput });
+    // if (isCookiesEnabled) {
+      setSessionCookie(
+        "profileObj",
+        { ...sessionCookie.profileObj, location: locationInput },
+        { path: "/" }
+      );
+  
+      setSessionData({ ...sessionData, location: locationInput });
+    
   };
   const descriptionChange = (descriptionInput: string): void => {
     setToggleContinue(!toggleContinue);
-    setSessionCookie("profileObj", {...sessionCookie.profileObj,description:descriptionInput}, { path: "/" });
-
-    setSessionData({ ...sessionData, description: descriptionInput });
-  };
-  const slideChange = (index:number):void => {
-    setSessionCookie("profileObj", {...sessionCookie.profileObj,currentSlide:index}, {path:"/"});
+    // if (isCookiesEnabled) {
+      setSessionCookie(
+        "profileObj",
+        { ...sessionCookie.profileObj, description: descriptionInput },
+        { path: "/" }
+      );
+    // } else {
+      setSessionData({ ...sessionData, description: descriptionInput });
     
-
-
-  }
+  };
+  const slideChange = (index: number): void => {
+    // if (isCookiesEnabled){
+    setSessionCookie(
+      "profileObj",
+      { ...sessionCookie.profileObj, currentSlide: index },
+      { path: "/" }
+    );
+  };
   const handleSignInData = (
     data: GoogleLoginResponse | GoogleLoginResponseOffline
   ): void => {
     if ("profileObj" in data) {
-      setSessionCookie("profileObj", {...sessionCookie.profileObj,...data.profileObj}, { path: "/" });
-      
+      setSessionCookie(
+        "profileObj",
+        { ...sessionCookie.profileObj, ...data.profileObj },
+        { path: "/" }
+      );
+
       // setId(data.id);
       setSignedIn(true);
     }
   };
   const handleLogOut = () => {
     // setSessionCookie("profileObj", delete sessionCookie['profileObj'], { path: "/" });
-    delete sessionCookie['profileObj']
+    removeSessionCookie("profileObj");
     setSignedIn(false);
-    setId("")
+    setId("");
     setSessionData({ name: "", location: "", description: "" });
   };
-  
-  
-  
-  /* if the signedInCookie data changes then set name, id states to relevant cookie data. Then set signedIn state to true. = They signed in.*/
+  // const handleCookieEnabled= (enabled:boolean) =>{
+  //  setIsCookiesEnabled(enabled);
+  //     setSessionCookie(
+  //       "isCookieEnabled",
+  //       enabled,
+  //       { path: "/" }
+  //     );
+    
+  // }
+
+  /* if the signedIn state changes to false then set name, id states to relevant cookie data. Then set signedIn state to true. = They signed in.*/
   useEffect(() => {
-    if (sessionCookie.profileObj !== undefined ) {
+    if (sessionCookie.profileObj !== null && sessionCookie.profileObj!== undefined) {
       setSessionData({ ...sessionData, name: sessionCookie.profileObj.name });
       setId(sessionCookie.profileObj.googleId);
-     setSignedIn(true)
+      setSignedIn(true);
+      // setIsCookiesEnabled(true);
     }
   }, [signedIn]);
   /* if the length of description changes we can say that the user has completed the entire form and we can send location, name, description data to our database. */
@@ -103,8 +156,8 @@ function App() {
     const handleData = (): void => {
       axios
         .post("http://127.0.0.1:8000/helpapp/user", sessionData)
-        .then((response) => {
-          setAnalysisResults(response);
+        .then((response: any) => {
+          setResults(response.data.analysis_results);
         });
     };
 
@@ -112,15 +165,14 @@ function App() {
       handleData();
     }
   }, [sessionData.description]);
-  
-  
-  
-  
+
   return (
     <>
       <NavBar signedIn={signedIn} handleLogOut={handleLogOut} />
       <WelcomeTransition
-        currentSlide={(index)=>slideChange(index)}
+        
+        currentSlideCookie={sessionCookie?.profileObj?.currentSlide}
+        currentSlide={(index) => slideChange(index)}
         // handleName={(props:string)=>setName(props)}
         isBackClicked={toggleBack}
         isClicked={toggleContinue}
@@ -159,7 +211,9 @@ function App() {
             handleDescription={(props) => descriptionChange(props)}
           />
         }
+        analysisResultsSlide={<AnalysisResults results={results} />}
       />
+      {/* <EnableCookies isCookiesEnabled={(props) => handleCookieEnabled(props)} /> */}
     </>
   );
 }
