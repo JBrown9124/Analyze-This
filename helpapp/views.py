@@ -39,6 +39,10 @@ def user(request):
         analysis_results = analysis.results()
         conflict = Conflict(type=analysis_results['potential_causes'],description=json_data['description'] ,
         suicidal=analysis_results['is_suicide'])
+        conflict_resources = {}
+        for key, value in analysis_results['potential_causes'].items:
+
+            conflict_resources.add(db.collection(f"{value}"))
         
         # doc_ref.set(User(json_data['name'], user_id, json_data['location'], conflict.to_dict()).to_dict())
         return JsonResponse({'name':json_data['name'], 'analysis_results':analysis_results})

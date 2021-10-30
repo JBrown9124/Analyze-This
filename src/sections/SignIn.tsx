@@ -70,17 +70,20 @@ export default function SignIn({ clickContinue, clickBack, signInData }: Props) 
           onSuccess={responseGoogle}
           onFailure={error}
           onRequest={loading}
+        
         isSignedIn={false}
-          
-          theme="dark"
+        style={{backgroundColor:"blue"}}
+       className="googleButton"
           cookiePolicy={"single_host_origin"}
         />
         <div className="feelSafeButton">
+        <FeelSafeButton onClick={() => clickBack()} message="Back" />
           <FeelSafeButton onClick={() => clickContinue()} message="No thanks" />
+         
         </div>
-        <div className="feelSafeButton">
-          <FeelSafeButton onClick={() => clickBack()} message="Back" />
-        </div>
+ 
+         
+       
       </Container>
     </>
   );
