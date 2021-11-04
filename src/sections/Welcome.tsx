@@ -13,7 +13,9 @@ export default function Welcome(props: any) {
     "Welcome",
     "Please find a safe location",
   ]);
-
+  
+ 
+  
   return (
     <>
     
