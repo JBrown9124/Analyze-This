@@ -1,7 +1,4 @@
-
 import { Input, List } from "antd";
-
-
 
 import React, { Ref, useEffect, useRef, useState } from "react";
 import Typography from "@mui/material/Typography";
@@ -18,24 +15,21 @@ import InputLabel from "@mui/material/InputLabel";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import useOnClickOutside from "../hooks/useOnClickOutside";
-import useGoogle from "react-google-autocomplete/lib/usePlacesAutocompleteService"
+import useGoogle from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { usePlacesWidget } from "react-google-autocomplete";
 import { number } from "prop-types";
 import Autocomplete from "react-google-autocomplete";
 import { green } from "@mui/material/colors";
-import api from "../services/googleAPI"
+import api from "../services/googleAPI";
 
-export const Debounce = ({ a}:any) => {
-  const {
-    placePredictions,
-    getPlacePredictions,
-    isPlacePredictionsLoading,
-  } = useGoogle({
-      debounce:1000,
-      sessionToken:true,
-    apiKey:api
-  });
+export const Debounce = ({ a }: any) => {
+  const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } =
+    useGoogle({
+      debounce: 1000,
+      sessionToken: true,
+      apiKey: api,
+    });
   const [value, setValue] = useState("");
   const CssTextField = styled(TextField)({
     "& label.Mui-focused": {
@@ -62,22 +56,20 @@ export const Debounce = ({ a}:any) => {
   const [location, setLocation] = useState("");
   const [placeSelected, setPlaceSelected] = useState(false);
   const [isError, setIsError] = useState(false);
-  
+
   const { ref } = usePlacesWidget<HTMLDivElement>({
-   
     apiKey: api,
     onPlaceSelected: (place) => {
       setPlaceSelected(true);
       setLocation(place.formatted_address);
     },
-    
+
     inputAutocompleteValue: "off",
- 
+
     options: {
       sessionToken: true,
-      
+
       componentRestrictions: { country: "us" },
-      
     },
   });
   // const handleSubmit = (): void => {
@@ -91,50 +83,47 @@ export const Debounce = ({ a}:any) => {
   // };
 
   return (
-   <>
-      
-       <Box component="form"   sx={{ marginTop: "30px", justifyContent: "center" }}>
-            <AccountCircle
-              sx={{
-                color:
-                  clickedBox === true ? green[600] : isError ? "red" : "black",
-                mr: 1,
-                my: 2.5,
-              }}
-            />
+    <>
+      <Box
+        component="form"
+        sx={{ marginTop: "30px", justifyContent: "center" }}
+      >
+        <AccountCircle
+          sx={{
+            color: clickedBox === true ? green[600] : isError ? "red" : "black",
+            mr: 1,
+            my: 2.5,
+          }}
+        />
 
-            <CssTextField
-              ref={clickRef}
-                
-              autoComplete="off"
-              value={value}
-     
-              onChange={(evt:any) => {
-                getPlacePredictions({ input: evt.target.value });
-                setValue(evt.target.value);
-              }}
-              error={isError}
-              onClick={() => setIsError(false)}
-              id="google-location-text"
-              type="text"
-              label="City, State, Country"
-              variant="standard"
-            
-              onFocus={() => setClickedBox(true)}
-            />
-           {(value.length>0 && value !=="No Data") && (
+        <CssTextField
+          ref={clickRef}
+          autoComplete="off"
+          value={value}
+          onChange={(evt: any) => {
+            getPlacePredictions({ input: evt.target.value });
+            setValue(evt.target.value);
+          }}
+          error={isError}
+          onClick={() => setIsError(false)}
+          id="google-location-text"
+          type="text"
+          label="City, State, Country"
+          variant="standard"
+          onFocus={() => setClickedBox(true)}
+        />
+        {value.length > 0 && value !== "No Data" && (
           <List
-          style={{position: "inherit", listStyleType:"none"}}
+            style={{ position: "inherit", listStyleType: "none" }}
             dataSource={placePredictions}
-            renderItem={(item:any) => (
+            renderItem={(item: any) => (
               <List.Item onClick={() => setValue(item.description)}>
                 <List.Item.Meta title={item.description} />
               </List.Item>
             )}
           />
         )}
-          </Box>
-     
-      </>
+      </Box>
+    </>
   );
 };

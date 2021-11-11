@@ -14,14 +14,17 @@ interface Props {
   clickBack: () => void;
   signInData: (data: GoogleLoginResponse | GoogleLoginResponseOffline) => void;
 }
-export default function SignIn({ clickContinue, clickBack, signInData }: Props) {
+export default function SignIn({
+  clickContinue,
+  clickBack,
+  signInData,
+}: Props) {
   const [clicked, setClicked] = useState<boolean>(false);
   const [response, setResponse] = useState<object>();
   const [name, setName] = useState<string>("");
   const [id, setId] = useState<string>("");
   // const handleSignIn = ():void =>{
   //   const data = {name: name, id:id}
-    
 
   // }
   // useEffect(()=>{
@@ -36,9 +39,7 @@ export default function SignIn({ clickContinue, clickBack, signInData }: Props) 
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ): void => {
     if ("profileObj" in response) {
-      
       signInData(response);
-      
     }
   };
   const success = (
@@ -70,20 +71,15 @@ export default function SignIn({ clickContinue, clickBack, signInData }: Props) 
           onSuccess={responseGoogle}
           onFailure={error}
           onRequest={loading}
-        
-        isSignedIn={false}
-        style={{backgroundColor:"blue"}}
-       className="googleButton"
+          isSignedIn={false}
+          style={{ backgroundColor: "blue" }}
+          className="googleButton"
           cookiePolicy={"single_host_origin"}
         />
         <div className="feelSafeButton">
-        <FeelSafeButton onClick={() => clickBack()} message="Back" />
+          <FeelSafeButton onClick={() => clickBack()} message="Back" />
           <FeelSafeButton onClick={() => clickContinue()} message="No thanks" />
-         
         </div>
- 
-         
-       
       </Container>
     </>
   );

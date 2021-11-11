@@ -35,12 +35,11 @@ const CssTextField = styled(TextField)({
 
 interface Props {
   handleDescription: (props: string) => void;
-  clickBack:()=>void;
+  clickBack: () => void;
 }
 
-export default function Analysis({ handleDescription, clickBack}: Props) {
+export default function Analysis({ handleDescription, clickBack }: Props) {
   const [description, setDescription] = useState("");
-  
 
   const handleSubmit = (): void => {
     const descriptionData = {
@@ -58,19 +57,21 @@ export default function Analysis({ handleDescription, clickBack}: Props) {
           you are here for and for us to help you find the most relevant
           services in your vacinity.
         </Typography>
-      
-    <CssTextField
-        multiline={true}
-        autoComplete='off'
-        sx={{width: '50%', marginTop:"30px"}}
-        rows={5}
-          
+
+        <CssTextField
+          multiline={true}
+          autoComplete="off"
+          sx={{ width: "50%", marginTop: "30px" }}
+          rows={5}
           id="custom-css-outlined-input"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <div> <FeelSafeButton onClick={()=>handleSubmit()} message={'Continue'}/>
-      <FeelSafeButton onClick={()=>clickBack()} message={'Back'}/></div>
+        <div>
+          {" "}
+          <FeelSafeButton onClick={() => handleSubmit()} message={"Continue"} />
+          <FeelSafeButton onClick={() => clickBack()} message={"Back"} />
+        </div>
       </Container>
     </>
   );

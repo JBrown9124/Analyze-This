@@ -21,7 +21,7 @@ import { number } from "prop-types";
 import Autocomplete from "react-google-autocomplete";
 import { green } from "@mui/material/colors";
 import api from "../services/googleAPI";
-import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -61,23 +61,26 @@ export default function Location({ handleLocation, clickBack }: Props) {
   const [placeSelected, setPlaceSelected] = useState(false);
   const [primaryColor, setPrimaryColor] = useState<string>("black");
   const [places, setPlaces] = useState<Array<Object>>([{}]);
-  const [showPlaces, setShowPlaces] = useState(true)
+  const [showPlaces, setShowPlaces] = useState(true);
   const [isError, setIsError] = useState(false);
-  interface PlaceProps{
-    placePredictions:Array<Object>
-    getPlacePredictions:(arg0:Object)=>void
-    isPlacePredictionsLoading:boolean
+  interface PlaceProps {
+    placePredictions: Array<Object>;
+    getPlacePredictions: (arg0: Object) => void;
+    isPlacePredictionsLoading: boolean;
   }
-  const { placePredictions, getPlacePredictions, isPlacePredictionsLoading }:PlaceProps =
-    useGoogle({
-      debounce: 200,
-      sessionToken: true,
-      apiKey: api,})
-    //      options: {
-     
+  const {
+    placePredictions,
+    getPlacePredictions,
+    isPlacePredictionsLoading,
+  }: PlaceProps = useGoogle({
+    debounce: 200,
+    sessionToken: true,
+    apiKey: api,
+  });
+  //      options: {
 
-    //   componentRestrictions: { country: "us" },}
-    // });
+  //   componentRestrictions: { country: "us" },}
+  // });
   const handleClickOutside = (): void => {
     setShowPlaces(false);
     setClickedBox(false);
@@ -127,16 +130,12 @@ export default function Location({ handleLocation, clickBack }: Props) {
     setPrimaryColor("black");
     setLocation(e);
   };
-  useEffect(()=>{
-    
-    setPlaces(placePredictions)
-    return ()=>{
-     placePredictions.forEach(element=>element=[])
-    }
-  }
-  
-  
-  ,[location,location.length])
+  useEffect(() => {
+    setPlaces(placePredictions);
+    return () => {
+      placePredictions.forEach((element) => (element = []));
+    };
+  }, [location, location.length]);
   return (
     <>
       <Container className="feelSafeContainer">
@@ -153,7 +152,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
             textAlign: "center",
           }}
         >
-          < AddLocationAltIcon
+          <AddLocationAltIcon
             sx={{
               color:
                 clickedBox === true ? "blue" : isError ? "red" : primaryColor,
@@ -179,7 +178,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
           />
 
           <List
-           ref={clickRef}
+            ref={clickRef}
             dense
             sx={{
               backgroundColor: "white",
@@ -197,21 +196,21 @@ export default function Location({ handleLocation, clickBack }: Props) {
             }}
             disablePadding
           >
-            {showPlaces && places.map((item:any)=> (
-              <Row>
-                <ListItem
-                  button
-                  disableGutters
-                  onClick={() => handleLocationSelected(item.description)}
-                  key={item.place_id}
-                  divider
-                  alignItems="center"
-                
-                >
-                  <ListItemText primary={item.description} />
-                </ListItem>
-              </Row>
-            ))}
+            {showPlaces &&
+              places.map((item: any) => (
+                <Row>
+                  <ListItem
+                    button
+                    disableGutters
+                    onClick={() => handleLocationSelected(item.description)}
+                    key={item.place_id}
+                    divider
+                    alignItems="center"
+                  >
+                    <ListItemText primary={item.description} />
+                  </ListItem>
+                </Row>
+              ))}
           </List>
 
           {/*             
