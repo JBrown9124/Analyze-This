@@ -10,6 +10,7 @@ import "./sections/Location.css";
 import "./sections/Name.css";
 import "./sections/SignIn.css";
 import "./animators/WelcomeTransition.css";
+import {ResultsProps} from './models/Results'
 import AnalysisResults from "./sections/AnalysisResults";
 import axios from "axios";
 import Welcome from "./sections/Welcome";
@@ -30,19 +31,7 @@ import GoogleLogin, {
   GoogleLoginResponseOffline,
 } from "react-google-login";
 import Container from "react-bootstrap/Container";
-interface Results {
-  is_suicide: {
-    suicide_probability: number;
-    is_suicide: boolean;
-    suicide_mentiond: number;
-  };
-  is_danger: {
-    danger_probability: number;
-    is_danger: boolean;
-    danger_mentioned: number;
-  };
-  potential_cause: {};
-}
+
 function App() {
   const [sessionCookie, setSessionCookie, removeSessionCookie] = useCookies(["profileObj"]);
   const [isCookiesEnabled, setIsCookiesEnabled] = useState(false);
@@ -54,7 +43,7 @@ function App() {
 
   const [id, setId] = useState<string>("");
   const [signedIn, setSignedIn] = useState<boolean>(false);
-  const [results, setResults] = useState<Results>({
+  const [results, setResults] = useState<ResultsProps>({
     is_suicide: {
       suicide_probability: 0,
       is_suicide: false,
