@@ -269,12 +269,12 @@ class Analysis(object):
 
             if words[0] in conflict_type and words[0] not in potential_causes :
                
-                potential_causes[words[0]]=conflict_type[words[0]]
+                potential_causes[conflict_type[words[0]]]=words[0]
                 
             if len(words)>= 2 and words[1] in conflict_type and words[1] not in potential_causes :
-                potential_causes[words[1]]=conflict_type[words[1]]
+                potential_causes[conflict_type[words[1]]]=words[1]
             if len(words) >=3 and words[2] in conflict_type and words[2] not in potential_causes:
-                potential_causes[words[2]]=conflict_type[words[2]]
+                potential_causes[conflict_type[words[2]]]=words[2]
         return potential_causes
 
     def results(self) -> Dict:
@@ -283,6 +283,6 @@ class Analysis(object):
 
 if __name__ == "__main__":
     analysis = Analysis(
-        description=u"death death death")
+        description=u"death death death weed")
 
     print(analysis.results())

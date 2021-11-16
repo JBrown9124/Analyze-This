@@ -12,7 +12,7 @@ import "./sections/SignIn.css";
 import "./animators/WelcomeTransition.css";
 import {ResultsProps} from './models/Results'
 import AnalysisResults from "./sections/AnalysisResults";
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import Welcome from "./sections/Welcome";
 import GoSafe from "./sections/GoSafe";
 import Hello from "./sections/Hello";
@@ -24,6 +24,8 @@ import FeelSafe from "./sections/FeelSafe";
 import Analysis from "./sections/Analysis";
 import NavBar from "./components/NavBar";
 import { useCookies } from "react-cookie";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./themes/theme"
 import EnableCookies from "./components/EnableCookies";
 import GoogleLogin, {
   GoogleLoginProps,
@@ -43,15 +45,27 @@ function App() {
 
   const [id, setId] = useState<string>("");
   const [signedIn, setSignedIn] = useState<boolean>(false);
-  const [results, setResults] = useState<ResultsProps>({
-    is_suicide: {
-      suicide_probability: 0,
-      is_suicide: false,
-      suicide_mentiond: 0,
+  const [results, setResults] = useState<ResultsProps>(
+    {resources: [{name:"",url:""}],
+    location: "",
+    analysisResults: {
+      is_suicide: {
+        suicide_probability: 0,
+        is_suicide: false,
+        suicide_mentiond: 0,
+      },
+  
+      is_danger: {
+        danger_probability: 0,
+        is_danger: false,
+        danger_mentioned: 0,
+      },
+      potential_causes: {}
     },
-    is_danger: { danger_probability: 0, is_danger: false, danger_mentioned: 0 },
-    potential_cause: {},
-  });
+    description:"",
+    
+  }
+  );
   const [toggleContinue, setToggleContinue] = useState<boolean>(false);
   const [toggleBack, setToggleBack] = useState<boolean>(false);
 
@@ -121,17 +135,6 @@ function App() {
     setId("");
     setSessionData({ name: "", location: "", description: "" });
   };
-  // const handleCookieEnabled= (enabled:boolean) =>{
-  //  setIsCookiesEnabled(enabled);
-  //     setSessionCookie(
-  //       "isCookieEnabled",
-  //       enabled,
-  //       { path: "/" }
-  //     );
-    
-  // }
-
-  /* if the signedIn state changes to false then set name, id states to relevant cookie data. Then set signedIn state to true. = They signed in.*/
   useEffect(() => {
     if (sessionCookie.profileObj !== null && sessionCookie.profileObj!== undefined) {
       setSessionData({ ...sessionData, name: sessionCookie.profileObj.name });
@@ -144,9 +147,9 @@ function App() {
   useEffect(() => {
     const handleData = (): void => {
       axios
-        .post("http://127.0.0.1:8000/helpapp/user", sessionData)
-        .then((response: any) => {
-          setResults(response.data.analysis_results);
+        .post<ResultsProps>("http://127.0.0.1:8000/helpapp/user", sessionData)
+        .then((response:AxiosResponse<ResultsProps>) => {
+          return setResults(response.data);
         });
     };
 
@@ -157,6 +160,7 @@ function App() {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
       <NavBar signedIn={signedIn} handleLogOut={handleLogOut} />
       <WelcomeTransition
         
@@ -203,6 +207,7 @@ function App() {
         analysisResultsSlide={<AnalysisResults results={results} />}
       />
       {/* <EnableCookies isCookiesEnabled={(props) => handleCookieEnabled(props)} /> */}
+      </ThemeProvider>
     </>
   );
 }

@@ -1,5 +1,5 @@
 class Help(object):
-    def __init__(self, description: str, analysis_results: dict, location: str, resources: dict = None):
+    def __init__(self, description: str, analysis_results: dict, location: str, resources: list = []):
 
         self.description = description
         self.resources = resources
