@@ -18,12 +18,14 @@ export default function AnalysisResults({results}:Props) {
     <>
       <Container className="helloContainer">
         <Typography variant="h1">
+          
           {is_suicide.suicide_probability}
           {is_danger.danger_probability}
        
-            <Resources resources={resources}/>
+            
           
         </Typography>
+        <Resources resources={resources}/>
       </Container>
     </>
   );

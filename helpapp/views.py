@@ -44,14 +44,14 @@ def user(request):
                              )
         potentional_causes = analysis_results['potential_causes']
         if analysis_results['is_danger']['is_danger']:
-            potentional_causes.append({'danger':'anger'})
+            potentional_causes['is_danger'] = 'is_danger'
         if analysis_results['is_suicide']['is_suicide']:
-            potentional_causes.append({'suicide':'suicide'})
+            potentional_causes['suicide']='suicide'
         for key, value in potentional_causes.items():
             collections = db.collection(
-                'conflict_resources').document(value).get()
-            help_response.resources = [{"name":name,"url":url}
-                                       for name, url in collections._data.items()]
+                'conflict_resources').document(key).get()
+            help_response.resources.extend([{"name":name,"url":url}
+                                       for name, url in collections._data.items()])
         response = help_response.to_dict()
         # doc_ref.set(User(json_data['name'], user_id, json_data['location'], conflict.to_dict()).to_dict())
         return JsonResponse(response)

@@ -20,6 +20,7 @@ interface Props {
   helloSlide: ReactNode;
   locationSlide: ReactNode;
   analysisSlide: ReactNode;
+  analyzingSlide: ReactNode;
   analysisResultsSlide: ReactNode;
   isClicked: boolean;
   isBackClicked: boolean;
@@ -38,6 +39,7 @@ export default function WelcomeTransition({
   helloSlide,
   locationSlide,
   analysisSlide,
+  analyzingSlide,
   analysisResultsSlide,
   isClicked = false,
   isBackClicked = false,
@@ -54,6 +56,7 @@ export default function WelcomeTransition({
     helloSlide,
     locationSlide,
     analysisSlide,
+    analyzingSlide,
     analysisResultsSlide,
   ];
   const signedInSlides: Array<ReactNode> = [
@@ -61,6 +64,7 @@ export default function WelcomeTransition({
 
     locationSlide,
     analysisSlide,
+    analyzingSlide,
     analysisResultsSlide,
   ];
 
@@ -83,21 +87,21 @@ export default function WelcomeTransition({
   //     }
   // }, [index])
 
-  useEffect(() => {
-    /* when to allow timed animations for signedIn and !signedIn states*/
-    if (!signedIn) {
-      if (index < 2 || index === 5) {
-        const t = setInterval(() => set((state) => state + 1), 6000);
+  // useEffect(() => {
+  //   /* when to allow timed animations for signedIn and !signedIn states*/
+  //   if (!signedIn) {
+  //     if (index < 2 || index === 5) {
+  //       const t = setInterval(() => set((state) => state + 1), 6000);
 
-        return () => clearTimeout(t);
-      }
-    } else if (signedIn) {
-      if (index === 0) {
-        const t = setInterval(() => set((state) => state + 1), 6000);
-        return () => clearTimeout(t);
-      }
-    }
-  }, [index]);
+  //       return () => clearTimeout(t);
+  //     }
+  //   } else if (signedIn) {
+  //     if (index === 0) {
+  //       const t = setInterval(() => set((state) => state + 1), 6000);
+  //       return () => clearTimeout(t);
+  //     }
+  //   }
+  // }, [index]);
   useEffect(() => {
     /* increment index by 1 if continue is toggled */
     if (!signedIn) {
@@ -165,7 +169,8 @@ export default function WelcomeTransition({
           className="welcomeTransitionContainer"
           style={{ ...style }}
         >
-          {isSignedIn ? signedInSlides[i] : slides[i]}
+          {/* {isSignedIn ? signedInSlides[i] : slides[i]} */}
+          {signedInSlides[3]}
         </animated.div>
       ))}
     </>

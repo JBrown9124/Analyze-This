@@ -25,6 +25,7 @@ import Analysis from "./sections/Analysis";
 import NavBar from "./components/NavBar";
 import { useCookies } from "react-cookie";
 import { ThemeProvider } from "@mui/material/styles";
+import Analyzing from "./sections/Analyzing"
 import theme from "./themes/theme"
 import EnableCookies from "./components/EnableCookies";
 import GoogleLogin, {
@@ -204,6 +205,7 @@ function App() {
             handleDescription={(props) => descriptionChange(props)}
           />
         }
+        analyzingSlide={<Analyzing/>}
         analysisResultsSlide={<AnalysisResults results={results} />}
       />
       {/* <EnableCookies isCookiesEnabled={(props) => handleCookieEnabled(props)} /> */}
