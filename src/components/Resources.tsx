@@ -13,8 +13,9 @@ export default function AnalysisResults({ resources }: Props) {
   return (
     <>
       <Container className="helloContainer">
+        <Typography variant="h1">Resources</Typography>
         {resources.map((resource) => (
-          <Typography variant="h1">
+          <Typography variant="h3">
             <div>
               <Link type="button" onClick={() => openInNewTab(resource.url)}>
                 {" "}

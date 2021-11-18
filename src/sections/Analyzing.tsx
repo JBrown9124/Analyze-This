@@ -9,6 +9,8 @@ import { useTransition, animated, config } from "react-spring";
 import Typography from "@mui/material/Typography";
 import { ResultsProps } from "../models/Results";
 import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 export default function Analyzing() {
   const [index, setIndex] = useState(0);
@@ -19,8 +21,6 @@ export default function Analyzing() {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
-
-    
   });
 
   useEffect(() => {
@@ -30,41 +30,47 @@ export default function Analyzing() {
       }, 1000);
       return () => {
         clearInterval(t);
-    }}
-else{
-    const t = setInterval(() => {
-        setIndex(state=>state+1);
+      };
+    } else {
+      const t = setInterval(() => {
+        setIndex((state) => state + 1);
       }, 500);
       return () => {
         clearInterval(t);
+      };
     }
-}
-   
-    
   }, [index]);
 
   return (
     <>
-      <div
-        style={{
+    <Container  fluid style={{
           display: "flex",
-          textAlign: "center",
-          justifyContent: "center",
-          marginTop: "22vw!important",
-        }}
-      >
-        <Typography variant="h1" > Analyzing </Typography>
+    
+         position: "absolute",
+         left: "50%",
+         top: "50%",
+         transform: "translate(-20%, 200%)",
         
+        
+        }}>
+          <Row>
+     <Col>
+        <Typography variant="h1"> Analyzing </Typography>
+        </Col>
         {transitions((style, item: any) => (
+            <Col>
           <animated.div
             style={{
               ...style,
             }}
           >
-            <Typography variant="h1" >{slides[index]}</Typography>
+          
+            <Typography variant="h1">{slides[index]}</Typography>
           </animated.div>
+          </Col>
         ))}
-      </div>
+   </Row>
+      </Container>
     </>
   );
 }
