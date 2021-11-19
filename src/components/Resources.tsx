@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import Container from "react-bootstrap/Container";
+
 
 interface Props {
   resources: [{ name: string; url: string }];
@@ -12,7 +12,7 @@ export default function AnalysisResults({ resources }: Props) {
   }
   return (
     <>
-      <Container className="helloContainer">
+  
         <Typography variant="h1">Resources</Typography>
         {resources.map((resource) => (
           <Typography variant="h3">
@@ -24,7 +24,7 @@ export default function AnalysisResults({ resources }: Props) {
             </div>
           </Typography>
         ))}
-      </Container>
+  
     </>
   );
 }

@@ -26,7 +26,7 @@ import NavBar from "./components/NavBar";
 import { useCookies } from "react-cookie";
 import { ThemeProvider } from "@mui/material/styles";
 import Analyzing from "./sections/Analyzing";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 
 import theme from "./themes/theme";
 import EnableCookies from "./components/EnableCookies";
@@ -35,7 +35,7 @@ import GoogleLogin, {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-import Container from "react-bootstrap/Container";
+
 
 function App() {
   const [sessionCookie, setSessionCookie, removeSessionCookie] = useCookies([

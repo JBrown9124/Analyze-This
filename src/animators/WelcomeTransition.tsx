@@ -8,7 +8,7 @@ import React, {
 import { useTransition, animated, config } from "react-spring";
 import Typography from "@mui/material/Typography";
 import Welcome from "../sections/Welcome";
-import Container from "react-bootstrap/Container";
+
 import ReactDOM from "react-dom";
 
 interface Props {
@@ -82,22 +82,22 @@ export default function WelcomeTransition({
   });
  
 
-  useEffect(() => {
-    /* when to allow timed animations for signedIn and !signedIn states*/
-    /* timed animations are primarly slides without input required and are meant only for dispaly effect */
-    if (!signedIn) {
-      if (index < 2 || index === 5 ||index === 8 ) {
-        const t = setInterval(() => set((state) => state + 1), 6000);
+  // useEffect(() => {
+  //   /* when to allow timed animations for signedIn and !signedIn states*/
+  //   /* timed animations are primarly slides without input required and are meant only for dispaly effect */
+  //   if (!signedIn) {
+  //     if (index < 2 || index === 5 ||index === 8 ) {
+  //       const t = setInterval(() => set((state) => state + 1), 6000);
 
-        return () => clearTimeout(t);
-      }
-    } else if (signedIn) {
-      if (index === 0 ||index === 3) {
-        const t = setInterval(() => set((state) => state + 1), 6000);
-        return () => clearTimeout(t);
-      }
-    }
-  }, [index]);
+  //       return () => clearTimeout(t);
+  //     }
+  //   } else if (signedIn) {
+  //     if (index === 0 ||index === 3) {
+  //       const t = setInterval(() => set((state) => state + 1), 6000);
+  //       return () => clearTimeout(t);
+  //     }
+  //   }
+  // }, [index]);
   useEffect(() => {
     /* increment index by 1 if continue is toggled */
     if (!signedIn) {
@@ -165,8 +165,8 @@ export default function WelcomeTransition({
           className="welcomeTransitionContainer"
           style={{ ...style }}
         >
-          {isSignedIn ? signedInSlides[i] : slides[i]}
-          {/* {signedInSlides[3]} */}
+          {/* {isSignedIn ? signedInSlides[i] : slides[i]} */}
+          {signedInSlides[1]}
         </animated.div>
       ))}
     </>

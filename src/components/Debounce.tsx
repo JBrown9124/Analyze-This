@@ -3,9 +3,8 @@ import { Input, List } from "antd";
 import React, { Ref, useEffect, useRef, useState } from "react";
 import Typography from "@mui/material/Typography";
 import FeelSafeTransition from "../animators/FeelSafeTransition";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
+
 import FeelSafeButton from "../components/FeelSafeButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { alpha, styled } from "@mui/material/styles";

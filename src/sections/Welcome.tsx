@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 
-import Container from "react-bootstrap/Container";
+
 import FeelSafeButton from "../components/FeelSafeButton";
 import WelcomeTransition from "../animators/WelcomeTransition";
 import FeelSafe from "./FeelSafe";
@@ -15,9 +15,9 @@ export default function Welcome(props: any) {
 
   return (
     <>
-      <Container className="welcomeContainer">
+
         <Typography variant="h1">Welcome</Typography>
-      </Container>
+      
     </>
   );
 }

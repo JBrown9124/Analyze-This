@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 
-import Container from "react-bootstrap/Container";
 import FeelSafeButton from "../components/FeelSafeButton";
 import WelcomeTransition from "../animators/WelcomeTransition";
 import FeelSafe from "./FeelSafe";
@@ -15,11 +14,11 @@ export default function GoSafe(props: any) {
 
   return (
     <>
-      <Container className="goSafeContainer">
+   
         <Typography variant="h1">
           Please go to the safest location available to you before continuing.
         </Typography>
-      </Container>
+ 
     </>
   );
 }

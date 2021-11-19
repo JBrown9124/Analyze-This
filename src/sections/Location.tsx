@@ -1,58 +1,56 @@
 import React, { ReactNode, Ref, useEffect, useRef, useState } from "react";
 import Typography from "@mui/material/Typography";
-import FeelSafeTransition from "../animators/FeelSafeTransition";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
 import FeelSafeButton from "../components/FeelSafeButton";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import { alpha, styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
-// import { Input, List } from "antd";
-import InputLabel from "@mui/material/InputLabel";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import useGoogle from "react-google-autocomplete/lib/usePlacesAutocompleteService";
-import { OutlinedInputProps } from "@mui/material/OutlinedInput";
-import { usePlacesWidget } from "react-google-autocomplete";
-import { number } from "prop-types";
-import Autocomplete from "react-google-autocomplete";
-import { green } from "@mui/material/colors";
 import api from "../services/googleAPI";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import StarIcon from "@mui/icons-material/Star";
-import { EventHandler } from "react";
+import Grid from "@mui/material/Grid";
 
+
+const CssTextField = styled(TextField)(({ theme, isSuccess }: any) => ({
+  "& .MuiInput-underline:before": {
+    borderBottomColor: isSuccess ? "green" : "black"
+  },
+  "& .MuiFormLabel-root": {
+    color: isSuccess ? "green" : "black",
+  },
+  "& label.Mui-focused": {
+    color: isSuccess ? "green" : "blue",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: isSuccess ? "green" : "blue",
+  },
+  [theme.breakpoints.up("md")]: {
+    height: "50px",
+    width: "130px",
+  },
+  [theme.breakpoints.down("md")]: {
+    height: "30px",
+    width: "70px",
+  },
+}));
+const LocationIcon = styled(AddLocationAltIcon)(
+  ({ theme, clickedBox, isError, primaryColor }: any) => ({
+    color: clickedBox ? "blue" : isError ? "red" : primaryColor,
+    mr: 1,
+    my: 2.5,
+    [theme.breakpoints.up("md")]: {},
+    [theme.breakpoints.down("md")]: {},
+  })
+);
 interface Props {
   handleLocation: (props: string) => void;
   clickBack: () => void;
 }
-const CssTextField = styled(TextField)({
-  "& label.Mui-focused": {
-    color: "blue",
-  },
-  "& .MuiInput-underline:after": {
-    borderBottomColor: "blue",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "red",
-    },
-    "&:hover fieldset": {
-      borderColor: "yellow",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "blue",
-    },
-  },
-});
 export default function Location({ handleLocation, clickBack }: Props) {
   const clickRef = useRef<any>();
   useOnClickOutside(clickRef, () => handleClickOutside());
@@ -62,6 +60,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
   const [primaryColor, setPrimaryColor] = useState<string>("black");
   const [places, setPlaces] = useState<Array<Object>>([{}]);
   const [showPlaces, setShowPlaces] = useState(true);
+
   const [isError, setIsError] = useState(false);
   interface PlaceProps {
     placePredictions: Array<Object>;
@@ -76,11 +75,13 @@ export default function Location({ handleLocation, clickBack }: Props) {
     debounce: 200,
     sessionToken: true,
     apiKey: api,
+    options: {
+      types: null,
+      fields: ["address_components", "place_id", "formatted_address"],
+      componentRestrictions: { country: "us" },
+    },
   });
-  //      options: {
 
-  //   componentRestrictions: { country: "us" },}
-  // });
   const handleClickOutside = (): void => {
     setShowPlaces(false);
     setClickedBox(false);
@@ -89,23 +90,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
     setShowPlaces(true);
     setClickedBox(true);
   };
-  // const { ref } = usePlacesWidget<HTMLDivElement>({
 
-  //   apiKey: api,
-  //   onPlaceSelected: (place) => {
-  //     setPlaceSelected(true);
-  //     setLocation(place.formatted_address);
-  //   },
-
-  //   inputAutocompleteValue: "off",
-
-  //   options: {
-  //     sessionToken: true,
-
-  //     componentRestrictions: { country: "us" },
-
-  //   },
-  // });
   const handleSubmit = (): void => {
     /* If the input is not an empty string and the place has been selected with google drop down then dont send an error and let them continue */
     if (location.length > 0 && placeSelected === true) {
@@ -119,6 +104,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
     setPlaceSelected(true);
     setClickedBox(false);
     setPrimaryColor("green");
+
     setLocation(itemDescription);
     setShowPlaces(false);
   };
@@ -127,42 +113,51 @@ export default function Location({ handleLocation, clickBack }: Props) {
     setShowPlaces(true);
     getPlacePredictions({ input: e });
     setPlaceSelected(false);
+
     setPrimaryColor("black");
     setLocation(e);
   };
   useEffect(() => {
     setPlaces(placePredictions);
+
     return () => {
       placePredictions.forEach((element) => (element = []));
     };
   }, [location, location.length]);
   return (
     <>
-      <Container className="feelSafeContainer">
-        <Row>
-          <Typography variant="h3">
-            Where would you like us to find services for. Please select one of
-            the locations from the dropdown.
-          </Typography>
-        </Row>
+      <Grid
+        sx={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, 100%)",
+        }}
+        container
+        direction="column"
+        spacing={-20}
+      >
+        <Typography variant="h3">
+          Where would you like us to find services for. Please select one of the
+          locations from the dropdown.
+        </Typography>
+
         <Box
           sx={{
-            marginTop: "30px",
+            marginTop: "2vw",
             justifyContent: "center",
             textAlign: "center",
           }}
         >
-          <AddLocationAltIcon
-            sx={{
-              color:
-                clickedBox === true ? "blue" : isError ? "red" : primaryColor,
-              mr: 1,
-              my: 2.5,
-            }}
+          <LocationIcon
+            sx={{ mr: 1, my: 2.5 }}
+            clickedBox={clickedBox}
+            isError={isError}
+            primaryColor={primaryColor}
           />
 
           <CssTextField
-            color="success"
+            isSuccess={clickedBox ? false : primaryColor === "green"}
             ref={clickRef}
             autoComplete="off"
             value={location}
@@ -173,7 +168,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
             onClick={() => setIsError(false)}
             id="location-text-field"
             label="City, State, Country"
-            variant="standard"
+            variant={"standard" as any}
             onFocus={() => handleClickInside()}
           />
 
@@ -198,88 +193,33 @@ export default function Location({ handleLocation, clickBack }: Props) {
           >
             {showPlaces &&
               places.map((item: any) => (
-                <Row>
-                  <ListItem
-                    button
-                    disableGutters
-                    onClick={() => handleLocationSelected(item.description)}
-                    key={item.place_id}
-                    divider
-                    alignItems="center"
-                  >
-                    <ListItemText primary={item.description} />
-                  </ListItem>
-                </Row>
+                <ListItem
+                  button
+                  disableGutters
+                  onClick={() => handleLocationSelected(item.description)}
+                  key={item.place_id}
+                  divider
+                  alignItems="center"
+                >
+                  <ListItemText primary={item.description} />
+                </ListItem>
               ))}
           </List>
-
-          {/*             
-           {(location.length>0) && (
-          <List
-          loading={true}
-          style={{justifyContent:"center",textAlign:"center", marginTop:"1px", listStyleType:"none"}}
-            dataSource={placePredictions}
-            renderItem={(item:any) => (
-              <List.Item  style={{  listStyleType:"none", }} onClick={() => setLocation(item.description)}>
-                <List.Item.Meta  style={{ listStyleType:"none" }} title={item.description !== "No Data" && item.description} />
-              </List.Item>
-            )}
-          />
-        )} */}
         </Box>
-        <Row>
-          <div style={{}}>
-            <FeelSafeButton
-              onClick={() => handleSubmit()}
-              message={"Continue"}
-            />
 
-            <FeelSafeButton onClick={() => clickBack()} message={"Back"} />
-          </div>
-        </Row>
-
-        {/* <Row>
-          <Debounce/>
-          <Box component="form"   sx={{ marginTop: "30px", justifyContent: "center" }}>
-            <AccountCircle
-              sx={{
-                color:
-                  clickedBox === true ? green[600] : isError ? "red" : "black",
-                mr: 1,
-                my: 2.5,
-              }}
-            />
-
-            <CssTextField
-              ref={clickRef}
-                
-              autoComplete="off"
-              value = {location}
-              onChange={(e)=>setLocation(e.target.value)}
-              error={isError}
-              onClick={() => setIsError(false)}
-              id="google-location-text"
-              type="text"
-              label="City, State, Country"
-              variant="standard"
-              inputRef={ref}
-              onFocus={() => setClickedBox(true)}
-            />
-          
-          </Box>
-         
-        </Row>
-        <Row>
-          <div style={{ marginTop: "30px" }}>
-            <FeelSafeButton
-              onClick={() => handleSubmit()}
-              message={"Continue"}
-            />
-
-            <FeelSafeButton onClick={() => clickBack()} message={"Back"} />
-          </div>
-        </Row> */}
-      </Container>
+        <div style={{ marginTop: "2vw" }}>
+          <FeelSafeButton
+            sx={{}}
+            onClick={() => clickBack()}
+            message={"Back"}
+          />
+          <FeelSafeButton
+            sx={{ marginLeft: "1vw" }}
+            onClick={() => handleSubmit()}
+            message={"Continue"}
+          />
+        </div>
+      </Grid>
     </>
   );
 }

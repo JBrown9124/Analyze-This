@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { ResultsProps } from "../models/Results";
-import Container from "react-bootstrap/Container";
+
 import FeelSafeButton from "../components/FeelSafeButton";
 import WelcomeTransition from "../animators/WelcomeTransition";
 import FeelSafe from "./FeelSafe";
@@ -16,7 +16,7 @@ export default function AnalysisResults({ results }: Props) {
   const { is_danger, is_suicide, potential_causes } = analysisResults;
   return (
     <>
-      <Container>
+
       <Typography variant="h1">
           Results
         </Typography>
@@ -25,7 +25,7 @@ export default function AnalysisResults({ results }: Props) {
       
         </Typography>
         <Resources resources={resources} />
-      </Container>
+
     </>
   );
 }

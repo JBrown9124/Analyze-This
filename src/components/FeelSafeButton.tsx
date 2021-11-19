@@ -8,7 +8,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     backgroundColor: "rgba(150,230,253,0.07)",
   },
-  fontFamily: "Oswald, sans-serif",
+  fontFamily: "Open-sans, sans-serif",
   color: "#77C9D4",
   fill: "transparent",
   textTransform: "none",
@@ -28,7 +28,8 @@ const ColorButton = styled(Button)(({ theme }) => ({
 interface Props {
   onClick: () => void;
   message: string;
+  sx:any
 }
-export default function FeelSafeButton({ message, onClick }: Props) {
-  return <ColorButton onClick={() => onClick()}>{message}</ColorButton>;
+export default function FeelSafeButton({ message, onClick, sx}: Props) {
+  return <ColorButton sx={sx}onClick={() => onClick()}>{message}</ColorButton>;
 }

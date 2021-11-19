@@ -8,7 +8,7 @@ import React, {
 import { useTransition, animated, config } from "react-spring";
 import Typography from "@mui/material/Typography";
 import { ResultsProps } from "../models/Results";
-import Container from "react-bootstrap/Container";
+
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
@@ -43,34 +43,33 @@ export default function Analyzing() {
 
   return (
     <>
-    <Container  fluid style={{
+<div
+       
+        style={{
           display: "flex",
-    
-         position: "absolute",
-         left: "50%",
-         top: "50%",
-         transform: "translate(-20%, 200%)",
-        
-        
-        }}>
-          <Row>
-     <Col>
-        <Typography variant="h1"> Analyzing </Typography>
-        </Col>
-        {transitions((style, item: any) => (
-            <Col>
-          <animated.div
-            style={{
-              ...style,
-            }}
-          >
+
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-20%, 200%)",
+        }}
+      >
+      
+            <Typography variant="h1"> Analyzing </Typography>
           
-            <Typography variant="h1">{slides[index]}</Typography>
-          </animated.div>
-          </Col>
-        ))}
-   </Row>
-      </Container>
+          {transitions((style, item: any) => (
+     
+              <animated.div
+                style={{
+                  ...style,
+                }}
+              >
+                <Typography variant="h1">{slides[index]}</Typography>
+              </animated.div>
+           
+          ))}
+        
+      </div>
     </>
   );
 }

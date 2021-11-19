@@ -7,7 +7,7 @@ import GoogleLogin, {
   GoogleLoginResponseOffline,
 } from "react-google-login";
 import clientID from "../services/clientID";
-import Container from "react-bootstrap/Container";
+
 import FeelSafeButton from "../components/FeelSafeButton";
 interface Props {
   clickContinue: () => void;
@@ -63,7 +63,7 @@ export default function SignIn({
   };
   return (
     <>
-      <Container className="feelSafeContainer">
+  
         <Typography variant="h3">Would you like to sign in?</Typography>
         <GoogleLogin
           clientId={clientID}
@@ -77,10 +77,10 @@ export default function SignIn({
           cookiePolicy={"single_host_origin"}
         />
         <div className="feelSafeButton">
-          <FeelSafeButton onClick={() => clickBack()} message="Back" />
-          <FeelSafeButton onClick={() => clickContinue()} message="No thanks" />
+          <FeelSafeButton        sx={{marginLeft:"1vw"}}onClick={() => clickBack()} message="Back" />
+          <FeelSafeButton        sx={{marginLeft:"1vw"}}onClick={() => clickContinue()} message="No thanks" />
         </div>
-      </Container>
+   
     </>
   );
 }

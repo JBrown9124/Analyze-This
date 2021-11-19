@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import Typography from "@mui/material/Typography";
 import FeelSafeTransition from "../animators/FeelSafeTransition";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
+
 import FeelSafeButton from "../components/FeelSafeButton";
 import { green } from "@mui/material/colors";
 import useOnClickOutside from "../hooks/useOnClickOutside";
@@ -63,13 +62,11 @@ export default function Name({ handleName, clickBack }: Props) {
 
   return (
     <>
-      <Container className="feelSafeContainer">
-        <Row>
+    
           <Typography variant="h3">
             What would you like to be called for this session?
           </Typography>
-        </Row>
-        <Row>
+        
           <Box sx={{ marginTop: "30px", justifyContent: "center" }}>
             <AccountCircle
               sx={{
@@ -98,19 +95,18 @@ export default function Name({ handleName, clickBack }: Props) {
               onChange={(e) => setName(e.target.value)}
             />
           </Box>
-        </Row>
-        <Row>
+      
           <div className="nameButton">
             <FeelSafeButton
+                   sx={{marginLeft:"1vw"}}
               onClick={() => handleSubmit()}
               message={"Continue"}
             />
           </div>
           <div className="nameButton">
-            <FeelSafeButton onClick={() => clickBack()} message={"Back"} />
+            <FeelSafeButton        sx={{marginLeft:"1vw"}} onClick={() => clickBack()} message={"Back"} />
           </div>
-        </Row>
-      </Container>
+       
     </>
   );
 }

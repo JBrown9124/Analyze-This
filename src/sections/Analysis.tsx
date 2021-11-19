@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import FeelSafeTransition from "../animators/FeelSafeTransition";
-import Container from "react-bootstrap/Container";
+
 import FeelSafeButton from "../components/FeelSafeButton";
 
 import { alpha, styled } from "@mui/material/styles";
@@ -13,25 +13,6 @@ import FormControl from "@mui/material/FormControl";
 import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { number } from "prop-types";
 
-const CssTextField = styled(TextField)({
-  "& label.Mui-focused": {
-    color: "green",
-  },
-  "& .MuiInput-underline:after": {
-    borderBottomColor: "green",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "red",
-    },
-    "&:hover fieldset": {
-      borderColor: "yellow",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "green",
-    },
-  },
-});
 
 interface Props {
   handleDescription: (props: string) => void;
@@ -50,7 +31,7 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
 
   return (
     <>
-      <Container className="analysisContainer">
+
         <Typography variant="h3">
           To the best of your ability, please describe to us your current
           situation. This is only for us to get a clear understanding of what
@@ -58,21 +39,23 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
           services in your vacinity.
         </Typography>
 
-        <CssTextField
+        <TextField
           multiline={true}
           autoComplete="off"
-          sx={{ width: "50%", marginTop: "30px" }}
+          sx={{ width: "50%", marginTop: "10vw" }}
           rows={5}
+          variant='outlined'
           id="custom-css-outlined-input"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
         <div>
-          {" "}
-          <FeelSafeButton onClick={() => handleSubmit()} message={"Continue"} />
-          <FeelSafeButton onClick={() => clickBack()} message={"Back"} />
+  
+          <FeelSafeButton        sx={{marginLeft:"1vw"}}onClick={() => clickBack()} message={"Back"} />
+          <FeelSafeButton        sx={{marginLeft:"1vw"}}onClick={() => handleSubmit()} message={"Continue"} />
+      
         </div>
-      </Container>
+    
     </>
   );
 }
