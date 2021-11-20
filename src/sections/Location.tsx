@@ -1,6 +1,6 @@
 import React, { ReactNode, Ref, useEffect, useRef, useState } from "react";
 import Typography from "@mui/material/Typography";
-
+import LocationTextField from "../components/LocationTextField";
 import FeelSafeButton from "../components/FeelSafeButton";
 import { alpha, styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -14,37 +14,21 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
+import IconBoop from "../animators/IconBoop";
 
-
-const CssTextField = styled(TextField)(({ theme, isSuccess }: any) => ({
-  "& .MuiInput-underline:before": {
-    borderBottomColor: isSuccess ? "green" : "black"
-  },
-  "& .MuiFormLabel-root": {
-    color: isSuccess ? "green" : "black",
-  },
-  "& label.Mui-focused": {
-    color: isSuccess ? "green" : "blue",
-  },
-  "& .MuiInput-underline:after": {
-    borderBottomColor: isSuccess ? "green" : "blue",
-  },
-  [theme.breakpoints.up("md")]: {
-    height: "50px",
-    width: "130px",
-  },
-  [theme.breakpoints.down("md")]: {
-    height: "30px",
-    width: "70px",
-  },
-}));
 const LocationIcon = styled(AddLocationAltIcon)(
   ({ theme, clickedBox, isError, primaryColor }: any) => ({
-    color: clickedBox ? "blue" : isError ? "red" : primaryColor,
+    color: isError ? "red" : primaryColor,
     mr: 1,
     my: 2.5,
     [theme.breakpoints.up("md")]: {},
     [theme.breakpoints.down("md")]: {},
+  })
+);
+const LocationList = styled(List)(
+  ({ theme, clickedBox, isError, primaryColor }: any) => ({
+    [theme.breakpoints.up("md")]: { width: "100%", maxWidth: "52%" },
+    [theme.breakpoints.down("md")]: { width: "100%", maxWidth: "100%" },
   })
 );
 interface Props {
@@ -60,6 +44,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
   const [primaryColor, setPrimaryColor] = useState<string>("black");
   const [places, setPlaces] = useState<Array<Object>>([{}]);
   const [showPlaces, setShowPlaces] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const [isError, setIsError] = useState(false);
   interface PlaceProps {
@@ -85,10 +70,13 @@ export default function Location({ handleLocation, clickBack }: Props) {
   const handleClickOutside = (): void => {
     setShowPlaces(false);
     setClickedBox(false);
+    isSuccess ? setPrimaryColor("green") : setPrimaryColor("black");
   };
   const handleClickInside = (): void => {
     setShowPlaces(true);
     setClickedBox(true);
+    isSuccess ? setPrimaryColor("green") : setPrimaryColor("blue");
+    setIsError(false);
   };
 
   const handleSubmit = (): void => {
@@ -104,7 +92,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
     setPlaceSelected(true);
     setClickedBox(false);
     setPrimaryColor("green");
-
+    setIsSuccess(true);
     setLocation(itemDescription);
     setShowPlaces(false);
   };
@@ -113,8 +101,8 @@ export default function Location({ handleLocation, clickBack }: Props) {
     setShowPlaces(true);
     getPlacePredictions({ input: e });
     setPlaceSelected(false);
-
-    setPrimaryColor("black");
+    setIsSuccess(false);
+    setPrimaryColor("blue");
     setLocation(e);
   };
   useEffect(() => {
@@ -149,15 +137,25 @@ export default function Location({ handleLocation, clickBack }: Props) {
             textAlign: "center",
           }}
         >
-          <LocationIcon
-            sx={{ mr: 1, my: 2.5 }}
-            clickedBox={clickedBox}
-            isError={isError}
-            primaryColor={primaryColor}
-          />
-
-          <CssTextField
-            isSuccess={clickedBox ? false : primaryColor === "green"}
+          <IconBoop
+            x={0}
+            isBooped={primaryColor === "blue"|| primaryColor === "green" || isError}
+            beforeColor={""}
+            afterColor={""}
+            y={-4}
+            rotation={primaryColor === "green" ? 720 : 0}
+            scale={isError ? 0 : 1}
+          >
+            <LocationIcon
+              sx={{ mr: 1, my: 2.5 }}
+              clickedBox={clickedBox}
+              isError={isError}
+              primaryColor={primaryColor}
+            />
+          </IconBoop>
+          <LocationTextField
+            onFocus={()=>setPrimaryColor("blue")}
+            isSuccess={isSuccess}
             ref={clickRef}
             autoComplete="off"
             value={location}
@@ -165,26 +163,21 @@ export default function Location({ handleLocation, clickBack }: Props) {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleLocationChange(e.target.value);
             }}
-            onClick={() => setIsError(false)}
+            onClick={() => handleClickInside()}
             id="location-text-field"
             label="City, State, Country"
             variant={"standard" as any}
-            onFocus={() => handleClickInside()}
           />
 
-          <List
+          <LocationList
             ref={clickRef}
-            dense
             sx={{
               backgroundColor: "white",
               position: "absolute",
               zIndex: "999",
-
               left: "50%",
-
               transform: "translate(-50%,-5%)",
-              width: "100%",
-              maxWidth: 360,
+
               justifyContent: "center",
               textAlign: "center",
               margin: "auto",
@@ -204,7 +197,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
                   <ListItemText primary={item.description} />
                 </ListItem>
               ))}
-          </List>
+          </LocationList>
         </Box>
 
         <div style={{ marginTop: "2vw" }}>
