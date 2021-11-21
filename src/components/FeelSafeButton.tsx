@@ -6,13 +6,15 @@ import PropTypes from "prop-types";
 const ColorButton = styled(Button)(({ theme }) => ({
   backgroundColor: "transparent",
   "&:hover": {
-    backgroundColor: "rgba(150,230,253,0.07)",
+    backgroundColor: "#ede7f6",
+    boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px",
+ 
   },
   fontFamily: "Open-sans, sans-serif",
-  color: "#77C9D4",
+  color: "black",
   fill: "transparent",
   textTransform: "none",
-  border: "solid #77C9D4 1px",
+  border: "solid #bbb5c3 1px",
 
   [theme.breakpoints.up("md")]: {
     fontSize: "1.1rem",

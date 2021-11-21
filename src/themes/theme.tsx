@@ -47,7 +47,7 @@ theme.typography.h5 = {
 theme.typography.h2 = {
   fontFamily: "Oswald, sans-serif",
   
-  color: "#77C9D4",
+  color: "black",
 
   [theme.breakpoints.up("sm")]: {
     fontSize: "1.6rem",
@@ -70,7 +70,7 @@ theme.typography.h1 = {
 };
 theme.typography.h3 = {
   fontFamily: "Open Sans, sans-serif",
-  color: "#77C9D4",
+  color: "black",
   fontWeight:100,
   [theme.breakpoints.up("sm")]: {
     fontSize: "2.0rem",

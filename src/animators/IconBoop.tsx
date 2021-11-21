@@ -1,14 +1,14 @@
 import { animated, useSpring } from "react-spring";
 import React from "react";
-interface Props{
-    x: number;
-    beforeColor: string;
-    afterColor: string;
-    y:number;
-    rotation: number;
-    scale: number;
-    isBooped: boolean;
-    children:React.ReactNode
+interface Props {
+  x: number;
+  beforeColor: string;
+  afterColor: string;
+  y: number;
+  rotation: number;
+  scale: number;
+  isBooped: boolean;
+  children: React.ReactNode;
 }
 const IconBoop = ({
   x = 0,
@@ -19,8 +19,7 @@ const IconBoop = ({
   scale = 1,
   children,
   isBooped,
-}:Props) => {
-  
+}: Props) => {
   const style = useSpring({
     display: "inline-block",
     backfaceVisibility: "hidden",
@@ -33,19 +32,9 @@ const IconBoop = ({
          scale(1)`,
 
     color: isBooped ? afterColor : beforeColor,
-    
   });
 
-
-
-  return (
-    <animated.div
-     
-      style={style as any}
-    >
-      {children}
-    </animated.div>
-  );
+  return <animated.div style={style as any}>{children}</animated.div>;
 };
 
 export default IconBoop;

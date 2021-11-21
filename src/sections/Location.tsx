@@ -19,10 +19,11 @@ import IconBoop from "../animators/IconBoop";
 const LocationIcon = styled(AddLocationAltIcon)(
   ({ theme, clickedBox, isError, primaryColor }: any) => ({
     color: isError ? "red" : primaryColor,
-    mr: 1,
-    my: 2.5,
+
     [theme.breakpoints.up("md")]: {},
-    [theme.breakpoints.down("md")]: {},
+    // { marginRight: 6, marginTop: 20, marginBottom: 2.5},
+    [theme.breakpoints.down("md")]: { height: "14px" },
+    //  marginRight: -3, marginTop: 23,  },
   })
 );
 const LocationList = styled(List)(
@@ -116,6 +117,11 @@ export default function Location({ handleLocation, clickBack }: Props) {
     <>
       <Grid
         sx={{
+          boxShadow:
+            "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+          background: "white!important",
+          borderRadius: "5px",
+          width: "50%",
           position: "absolute",
           left: "50%",
           top: "50%",
@@ -123,23 +129,28 @@ export default function Location({ handleLocation, clickBack }: Props) {
         }}
         container
         direction="column"
-        spacing={-20}
       >
-        <Typography variant="h3">
-          Where would you like us to find services for. Please select one of the
-          locations from the dropdown.
+        <Typography
+          variant="h3"
+          component="span"
+          sx={{ borderRadius: "5px", padding: "15px" }}
+        >
+          Please select a location
         </Typography>
 
         <Box
           sx={{
-            marginTop: "2vw",
+            
             justifyContent: "center",
             textAlign: "center",
+            
           }}
         >
           <IconBoop
             x={0}
-            isBooped={primaryColor === "blue"|| primaryColor === "green" || isError}
+            isBooped={
+              primaryColor === "blue" || primaryColor === "green" || isError
+            }
             beforeColor={""}
             afterColor={""}
             y={-4}
@@ -154,7 +165,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
             />
           </IconBoop>
           <LocationTextField
-            onFocus={()=>setPrimaryColor("blue")}
+            onFocus={() => handleClickInside()}
             isSuccess={isSuccess}
             ref={clickRef}
             autoComplete="off"
@@ -188,7 +199,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
               places.map((item: any) => (
                 <ListItem
                   button
-                  disableGutters
+                
                   onClick={() => handleLocationSelected(item.description)}
                   key={item.place_id}
                   divider
@@ -199,8 +210,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
               ))}
           </LocationList>
         </Box>
-
-        <div style={{ marginTop: "2vw" }}>
+        <Grid sx={{ padding: "15px"}}>
           <FeelSafeButton
             sx={{}}
             onClick={() => clickBack()}
@@ -211,7 +221,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
             onClick={() => handleSubmit()}
             message={"Continue"}
           />
-        </div>
+        </Grid>
       </Grid>
     </>
   );

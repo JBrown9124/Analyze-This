@@ -20,7 +20,7 @@ const LocationTextField = styled(TextField)(({ theme, isSuccess }: any) => ({
     },
     [theme.breakpoints.down("md")]: {
       
-      width: "100%",
+      width: "50%",
     },
   }));
 

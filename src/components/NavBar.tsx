@@ -13,7 +13,7 @@ interface Props {
 export default function NavBar({ signedIn, handleLogOut }: Props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{background:"#00675b"}}>
         <Toolbar>
           <IconButton
             size="large"
