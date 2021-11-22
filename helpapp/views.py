@@ -19,8 +19,9 @@ from .ResponseModels.help import Help
 from .ResponseModels.location import Location
 from .ResponseModels.user import User
 from .Providers.analysis import Analysis
-
+from .Providers.google_maps import GoogleMaps
 import uuid
+import requests, json
 
 
 # Create your views here.
@@ -32,26 +33,35 @@ def index(request):
 def user(request):
     # register user
     if request.method == 'POST':
-
+        # enter your api key here
+     
+        
+        # url variable store url
+        
         json_data = json.loads(request.body)
-
+        
         user_id = str(uuid.uuid4())
         doc_ref = db.collection(u'user').document()
 
         analysis = Analysis(description=json_data['description'])
         analysis_results = analysis.results()
-        help_response = Help(analysis_results=analysis_results, description=json_data['description'], location=json_data['location']
-                             )
-        potentional_causes = analysis_results['potential_causes']
+        
+        
+        potential_causes = analysis_results['potential_causes']
+        
         if analysis_results['is_danger']['is_danger']:
-            potentional_causes['is_danger'] = 'is_danger'
+            potential_causes['is_danger'] = 'is_danger'
         if analysis_results['is_suicide']['is_suicide']:
-            potentional_causes['suicide']='suicide'
-        for key, value in potentional_causes.items():
+            potential_causes['suicide']='suicide'
+        
+        nearest_location = GoogleMaps(location=json_data['location'], potential_causes=potential_causes).obtain_relevent_data()
+        help_response = Help(analysis_results=analysis_results, description=json_data['description'], location=nearest_location
+                             )
+        for key, value in potential_causes.items():
             collections = db.collection(
                 'conflict_resources').document(key).get()
             help_response.resources.extend([{"name":name,"url":url}
                                        for name, url in collections._data.items()])
         response = help_response.to_dict()
         # doc_ref.set(User(json_data['name'], user_id, json_data['location'], conflict.to_dict()).to_dict())
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)

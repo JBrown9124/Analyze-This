@@ -58,12 +58,12 @@ export default function Location({ handleLocation, clickBack }: Props) {
     getPlacePredictions,
     isPlacePredictionsLoading,
   }: PlaceProps = useGoogle({
-    debounce: 200,
+    
     sessionToken: true,
     apiKey: api,
     options: {
-      types: null,
-      fields: ["address_components", "place_id", "formatted_address"],
+
+   
       componentRestrictions: { country: "us" },
     },
   });
@@ -196,12 +196,12 @@ export default function Location({ handleLocation, clickBack }: Props) {
             disablePadding
           >
             {showPlaces &&
-              places.map((item: any) => (
+              places.map((item: any,idx) => (
                 <ListItem
                   button
                 
                   onClick={() => handleLocationSelected(item.description)}
-                  key={item.place_id}
+                  key={idx}
                   divider
                   alignItems="center"
                 >
@@ -225,4 +225,4 @@ export default function Location({ handleLocation, clickBack }: Props) {
       </Grid>
     </>
   );
-}
+              }
