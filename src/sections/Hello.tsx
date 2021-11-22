@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-
-
+import Grid from "@mui/material/Grid";
 import FeelSafeButton from "../components/FeelSafeButton";
 import WelcomeTransition from "../animators/WelcomeTransition";
 import FeelSafe from "./FeelSafe";
@@ -19,9 +18,10 @@ export default function Hello({ name }: Props) {
 
   return (
     <>
- 
-        <Typography variant="h1">Hello {name}</Typography>
-
+      <Typography sx={{ position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, 300%)",}}variant="h1">Hello {name}</Typography>
     </>
   );
 }

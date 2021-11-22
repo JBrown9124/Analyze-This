@@ -8,9 +8,8 @@ import React, {
 import { useTransition, animated, config } from "react-spring";
 import Typography from "@mui/material/Typography";
 import { ResultsProps } from "../models/Results";
+import Grid from "@mui/material/Grid";
 
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 
 export default function Analyzing() {
   const [index, setIndex] = useState(0);
@@ -43,33 +42,29 @@ export default function Analyzing() {
 
   return (
     <>
-<div
-       
-        style={{
+      <Grid
+        sx={{
           display: "flex",
 
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: "translate(-20%, 200%)",
+          transform: "translate(-15%, 200%)",
         }}
+        container
       >
-      
-            <Typography variant="h1"> Analyzing </Typography>
-          
-          {transitions((style, item: any) => (
-     
-              <animated.div
-                style={{
-                  ...style,
-                }}
-              >
-                <Typography variant="h1">{slides[index]}</Typography>
-              </animated.div>
-           
-          ))}
-        
-      </div>
+        <Typography variant="h1"> Analyzing </Typography>
+
+        {transitions((style, item: any) => (
+          <animated.div
+            style={{
+              ...style,
+            }}
+          >
+            <Typography variant="h1">{slides[index]}</Typography>
+          </animated.div>
+        ))}
+      </Grid>
     </>
   );
 }
