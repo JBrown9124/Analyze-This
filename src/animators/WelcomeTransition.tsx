@@ -166,7 +166,7 @@ export default function WelcomeTransition({
           style={{ ...style }}
         >
           {/* {isSignedIn ? signedInSlides[i] : slides[i]} */}
-          {signedInSlides[1]}
+          {signedInSlides[4]}
         </animated.div>
       ))}
     </>

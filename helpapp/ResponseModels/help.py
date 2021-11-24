@@ -1,13 +1,13 @@
 class Help(object):
-    def __init__(self, description: str, analysis_results: dict, location: str, resources: list = []):
+    def __init__(self, description: str, analysis_results: dict, facilities: list, resources: list = []):
 
         self.description = description
         self.resources = resources
         self.analysis_results = analysis_results
-        self.location = location
+        self.facilities = facilities
 
     def to_dict(self):
-        help_dict = {"resources": self.resources, "location": self.location,
+        help_dict = {"resources": self.resources, "facilities": self.facilities,
                      "description": self.description, "analysisResults": self.analysis_results}
         return help_dict
 
@@ -15,5 +15,5 @@ class Help(object):
         return(f'Conflict(\
             resources = {self.resources}, \
                 description = {self.description}, \
-                        description = {self.location}, \
+                        description = {self.facilities}, \
                    analysisResults = {self.analysis_results},)')

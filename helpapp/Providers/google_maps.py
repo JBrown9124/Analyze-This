@@ -37,5 +37,5 @@ class GoogleMaps:
 
         return result
 
-    def obtain_relevent_data(self) -> Dict[List[Dict]]:
+    def obtain_relevent_data(self):
         return self.response

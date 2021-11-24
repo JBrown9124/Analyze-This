@@ -27,7 +27,6 @@ import { useCookies } from "react-cookie";
 import { ThemeProvider } from "@mui/material/styles";
 import Analyzing from "./sections/Analyzing";
 
-
 import theme from "./themes/theme";
 import EnableCookies from "./components/EnableCookies";
 import GoogleLogin, {
@@ -35,7 +34,6 @@ import GoogleLogin, {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-
 
 function App() {
   const [sessionCookie, setSessionCookie, removeSessionCookie] = useCookies([
@@ -52,7 +50,7 @@ function App() {
   const [signedIn, setSignedIn] = useState<boolean>(false);
   const [results, setResults] = useState<ResultsProps>({
     resources: [{ name: "", url: "" }],
-    location: "",
+    location: [{}],
     analysisResults: {
       is_suicide: {
         suicide_probability: 0,
@@ -168,70 +166,73 @@ function App() {
 
   return (
     <>
-    <div style={{position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  background:"#009688"
-}}>
-      <ThemeProvider theme={theme}>
-        <NavBar signedIn={signedIn} handleLogOut={handleLogOut} />
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: "#009688",
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <NavBar signedIn={signedIn} handleLogOut={handleLogOut} />
 
-        <WelcomeTransition
-          currentSlideCookie={sessionCookie?.profileObj?.currentSlide}
-          currentSlide={(index) => slideChange(index)}
-          // handleName={(props:string)=>setName(props)}
-          isBackClicked={toggleBack}
-          isClicked={toggleContinue}
-          signedIn={signedIn}
-          welcomeSlide={<Welcome />}
-          goSafeSlide={<GoSafe />}
-          feelSafeSlide={
-            <FeelSafe
-              clickBack={() => setToggleBack(!toggleBack)}
-              clickContinue={() => setToggleContinue(!toggleContinue)}
-            />
-          }
-          signInSlide={
-            <SignIn
-              signInData={(data) => handleSignInData(data)}
-              clickBack={() => setToggleBack(!toggleBack)}
-              clickContinue={() => setToggleContinue(!toggleContinue)}
-            />
-          }
-          nameSlide={
-            <Name
-              clickBack={() => setToggleBack(!toggleBack)}
-              handleName={(props) => nameChange(props)}
-            />
-          }
-          helloSlide={<Hello name={sessionData.name} />}
-          locationSlide={
-            <Location
-              handleLocation={(props) => locationChange(props)}
-              clickBack={() => setToggleBack(!toggleBack)}
-            />
-          }
-          analysisSlide={
-            <Analysis
-              clickBack={() => setToggleBack(!toggleBack)}
-              handleDescription={(props) => descriptionChange(props)}
-            />
-          }
-          analyzingSlide={<Analyzing />}
-          analysisResultsSlide={
-            <AnalysisResults
-              results={
-                sessionCookie?.profileObj?.results === undefined
-                  ? results
-                  : sessionCookie?.profileObj?.results
-              }
-            />
-          }
-        />
-        {/* <EnableCookies isCookiesEnabled={(props) => handleCookieEnabled(props)} /> */}
-      </ThemeProvider>
+          <WelcomeTransition
+            currentSlideCookie={sessionCookie?.profileObj?.currentSlide}
+            currentSlide={(index) => slideChange(index)}
+            // handleName={(props:string)=>setName(props)}
+            isBackClicked={toggleBack}
+            isClicked={toggleContinue}
+            signedIn={signedIn}
+            welcomeSlide={<Welcome />}
+            goSafeSlide={<GoSafe />}
+            feelSafeSlide={
+              <FeelSafe
+                clickBack={() => setToggleBack(!toggleBack)}
+                clickContinue={() => setToggleContinue(!toggleContinue)}
+              />
+            }
+            signInSlide={
+              <SignIn
+                signInData={(data) => handleSignInData(data)}
+                clickBack={() => setToggleBack(!toggleBack)}
+                clickContinue={() => setToggleContinue(!toggleContinue)}
+              />
+            }
+            nameSlide={
+              <Name
+                clickBack={() => setToggleBack(!toggleBack)}
+                handleName={(props) => nameChange(props)}
+              />
+            }
+            helloSlide={<Hello name={sessionData.name} />}
+            locationSlide={
+              <Location
+                handleLocation={(props) => locationChange(props)}
+                clickBack={() => setToggleBack(!toggleBack)}
+              />
+            }
+            analysisSlide={
+              <Analysis
+                clickBack={() => setToggleBack(!toggleBack)}
+                handleDescription={(props) => descriptionChange(props)}
+              />
+            }
+            analyzingSlide={<Analyzing />}
+            analysisResultsSlide={
+              <AnalysisResults
+                results={
+                  sessionCookie?.profileObj?.results === undefined
+                    ? results
+                    : sessionCookie?.profileObj?.results
+                }
+              />
+            }
+          />
+          {/* <EnableCookies isCookiesEnabled={(props) => handleCookieEnabled(props)} /> */}
+        </ThemeProvider>
       </div>
     </>
   );
