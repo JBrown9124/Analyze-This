@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.views.decorators.cache import cache_page
 from .firestore import db
 import json
 from .ResponseModels.help import Help
@@ -31,6 +32,7 @@ def index(request):
 
 
 @csrf_exempt
+@cache_page(60 * 15)
 def analyze(request):
     # register user
     if request.method == 'POST':
@@ -60,7 +62,7 @@ def analyze(request):
         for key, value in potential_causes.items():
             collections = db.collection(
                 'conflict_resources').document(key).get()
-            help_response.resources.extend([{"name": name, "url": url}
+            help_response.resources.extend([{"name": name, "url": url, "type": key}
                                             for name, url in collections._data.items()])
         response = help_response.to_dict()
         # doc_ref.set(User(json_data['name'], user_id, json_data['location'], conflict.to_dict()).to_dict())

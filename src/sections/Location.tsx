@@ -58,12 +58,9 @@ export default function Location({ handleLocation, clickBack }: Props) {
     getPlacePredictions,
     isPlacePredictionsLoading,
   }: PlaceProps = useGoogle({
-    
     sessionToken: true,
     apiKey: api,
     options: {
-
-   
       componentRestrictions: { country: "us" },
     },
   });
@@ -140,10 +137,8 @@ export default function Location({ handleLocation, clickBack }: Props) {
 
         <Box
           sx={{
-            
             justifyContent: "center",
             textAlign: "center",
-            
           }}
         >
           <IconBoop
@@ -196,10 +191,9 @@ export default function Location({ handleLocation, clickBack }: Props) {
             disablePadding
           >
             {showPlaces &&
-              places.map((item: any,idx) => (
+              places.map((item: any, idx) => (
                 <ListItem
                   button
-                
                   onClick={() => handleLocationSelected(item.description)}
                   key={idx}
                   divider
@@ -210,7 +204,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
               ))}
           </LocationList>
         </Box>
-        <Grid sx={{ padding: "15px"}}>
+        <Grid sx={{ padding: "15px" }}>
           <FeelSafeButton
             sx={{}}
             onClick={() => clickBack()}
@@ -225,4 +219,4 @@ export default function Location({ handleLocation, clickBack }: Props) {
       </Grid>
     </>
   );
-              }
+}

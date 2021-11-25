@@ -23,11 +23,12 @@ interface Props {
   analyzingSlide: ReactNode;
   analysisResultsSlide: ReactNode;
   isClicked: boolean;
+  
   isBackClicked: boolean;
   signedIn: boolean;
-
-  currentSlide: (slide: number) => void;
-  currentSlideCookie: number;
+  setIndex:(index:number)=> void;
+  index:number;
+  
 }
 
 export default function WelcomeTransition({
@@ -44,8 +45,9 @@ export default function WelcomeTransition({
   isClicked = false,
   isBackClicked = false,
   signedIn = false,
-  currentSlide,
-  currentSlideCookie,
+  index = 0,
+  setIndex
+  
 }: Props) {
   const slides: Array<ReactNode> = [
     welcomeSlide,
@@ -68,7 +70,7 @@ export default function WelcomeTransition({
     analysisResultsSlide,
   ];
 
-  const [index, set] = useState(0);
+ 
   const [isCurrentSlide, setIsCurrentSlide] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const transitions = useTransition(index, {
@@ -82,82 +84,84 @@ export default function WelcomeTransition({
   });
  
 
-  // useEffect(() => {
-  //   /* when to allow timed animations for signedIn and !signedIn states*/
-  //   /* timed animations are primarly slides without input required and are meant only for dispaly effect */
-  //   if (!signedIn) {
-  //     if (index < 2 || index === 5 ||index === 8 ) {
-  //       const t = setInterval(() => set((state) => state + 1), 6000);
-
-  //       return () => clearTimeout(t);
-  //     }
-  //   } else if (signedIn) {
-  //     if (index === 0 ||index === 3) {
-  //       const t = setInterval(() => set((state) => state + 1), 6000);
-  //       return () => clearTimeout(t);
-  //     }
-  //   }
-  // }, [index]);
   useEffect(() => {
+    /* when to allow timed animations for signedIn and !signedIn states*/
+    /* timed animations are primarly slides without input required and are meant only for dispaly effect */
+    if (!signedIn) {
+      if (index < 2 || index === 5 ||index === 8 ) {
+        const t = setInterval(() => setIndex(index+1), 6000);
+
+        return () => clearTimeout(t);
+      }
+    } else if (signedIn) {
+      if (index === 0 ||index === 3) {
+        const t = setInterval(() => setIndex(index+1), 6000);
+        return () => clearTimeout(t);
+      }
+    }
+  }, [index]);
+  useEffect(() => {
+    if (isClicked){
     /* increment index by 1 if continue is toggled */
     if (!signedIn) {
       if (index >= 2) {
-        set((state) => state + 1);
+        setIndex(index+1);
       }
     } else if (signedIn) {
       if (index >= 0) {
-        set((state) => state + 1);
+        setIndex(index+1);
       }
-    }
+    }}
   }, [isClicked]);
   useEffect(() => {
     /* to skip timed animations when they  select back button*/
+    if (isBackClicked){
     if (!signedIn) {
       if (index === 2) {
-        set((state) => state - 2);
+        setIndex(index-2);
       }
       if (index >= 3) {
-        set((state) => state - 1);
+        setIndex(index - 1);
       }
       if (index === 6) {
-        set((state) => state - 1);
+        setIndex(index - 1);
       }
     } else if (signedIn) {
-      set((state) => state - 1);
-    }
+      setIndex(index - 1);
+    }}
   }, [isBackClicked]);
   /* if they sign in or sign out while using the app we set bring them to specific slide*/
 
-  useEffect(() => {
-    // if (signedIn){
-    //   set(0);
-    // }
-    // else if (!signedIn ){
-    //   set(0)
-    // }
-    // const t = setInterval(() => setIsSignedIn(signedIn), 1500);
-    //   return () => clearTimeout(t);
+  // useEffect(() => {
+  //   // if (signedIn){
+  //   //   set(0);
+  //   // }
+  //   // else if (!signedIn ){
+  //   //   set(0)
+  //   // }
+  //   // const t = setInterval(() => setIsSignedIn(signedIn), 1500);
+  //   //   return () => clearTimeout(t);
 
-    function handleLogInLogOut(): Promise<boolean> {
-      if (signedIn) {
-        set(0);
-      } else if (!signedIn) {
-        set(0);
-      }
-      return new Promise((resolve) => {
-        const t = setInterval(() => {
-          resolve(signedIn);
-        }, 1500);
-        return () => clearTimeout(t);
-      });
-    }
+  //   function handleLogInLogOut(): Promise<boolean> {
+  //     if (signedIn) {
+  //       setIndex(0);
+  //     } else if (!signedIn) {
+  //       setIndex(0);
+  //     }
+  //     return new Promise((resolve) => {
+  //       const t = setInterval(() => {
+  //         resolve(signedIn);
+  //       }, 1500);
+  //       return () => clearTimeout(t);
+  //     });
+  //   }
 
-    async function handleSlidesChange() {
-      await handleLogInLogOut().then((response:boolean) => setIsSignedIn(response));
-    }
+  //   async function handleSlidesChange() {
+  //     await handleLogInLogOut().then((response:boolean) => setIsSignedIn(response));
+  //   }
 
-    handleSlidesChange();
-  }, [signedIn]);
+  //   handleSlidesChange();
+  // }, [signedIn]);
   return (
     <>
       {transitions((style, i) => (
@@ -165,8 +169,8 @@ export default function WelcomeTransition({
           className="welcomeTransitionContainer"
           style={{ ...style }}
         >
-          {/* {isSignedIn ? signedInSlides[i] : slides[i]} */}
-          {signedInSlides[4]}
+          {signedIn ? signedInSlides[i] : slides[i]}
+          {/* {signedInSlides[4]} */}
         </animated.div>
       ))}
     </>

@@ -40,17 +40,17 @@ function App() {
     "profileObj",
   ]);
   const [isCookiesEnabled, setIsCookiesEnabled] = useState(false);
+  const [fetchResults, setFetchResults] = useState(false);
   const [sessionData, setSessionData] = useState({
     name: "",
     location: "",
     description: "",
   });
 
-  const [id, setId] = useState<string>("");
   const [signedIn, setSignedIn] = useState<boolean>(false);
   const [results, setResults] = useState<ResultsProps>({
     resources: [{ name: "", url: "" }],
-    location: [{}],
+    facilities: [{}],
     analysisResults: {
       is_suicide: {
         suicide_probability: 0,
@@ -72,98 +72,112 @@ function App() {
 
   const nameChange = (nameInput: string): void => {
     /*Tell welcome transition to go to the next section then set the name input to our name state */
-    setToggleContinue(!toggleContinue);
-    // if (isCookiesEnabled) {
+
     setSessionCookie(
       "profileObj",
       { ...sessionCookie.profileObj, name: nameInput },
       { path: "/" }
     );
-
-    setSessionData({ ...sessionData, name: nameInput });
+    handleContinue();
   };
   const locationChange = (locationInput: string): void => {
-    setToggleContinue(!toggleContinue);
-    // if (isCookiesEnabled) {
+    handleContinue();
+
     setSessionCookie(
       "profileObj",
       { ...sessionCookie.profileObj, location: locationInput },
       { path: "/" }
     );
-
-    setSessionData({ ...sessionData, location: locationInput });
   };
   const descriptionChange = (descriptionInput: string): void => {
-    setToggleContinue(!toggleContinue);
-    // if (isCookiesEnabled) {
+    handleContinue();
+
     setSessionCookie(
       "profileObj",
       { ...sessionCookie.profileObj, description: descriptionInput },
       { path: "/" }
     );
-    // } else {
-    setSessionData({ ...sessionData, description: descriptionInput });
+    setFetchResults(true);
   };
-  const slideChange = (index: number): void => {
-    // if (isCookiesEnabled){
+  const indexChange = (indexValue: number): void => {
     setSessionCookie(
       "profileObj",
-      { ...sessionCookie.profileObj, currentSlide: index },
+      { ...sessionCookie.profileObj, index: indexValue },
       { path: "/" }
     );
   };
   const handleSignInData = (
     data: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): void => {
+  ) => {
     if ("profileObj" in data) {
       setSessionCookie(
         "profileObj",
-        { ...sessionCookie.profileObj, ...data.profileObj },
+        { ...sessionCookie.profileObj, ...data.profileObj, index: 0 },
         { path: "/" }
       );
-
-      // setId(data.id);
       setSignedIn(true);
     }
   };
   const handleLogOut = () => {
-    // setSessionCookie("profileObj", delete sessionCookie['profileObj'], { path: "/" });
     removeSessionCookie("profileObj");
+
     setSignedIn(false);
-    setId("");
-    setSessionData({ name: "", location: "", description: "" });
   };
   useEffect(() => {
     if (
-      sessionCookie.profileObj !== null &&
-      sessionCookie.profileObj !== undefined
+      sessionCookie?.profileObj?.name !== null &&
+      sessionCookie?.profileObj?.name !== undefined
     ) {
-      setSessionData({ ...sessionData, name: sessionCookie.profileObj.name });
-      setId(sessionCookie.profileObj.googleId);
       setSignedIn(true);
       // setIsCookiesEnabled(true);
     }
   }, [signedIn]);
   /* if the length of description changes we can say that the user has completed the entire form and we can send location, name, description data to our database. */
   useEffect(() => {
-    const handleData = (): void => {
-      axios
-        .post<ResultsProps>("http://127.0.0.1:8000/helpapp/user", sessionData)
-        .then((response: AxiosResponse<ResultsProps>) => {
-          setResults(response.data);
-          setSessionCookie(
-            "profileObj",
-            { ...sessionCookie.profileObj, results: response.data },
-            { path: "/" }
-          );
-        });
-    };
+    if (sessionCookie.profileObj.description !== undefined) {
+      const reqBody = {
+        description: sessionCookie?.profileObj?.description,
+        location: sessionCookie?.profileObj?.location,
+        name: sessionCookie?.profileObj?.name,
+      };
+      const analyzeData = async (body: Object) => {
+        const { data } = await axios.post<ResultsProps>(
+          "http://127.0.0.1:8000/helpapp/analyze",
+          body
+        );
+        return data;
+      };
+      const storeData = async () => {
+        const data = await analyzeData(reqBody);
 
-    if (sessionData.description.length > 0) {
-      handleData();
+        await setResults(data);
+      };
+
+      storeData();
     }
-  }, [sessionData.description]);
-
+  }, [fetchResults]);
+  const handleBack = () => {
+    const backTrigger = async () => {
+      setToggleBack(true);
+      return false;
+    };
+    const backUntrigger = async () => {
+      const { data }: any = await backTrigger();
+      setToggleBack(data);
+    };
+    return backUntrigger();
+  };
+  const handleContinue = () => {
+    const continueTrigger = async () => {
+      setToggleContinue(true);
+      return false;
+    };
+    const continueUntrigger = async () => {
+      const { data }: any = await continueTrigger();
+      setToggleContinue(data);
+    };
+    return continueUntrigger();
+  };
   return (
     <>
       <div
@@ -180,8 +194,8 @@ function App() {
           <NavBar signedIn={signedIn} handleLogOut={handleLogOut} />
 
           <WelcomeTransition
-            currentSlideCookie={sessionCookie?.profileObj?.currentSlide}
-            currentSlide={(index) => slideChange(index)}
+            index={sessionCookie?.profileObj?.index}
+            setIndex={(props) => indexChange(props)}
             // handleName={(props:string)=>setName(props)}
             isBackClicked={toggleBack}
             isClicked={toggleContinue}
@@ -190,15 +204,15 @@ function App() {
             goSafeSlide={<GoSafe />}
             feelSafeSlide={
               <FeelSafe
-                clickBack={() => setToggleBack(!toggleBack)}
-                clickContinue={() => setToggleContinue(!toggleContinue)}
+                clickBack={() => handleBack()}
+                clickContinue={() => handleContinue()}
               />
             }
             signInSlide={
               <SignIn
                 signInData={(data) => handleSignInData(data)}
-                clickBack={() => setToggleBack(!toggleBack)}
-                clickContinue={() => setToggleContinue(!toggleContinue)}
+                clickBack={() => handleBack()}
+                clickContinue={() => handleContinue()}
               />
             }
             nameSlide={
@@ -207,16 +221,16 @@ function App() {
                 handleName={(props) => nameChange(props)}
               />
             }
-            helloSlide={<Hello name={sessionData.name} />}
+            helloSlide={<Hello name={sessionCookie?.profileObj?.name} />}
             locationSlide={
               <Location
                 handleLocation={(props) => locationChange(props)}
-                clickBack={() => setToggleBack(!toggleBack)}
+                clickBack={() => handleBack()}
               />
             }
             analysisSlide={
               <Analysis
-                clickBack={() => setToggleBack(!toggleBack)}
+                clickBack={() => handleBack()}
                 handleDescription={(props) => descriptionChange(props)}
               />
             }

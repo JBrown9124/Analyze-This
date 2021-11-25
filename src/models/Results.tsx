@@ -1,6 +1,6 @@
 export interface ResultsProps {
   resources: [{name:string, url:string}];
-  location: Array<Object>;
+  facilities: Array<Object>;
   analysisResults: {
     is_suicide: {
       suicide_probability: number;

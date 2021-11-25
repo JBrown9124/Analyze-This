@@ -14,7 +14,7 @@ interface Props {
   results: ResultsProps;
 }
 export default function AnalysisResults({ results }: Props) {
-  const { analysisResults, description, resources, location } = results;
+  const { analysisResults, description, resources, facilities } = results;
   const { is_danger, is_suicide, potential_causes } = analysisResults;
   return (
     <>
@@ -50,7 +50,7 @@ export default function AnalysisResults({ results }: Props) {
             width: "50%",
           }}
         >
-          <Facilities/>
+          <Facilities facilities={facilities}/>
         </Grid>
       </Grid>
     </>
