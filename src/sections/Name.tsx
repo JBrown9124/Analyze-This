@@ -7,31 +7,21 @@ import useOnClickOutside from "../hooks/useOnClickOutside";
 import { styled } from "@mui/material/styles";
 import CustomTextField from "../components/CustomTextField";
 import Box from "@mui/material/Box";
-
+import IconBoop from "../animators/IconBoop";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
+const NameIcon = styled(AccountCircle)(
+  ({ theme, clickedBox, isError, primaryColor }: any) => ({
+    color: isError ? "red" : primaryColor,
 
-const NameTextField = styled(TextField)({
-  "& label.Mui-focused": {
-    color: "green",
-  },
-  "& .MuiInput-underline:after": {
-    borderBottomColor: "green",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "red",
-    },
-    "&:hover fieldset": {
-      borderColor: "yellow",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "green",
-    },
-  },
-});
+    [theme.breakpoints.up("md")]: {},
+    // { marginRight: 6, marginTop: 20, marginBottom: 2.5},
+    [theme.breakpoints.down("md")]: { height: "14px" },
+    //  marginRight: -3, marginTop: 23,  },
+  })
+);
 
 interface Props {
   handleName: (props: string) => void;
@@ -40,10 +30,11 @@ interface Props {
 
 export default function Name({ handleName, clickBack }: Props) {
   const ref = useRef<any>();
-  useOnClickOutside(ref, () => setClickedBox(false));
+  useOnClickOutside(ref, () => handleClickOutside());
   const [name, setName] = useState("");
   const [isError, setIsError] = useState(false);
   const [clickedBox, setClickedBox] = useState(false);
+
   const handleSubmit = (): void => {
     if (name.length > 0) {
       handleName(name);
@@ -52,7 +43,17 @@ export default function Name({ handleName, clickBack }: Props) {
       setIsError(true);
     }
   };
+  const handleClickInside = (): void => {
+    setClickedBox(true);
 
+    setIsError(false);
+  };
+  const handleClickOutside = (): void => {
+    setClickedBox(false);
+  };
+  const handleNameChange = (e: string) => {
+    setName(e);
+  };
   return (
     <>
       <Grid
@@ -79,18 +80,30 @@ export default function Name({ handleName, clickBack }: Props) {
         </Typography>
 
         <Box sx={{ marginTop: "30px", justifyContent: "center" }}>
-          <AccountCircle
-            sx={{
-              color:
-                clickedBox === true ? green[600] : isError ? "red" : "black",
-              mr: 1,
-              my: 2.5,
-            }}
-          />
-          <NameTextField
+          <IconBoop
+            x={0}
+            isBooped={clickedBox || name.length > 0 || isError}
+            beforeColor={""}
+            afterColor={""}
+            y={-4}
+            rotation={name.length > 0 ? 720 : 0}
+            scale={isError ? 0 : 1}
+          >
+            <NameIcon
+              sx={{ mr: 1, my: 2.5 }}
+              clickedBox={clickedBox}
+              isError={isError}
+              primaryColor={
+                name.length > 0 ? "green" : clickedBox ? "blue" : "black"
+              }
+            />
+          </IconBoop>
+          <CustomTextField
             error={isError}
-            onClick={() => setIsError(false)}
+            onFocus={() => handleClickInside()}
+            onClick={() => handleClickInside()}
             inputRef={ref}
+            isSuccess={name.length > 0}
             onKeyPress={(ev: React.KeyboardEvent<HTMLInputElement>) => {
               console.log(`Pressed keyCode ${ev.key}`);
               if (ev.key === "Enter") {
@@ -101,23 +114,19 @@ export default function Name({ handleName, clickBack }: Props) {
             id="input-with-sx"
             label="Your name"
             variant="standard"
-            onFocus={() => setClickedBox(true)}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleNameChange(e.target.value)
+            }
           />
         </Box>
 
         <Grid sx={{ padding: "15px" }}>
+          <FeelSafeButton sx="" onClick={() => clickBack()} message={"Back"} />
           <FeelSafeButton
             sx={{ marginLeft: "1vw" }}
             onClick={() => handleSubmit()}
             message={"Continue"}
-          />
-
-          <FeelSafeButton
-            sx={{ marginLeft: "1vw" }}
-            onClick={() => clickBack()}
-            message={"Back"}
           />
         </Grid>
       </Grid>

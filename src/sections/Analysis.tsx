@@ -42,7 +42,7 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: "translate(-50%, 50%)",
+          transform: "translate(-50%, 100%)",
         }}
         direction="column"
       >
@@ -69,7 +69,7 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
         />
         <Grid item sx={{ padding: "15px"}}>
           <FeelSafeButton
-            sx={{ marginLeft: "1vw" }}
+            sx=""
             onClick={() => clickBack()}
             message={"Back"}
           />

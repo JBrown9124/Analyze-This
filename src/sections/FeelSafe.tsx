@@ -34,16 +34,15 @@ export default function FeelSafe({ clickContinue, clickBack }: Props) {
           Do you feel safe enough to continue?
         </Typography>
         <Grid sx={{ padding: "15px" }}>
-          <FeelSafeButton
-            sx=""
-            onClick={() => clickContinue()}
-            message="Yes"
-          />
-
-          <FeelSafeButton
-            sx={{ marginLeft: "1vw" }}
+        <FeelSafeButton
+           sx=""
             onClick={() => clickBack()}
             message="Back"
+          />
+            <FeelSafeButton
+            sx={{ marginLeft: "1vw" }}
+            onClick={() => clickContinue()}
+            message="Yes"
           />
         </Grid>
       </Grid>

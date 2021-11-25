@@ -1,14 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import "./sections/Welcome.css";
-import "./sections/FeelSafe.css";
-import "./sections/Analysis.css";
-import "./sections/GoSafe.css";
-import "./sections/Hello.css";
-import "./sections/Location.css";
-import "./sections/Name.css";
-import "./sections/SignIn.css";
+
 import "./animators/WelcomeTransition.css";
 import { ResultsProps } from "./models/Results";
 import AnalysisResults from "./sections/AnalysisResults";

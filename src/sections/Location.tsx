@@ -122,7 +122,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: "translate(-50%, 250%)",
+          transform: "translate(-50%, 150%)",
         }}
         container
         direction="column"
