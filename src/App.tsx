@@ -26,6 +26,7 @@ import NavBar from "./components/NavBar";
 import { useCookies } from "react-cookie";
 import { ThemeProvider } from "@mui/material/styles";
 import Analyzing from "./sections/Analyzing";
+import Grid from "@mui/material/Grid";
 
 import theme from "./themes/theme";
 import EnableCookies from "./components/EnableCookies";
@@ -39,14 +40,7 @@ function App() {
   const [sessionCookie, setSessionCookie, removeSessionCookie] = useCookies([
     "profileObj",
   ]);
-  const [isCookiesEnabled, setIsCookiesEnabled] = useState(false);
   const [fetchResults, setFetchResults] = useState(false);
-  const [sessionData, setSessionData] = useState({
-    name: "",
-    location: "",
-    description: "",
-  });
-
   const [signedIn, setSignedIn] = useState<boolean>(false);
   const [results, setResults] = useState<ResultsProps>({
     resources: [{ name: "", url: "" }],
@@ -134,7 +128,7 @@ function App() {
   }, [signedIn]);
   /* if the length of description changes we can say that the user has completed the entire form and we can send location, name, description data to our database. */
   useEffect(() => {
-    if (sessionCookie.profileObj.description !== undefined) {
+    if (sessionCookie.profileObj?.description !== undefined) {
       const reqBody = {
         description: sessionCookie?.profileObj?.description,
         location: sessionCookie?.profileObj?.location,
@@ -150,7 +144,7 @@ function App() {
       const storeData = async () => {
         const data = await analyzeData(reqBody);
 
-        await setResults(data);
+        setResults(data);
       };
 
       storeData();
@@ -180,8 +174,8 @@ function App() {
   };
   return (
     <>
-      <div
-        style={{
+      <Grid
+        sx={{
           position: "fixed",
           top: 0,
           left: 0,
@@ -189,6 +183,7 @@ function App() {
           height: "100%",
           background: "#009688",
         }}
+        container
       >
         <ThemeProvider theme={theme}>
           <NavBar signedIn={signedIn} handleLogOut={handleLogOut} />
@@ -217,7 +212,7 @@ function App() {
             }
             nameSlide={
               <Name
-                clickBack={() => setToggleBack(!toggleBack)}
+                clickBack={() => handleBack()}
                 handleName={(props) => nameChange(props)}
               />
             }
@@ -247,7 +242,7 @@ function App() {
           />
           {/* <EnableCookies isCookiesEnabled={(props) => handleCookieEnabled(props)} /> */}
         </ThemeProvider>
-      </div>
+      </Grid>
     </>
   );
 }

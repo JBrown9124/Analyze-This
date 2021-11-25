@@ -7,6 +7,7 @@ import GoogleLogin, {
   GoogleLoginResponseOffline,
 } from "react-google-login";
 import clientID from "../services/clientID";
+import Grid from "@mui/material/Grid";
 
 import FeelSafeButton from "../components/FeelSafeButton";
 interface Props {
@@ -19,22 +20,6 @@ export default function SignIn({
   clickBack,
   signInData,
 }: Props) {
-  const [clicked, setClicked] = useState<boolean>(false);
-  const [response, setResponse] = useState<object>();
-  const [name, setName] = useState<string>("");
-  const [id, setId] = useState<string>("");
-  // const handleSignIn = ():void =>{
-  //   const data = {name: name, id:id}
-
-  // }
-  // useEffect(()=>{
-  //   if (name.length>0){
-  //   handleSignIn();
-  //   return()=>{
-  //     setName("");
-  //     setId("");
-  //   }}
-  // }, [id])
   const responseGoogle = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ): void => {
@@ -63,24 +48,50 @@ export default function SignIn({
   };
   return (
     <>
-  
-        <Typography variant="h3">Would you like to sign in?</Typography>
-        <GoogleLogin
-          clientId={clientID}
-          buttonText="Sign in with Google"
-          onSuccess={responseGoogle}
-          onFailure={error}
-          onRequest={loading}
-          isSignedIn={false}
-          style={{ backgroundColor: "blue" }}
-          className="googleButton"
-          cookiePolicy={"single_host_origin"}
-        />
-        <div className="feelSafeButton">
-          <FeelSafeButton        sx={{marginLeft:"1vw"}}onClick={() => clickBack()} message="Back" />
-          <FeelSafeButton        sx={{marginLeft:"1vw"}}onClick={() => clickContinue()} message="No thanks" />
-        </div>
-   
+      <Grid
+        sx={{
+          boxShadow:
+            "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+          background: "white!important",
+          borderRadius: "5px",
+          width: "50%",
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, 150%)",
+        }}
+        container
+        direction="column"
+      >
+        <Typography variant="h3" sx={{ borderRadius: "5px", padding: "15px" }}>
+          Would you like to sign in?
+        </Typography>
+        <Grid sx={{ borderRadius: "5px", padding: "15px" }}>
+          <GoogleLogin
+            clientId={clientID}
+            buttonText="Sign in with Google"
+            onSuccess={responseGoogle}
+            onFailure={error}
+            onRequest={loading}
+            isSignedIn={false}
+            style={{ backgroundColor: "blue" }}
+           
+            cookiePolicy={"single_host_origin"}
+          />
+        </Grid>
+        <Grid sx={{ borderRadius: "5px", padding: "15px" }}>
+          <FeelSafeButton
+            sx={{ marginLeft: "1vw" }}
+            onClick={() => clickBack()}
+            message="Back"
+          />
+          <FeelSafeButton
+            sx={{ marginLeft: "1vw" }}
+            onClick={() => clickContinue()}
+            message="No thanks"
+          />
+        </Grid>
+      </Grid>
     </>
   );
 }

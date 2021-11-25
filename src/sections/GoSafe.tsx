@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
-import FeelSafeButton from "../components/FeelSafeButton";
-import WelcomeTransition from "../animators/WelcomeTransition";
-import FeelSafe from "./FeelSafe";
-import Name from "./Name";
-import SignIn from "./SignIn";
-export default function GoSafe(props: any) {
+export default function GoSafe() {
   const [introText, setIntroText] = useState([
     "Welcome",
     "Please find a safe location",
@@ -14,11 +10,24 @@ export default function GoSafe(props: any) {
 
   return (
     <>
-   
-        <Typography variant="h1">
+      <Grid
+          sx={{
+            
+            
+        
+            
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, 100%)",
+          }}
+          container
+          direction="column"
+      >
+        <Typography variant="h1" >
           Please go to the safest location available to you before continuing.
         </Typography>
- 
+      </Grid>
     </>
   );
 }

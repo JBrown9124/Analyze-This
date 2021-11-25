@@ -1,6 +1,6 @@
 import React, { ReactNode, Ref, useEffect, useRef, useState } from "react";
 import Typography from "@mui/material/Typography";
-import LocationTextField from "../components/LocationTextField";
+import CustomTextField from "../components/CustomTextField";
 import FeelSafeButton from "../components/FeelSafeButton";
 import { alpha, styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -122,7 +122,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: "translate(-50%, 100%)",
+          transform: "translate(-50%, 250%)",
         }}
         container
         direction="column"
@@ -159,7 +159,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
               primaryColor={primaryColor}
             />
           </IconBoop>
-          <LocationTextField
+          <CustomTextField
             onFocus={() => handleClickInside()}
             isSuccess={isSuccess}
             ref={clickRef}

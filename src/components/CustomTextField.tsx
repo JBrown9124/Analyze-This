@@ -1,6 +1,6 @@
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { alpha, styled } from "@mui/material/styles";
-const LocationTextField = styled(TextField)(({ theme, isSuccess }: any) => ({
+const CustomTextField = styled(TextField)(({ theme, isSuccess }: any) => ({
     "& .MuiInput-underline:before": {
       borderBottomColor: isSuccess ? "green" : "black"
     },
@@ -24,4 +24,4 @@ const LocationTextField = styled(TextField)(({ theme, isSuccess }: any) => ({
     },
   }));
 
-export default LocationTextField;
+export default CustomTextField;
