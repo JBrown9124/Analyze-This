@@ -81,7 +81,7 @@ export default function SignIn({
         </Grid>
         <Grid sx={{ borderRadius: "5px", padding: "15px" }}>
           <FeelSafeButton
-            sx={{ marginLeft: "1vw" }}
+            sx=""
             onClick={() => clickBack()}
             message="Back"
           />

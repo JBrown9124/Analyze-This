@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { useTransition, animated, config } from "react-spring";
 
-
 interface Props {
   welcomeSlide: ReactNode;
   goSafeSlide: ReactNode;
@@ -65,7 +64,6 @@ export default function WelcomeTransition({
     analysisResultsSlide,
   ];
 
-  
   const transitions = useTransition(index, {
     key: index,
     from: { opacity: 0 },
@@ -75,18 +73,18 @@ export default function WelcomeTransition({
     config: { tension: 280, friction: 80 },
     trail: 1500,
   });
-  const [isSignedIn, setIsSignedIn] = useState(false)
+  const [isSignedIn, setIsSignedIn] = useState(false);
   useEffect(() => {
     /* when to allow timed animations for signedIn and !signedIn states*/
     /* timed animations are primarly slides without input required and are meant only for dispaly effect */
     if (!signedIn) {
-      if (index < 2 || index === 5 || index === 8) {
+      if (index < 2 || slides[index] === helloSlide ) {
         const t = setInterval(() => setIndex(index + 1), 6000);
 
         return () => clearTimeout(t);
       }
     } else if (signedIn) {
-      if (index === 0 || index === 3) {
+      if (signedInSlides[index] === helloSlide) {
         const t = setInterval(() => setIndex(index + 1), 6000);
         return () => clearTimeout(t);
       }
@@ -100,7 +98,7 @@ export default function WelcomeTransition({
           setIndex(index + 1);
         }
       } else if (signedIn) {
-        if (index >= 0) {
+        if (index >= 0 && index!==signedInSlides.length - 1) {
           setIndex(index + 1);
         }
       }
@@ -124,17 +122,15 @@ export default function WelcomeTransition({
       }
     }
   }, [isBackClicked]);
-  useEffect(()=>{
-    if (signedIn) {
-      const t = setInterval(()=>setIsSignedIn(true), 1500)
-      return(()=>clearInterval(t))
-    
-    }
-    else if (!signedIn){
-      const t = setInterval(()=>setIsSignedIn(false), 1500)
-      return(()=>clearInterval(t))
-    }
-  },[signedIn])
+  // useEffect(() => {
+  //   if (signedIn) {
+  //     const t = setInterval(() => setIsSignedIn(true), 1500);
+  //     return () => clearInterval(t);
+  //   } else if (!signedIn) {
+  //     const t = setInterval(() => setIsSignedIn(false), 1500);
+  //     return () => clearInterval(t);
+  //   }
+  // }, [signedIn]);
   return (
     <>
       {transitions((style, i) => (
@@ -142,7 +138,7 @@ export default function WelcomeTransition({
           className="welcomeTransitionContainer"
           style={{ ...style }}
         >
-        {isSignedIn ? signedInSlides[i] : slides[i]}
+          {signedIn ? signedInSlides[i] : slides[i]}
           {/* {signedInSlides[4]} */}
         </animated.div>
       ))}

@@ -33,8 +33,10 @@ function App() {
   const [sessionCookie, setSessionCookie, removeSessionCookie] = useCookies([
     "profileObj",
   ]);
-  const [fetchResults, setFetchResults] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false)
+  const [fetchingResults, setFetchingResults] = useState(false);
+ 
+  
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [results, setResults] = useState<ResultsProps>({
     resources: [{ name: "", url: "" }],
     facilities: [{}],
@@ -68,8 +70,6 @@ function App() {
     handleContinue();
   };
   const locationChange = (locationInput: string): void => {
-    
-
     setSessionCookie(
       "profileObj",
       { ...sessionCookie.profileObj, location: locationInput },
@@ -85,7 +85,7 @@ function App() {
       { ...sessionCookie.profileObj, description: descriptionInput },
       { path: "/" }
     );
-    setFetchResults(true);
+    setFetchingResults(true);
   };
   const indexChange = (indexValue: number): void => {
     setSessionCookie(
@@ -100,15 +100,18 @@ function App() {
     if ("profileObj" in data) {
       setSessionCookie(
         "profileObj",
-        { ...sessionCookie.profileObj, ...data.profileObj, index: 0 },
+        {
+          ...sessionCookie.profileObj,
+          ...data.profileObj,
+          index: 0,
+          signedIn: true,
+        },
         { path: "/" }
       );
-      setIsSignedIn(true)
     }
   };
   const handleLogOut = () => {
     removeSessionCookie("profileObj");
-    setIsSignedIn(false)
   };
 
   /* if the length of description changes we can say that the user has completed the entire form and we can send location, name, description data to our database. */
@@ -124,46 +127,67 @@ function App() {
           "http://127.0.0.1:8000/helpapp/analyze",
           body
         );
+        
         return data;
       };
-      const storeData = async () => {
+      const storeData = async ()  => {
         const data = await analyzeData(reqBody);
 
+        
+       
         setResults(data);
+        await setTimeout(()=>handleContinue(), 1500)
+        
       };
 
       storeData();
+      
     }
-  }, [fetchResults]);
-  const handleBack = ():Promise<void> => {
-    const backTrigger = async ():Promise<boolean> => {
+  }, [fetchingResults]);
+  const handleBack = (): Promise<void> => {
+    const backTrigger = async (): Promise<boolean> => {
       setToggleBack(true);
       return false;
     };
-    const backUntrigger = async ():Promise<void> => {
+    const backUntrigger = async (): Promise<void> => {
       const data: boolean = await backTrigger();
 
       setToggleBack(data);
     };
     return backUntrigger();
   };
-  const handleContinue = ():Promise<void> => {
-    const continueTrigger = async ():Promise<boolean> => {
+  const handleContinue = (): Promise<void> => {
+    const continueTrigger = async (): Promise<boolean> => {
       setToggleContinue(true);
       return false;
     };
-    const continueUntrigger = async ():Promise<void> => {
+    const continueUntrigger = async (): Promise<void> => {
       const data: boolean = await continueTrigger();
       setToggleContinue(data);
     };
     return continueUntrigger();
   };
-  useEffect(() => {
-    if  (sessionCookie?.profileObj?.googleId !== null &&
-    sessionCookie?.profileObj?.googleId !== undefined){
-      setIsSignedIn(true)
-    }
-  },[isSignedIn])
+  // useEffect(() => {
+  //   if  (sessionCookie?.profileObj?.googleId !== null &&
+  //   sessionCookie?.profileObj?.googleId !== undefined){
+  //     setIsSignedIn(true)
+  //   }
+  // },[isSignedIn])
+  const splashScreen = () => {
+    return (
+      <Grid
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: "#009688",
+        }}
+        container
+      ></Grid>
+    );
+  };
   return (
     <>
       <Grid
@@ -180,7 +204,8 @@ function App() {
         <ThemeProvider theme={theme}>
           <NavBar
             signedIn={
-              isSignedIn && sessionCookie?.profileObj?.index >= 1
+              sessionCookie?.profileObj?.signedIn &&
+              sessionCookie?.profileObj?.index >= 1
             }
             handleLogOut={handleLogOut}
           />
@@ -191,9 +216,7 @@ function App() {
             // handleName={(props:string)=>setName(props)}
             isBackClicked={toggleBack}
             isClicked={toggleContinue}
-            signedIn={
-              isSignedIn
-            }
+            signedIn={sessionCookie?.profileObj?.signedIn}
             welcomeSlide={<Welcome />}
             goSafeSlide={<GoSafe />}
             feelSafeSlide={
@@ -228,16 +251,8 @@ function App() {
                 handleDescription={(props) => descriptionChange(props)}
               />
             }
-            analyzingSlide={<Analyzing />}
-            analysisResultsSlide={
-              <AnalysisResults
-                results={
-                  sessionCookie?.profileObj?.results === undefined
-                    ? results
-                    : sessionCookie?.profileObj?.results
-                }
-              />
-            }
+            analyzingSlide={<Analyzing fetchResults={fetchingResults} />}
+            analysisResultsSlide={<AnalysisResults results={results} />}
           />
           {/* <EnableCookies isCookiesEnabled={(props) => handleCookieEnabled(props)} /> */}
         </ThemeProvider>

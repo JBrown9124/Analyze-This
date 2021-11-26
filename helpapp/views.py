@@ -24,6 +24,9 @@ from .Providers.nearest_facilities import NearestFacilities
 import uuid
 import requests
 import json
+from rest_framework.views import APIView
+
+
 
 
 # Create your views here.
@@ -62,8 +65,9 @@ def analyze(request):
         for key, value in potential_causes.items():
             collections = db.collection(
                 'conflict_resources').document(key).get()
-            help_response.resources.extend([{"name": name, "url": url, "type": key}
+            help_response.resources=([{"name": name, "url": url, "type": key}
                                             for name, url in collections._data.items()])
         response = help_response.to_dict()
+       
         # doc_ref.set(User(json_data['name'], user_id, json_data['location'], conflict.to_dict()).to_dict())
         return JsonResponse(response, safe=False)

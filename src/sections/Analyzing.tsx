@@ -10,8 +10,10 @@ import Typography from "@mui/material/Typography";
 import { ResultsProps } from "../models/Results";
 import Grid from "@mui/material/Grid";
 
-
-export default function Analyzing() {
+interface Props{
+  fetchResults:boolean
+}
+export default function Analyzing({fetchResults}:Props) {
   const [index, setIndex] = useState(0);
   const slides = [".", ".", "."];
 
