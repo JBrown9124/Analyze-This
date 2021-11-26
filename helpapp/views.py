@@ -20,7 +20,7 @@ from .ResponseModels.help import Help
 from .ResponseModels.location import Location
 from .ResponseModels.user import User
 from .Providers.analysis import Analysis
-from .Providers.google_maps import GoogleMaps
+from .Providers.nearest_facilities import NearestFacilities
 import uuid
 import requests
 import json
@@ -55,7 +55,7 @@ def analyze(request):
         if analysis_results['is_suicide']['is_suicide']:
             potential_causes['suicide'] = 'suicide'
 
-        closest_three_facilities = GoogleMaps(
+        closest_three_facilities = NearestFacilities(
             location=json_data['location'], potential_causes=potential_causes).obtain_relevent_data()
         help_response = Help(analysis_results=analysis_results, description=json_data['description'], facilities=closest_three_facilities
                              )

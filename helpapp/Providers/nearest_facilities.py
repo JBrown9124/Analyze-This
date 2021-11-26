@@ -4,7 +4,7 @@ from .apikey import api
 from typing import Dict, List, Set
 
 
-class GoogleMaps:
+class NearestFacilities:
     def __init__(self, location: str, potential_causes: Dict[str, str]):
         self.location = location
         self.potential_causes = potential_causes
@@ -32,16 +32,16 @@ class GoogleMaps:
             json_data = r.json()
             map_results = json_data['results']
             if len(map_results) >= 3:
-                map_results[0]['facility_type']=facility_type
-                map_results[1]['facility_type']=facility_type
-                map_results[2]['facility_type']=facility_type
+                map_results[0]['facility_type'] = facility_type
+                map_results[1]['facility_type'] = facility_type
+                map_results[2]['facility_type'] = facility_type
                 closest_three = [
                     map_results[0], map_results[1], map_results[2]]
-                results+=(closest_three)
+                results += (closest_three)
             else:
                 for map_result in map_results:
-                    map_result['facility_type']=facility_type
-                results+=(closest_three)
+                    map_result['facility_type'] = facility_type
+                results += (closest_three)
         return results
 
     def obtain_relevent_data(self):

@@ -13,9 +13,9 @@ interface Props {
 export default function NavBar({ signedIn, handleLogOut }: Props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{background:"#00675b"}}>
+      <AppBar position="static" sx={{background:"transparent", boxShadow:"none"}}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -26,7 +26,7 @@ export default function NavBar({ signedIn, handleLogOut }: Props) {
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
-          </Typography>
+          </Typography> */}
           {signedIn ? (
             <Button color="inherit" onClick={() => signedIn && handleLogOut()}>
               {signedIn ? "Logout" : ""}

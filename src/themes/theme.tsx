@@ -59,7 +59,7 @@ theme.typography.h2 = {
 theme.typography.h1 = {
   fontFamily: "Open Sans, sans-serif",
 
-  color: "black",
+  color: "white",
 
   [theme.breakpoints.up("sm")]: {
     fontSize: "5.8rem",

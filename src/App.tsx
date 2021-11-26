@@ -34,7 +34,7 @@ function App() {
     "profileObj",
   ]);
   const [fetchResults, setFetchResults] = useState(false);
-  const [signedIn, setSignedIn] = useState<boolean>(false);
+  const [isSignedIn, setIsSignedIn] = useState(false)
   const [results, setResults] = useState<ResultsProps>({
     resources: [{ name: "", url: "" }],
     facilities: [{}],
@@ -68,13 +68,14 @@ function App() {
     handleContinue();
   };
   const locationChange = (locationInput: string): void => {
-    handleContinue();
+    
 
     setSessionCookie(
       "profileObj",
       { ...sessionCookie.profileObj, location: locationInput },
       { path: "/" }
     );
+    handleContinue();
   };
   const descriptionChange = (descriptionInput: string): void => {
     handleContinue();
@@ -102,23 +103,14 @@ function App() {
         { ...sessionCookie.profileObj, ...data.profileObj, index: 0 },
         { path: "/" }
       );
-      setSignedIn(true);
+      setIsSignedIn(true)
     }
   };
   const handleLogOut = () => {
     removeSessionCookie("profileObj");
-
-    setSignedIn(false);
+    setIsSignedIn(false)
   };
-  useEffect(() => {
-    if (
-      sessionCookie?.profileObj?.name !== null &&
-      sessionCookie?.profileObj?.name !== undefined
-    ) {
-      setSignedIn(true);
-      // setIsCookiesEnabled(true);
-    }
-  }, [signedIn]);
+
   /* if the length of description changes we can say that the user has completed the entire form and we can send location, name, description data to our database. */
   useEffect(() => {
     if (sessionCookie.profileObj?.description !== undefined) {
@@ -143,28 +135,35 @@ function App() {
       storeData();
     }
   }, [fetchResults]);
-  const handleBack = () => {
-    const backTrigger = async () => {
+  const handleBack = ():Promise<void> => {
+    const backTrigger = async ():Promise<boolean> => {
       setToggleBack(true);
       return false;
     };
-    const backUntrigger = async () => {
-      const { data }: any = await backTrigger();
+    const backUntrigger = async ():Promise<void> => {
+      const data: boolean = await backTrigger();
+
       setToggleBack(data);
     };
     return backUntrigger();
   };
-  const handleContinue = () => {
-    const continueTrigger = async () => {
+  const handleContinue = ():Promise<void> => {
+    const continueTrigger = async ():Promise<boolean> => {
       setToggleContinue(true);
       return false;
     };
-    const continueUntrigger = async () => {
-      const { data }: any = await continueTrigger();
+    const continueUntrigger = async ():Promise<void> => {
+      const data: boolean = await continueTrigger();
       setToggleContinue(data);
     };
     return continueUntrigger();
   };
+  useEffect(() => {
+    if  (sessionCookie?.profileObj?.googleId !== null &&
+    sessionCookie?.profileObj?.googleId !== undefined){
+      setIsSignedIn(true)
+    }
+  },[isSignedIn])
   return (
     <>
       <Grid
@@ -179,7 +178,12 @@ function App() {
         container
       >
         <ThemeProvider theme={theme}>
-          <NavBar signedIn={signedIn} handleLogOut={handleLogOut} />
+          <NavBar
+            signedIn={
+              isSignedIn && sessionCookie?.profileObj?.index >= 1
+            }
+            handleLogOut={handleLogOut}
+          />
 
           <WelcomeTransition
             index={sessionCookie?.profileObj?.index}
@@ -187,7 +191,9 @@ function App() {
             // handleName={(props:string)=>setName(props)}
             isBackClicked={toggleBack}
             isClicked={toggleContinue}
-            signedIn={signedIn}
+            signedIn={
+              isSignedIn
+            }
             welcomeSlide={<Welcome />}
             goSafeSlide={<GoSafe />}
             feelSafeSlide={

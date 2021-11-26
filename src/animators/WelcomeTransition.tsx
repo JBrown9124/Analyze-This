@@ -65,7 +65,7 @@ export default function WelcomeTransition({
     analysisResultsSlide,
   ];
 
-
+  
   const transitions = useTransition(index, {
     key: index,
     from: { opacity: 0 },
@@ -75,7 +75,7 @@ export default function WelcomeTransition({
     config: { tension: 280, friction: 80 },
     trail: 1500,
   });
-
+  const [isSignedIn, setIsSignedIn] = useState(false)
   useEffect(() => {
     /* when to allow timed animations for signedIn and !signedIn states*/
     /* timed animations are primarly slides without input required and are meant only for dispaly effect */
@@ -117,14 +117,24 @@ export default function WelcomeTransition({
           setIndex(index - 1);
         }
         if (index === 6) {
-          setIndex(index - 1);
+          setIndex(index - 2);
         }
       } else if (signedIn) {
         setIndex(index - 1);
       }
     }
   }, [isBackClicked]);
-
+  useEffect(()=>{
+    if (signedIn) {
+      const t = setInterval(()=>setIsSignedIn(true), 1500)
+      return(()=>clearInterval(t))
+    
+    }
+    else if (!signedIn){
+      const t = setInterval(()=>setIsSignedIn(false), 1500)
+      return(()=>clearInterval(t))
+    }
+  },[signedIn])
   return (
     <>
       {transitions((style, i) => (
@@ -132,7 +142,7 @@ export default function WelcomeTransition({
           className="welcomeTransitionContainer"
           style={{ ...style }}
         >
-          {signedIn ? signedInSlides[i] : slides[i]}
+        {isSignedIn ? signedInSlides[i] : slides[i]}
           {/* {signedInSlides[4]} */}
         </animated.div>
       ))}

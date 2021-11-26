@@ -13,7 +13,7 @@ export default function AnalysisResults({ resources }: Props) {
   return (
     <>
   
-        <Typography variant="h1">Resources</Typography>
+        <Typography variant="h3">Resources</Typography>
         {resources.map((resource) => (
           <Typography variant="h3">
             <div>

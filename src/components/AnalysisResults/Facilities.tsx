@@ -21,13 +21,10 @@ const GradesAccordion = styled((props: AccordionProps) => (
   "&:before": { backgroundColor: "white", display: "none" },
 }));
 
-
-
 const GradesAccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   // overflow: "hidden",
   backgroundColor: "white",
 }));
-
 
 const GradesAccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
@@ -52,7 +49,7 @@ const GradesAccordionSummary = styled((props: AccordionSummaryProps) => (
 }));
 
 interface Props {
-  facilities:Array<Object>;
+  facilities: Array<Object>;
 }
 export default function Facilities({ facilities }: Props) {
   function openInNewTab(url: string) {
@@ -61,25 +58,17 @@ export default function Facilities({ facilities }: Props) {
   }
   return (
     <>
-  <Grid container direction="column">
-        <Typography variant="h1">Facilities</Typography>
-        {facilities.map((facility:any) => (
+      <Grid container direction="column">
+        <Typography variant="h3">Facilities</Typography>
+        {facilities.map((facility: any) => (
           <GradesAccordion>
-              <GradesAccordionSummary>
-          <Typography variant="h3">
-            
-            
-               
-                {facility.name}
-     
-    
-          </Typography>
-           </GradesAccordionSummary>
-           <GradesAccordionDetails>
-          </GradesAccordionDetails>
+            <GradesAccordionSummary>
+              <Typography variant="h3">{facility.name}</Typography>
+            </GradesAccordionSummary>
+            <GradesAccordionDetails></GradesAccordionDetails>
           </GradesAccordion>
         ))}
-  </Grid>
+      </Grid>
     </>
   );
 }

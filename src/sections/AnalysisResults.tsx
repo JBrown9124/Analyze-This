@@ -18,10 +18,9 @@ export default function AnalysisResults({ results }: Props) {
   const { is_danger, is_suicide, potential_causes } = analysisResults;
   return (
     <>
-      <Typography variant="h1">
-        {is_suicide.suicide_probability * 100 + "%"}
-      </Typography>
-      <Grid container columns={16} spacing={2}>
+     
+      <Grid container sx={{marginTop:"50px"}}columns={16} spacing={2} >
+        
         <Grid item xs={16}>
           <Typography variant="h1">Results</Typography>
         </Grid>
@@ -32,6 +31,7 @@ export default function AnalysisResults({ results }: Props) {
             background: "white!important",
             borderRadius: "5px",
             width: "50%",
+            
           }}
           item
           xs={8}
@@ -50,7 +50,7 @@ export default function AnalysisResults({ results }: Props) {
             width: "50%",
           }}
         >
-          <Facilities facilities={facilities}/>
+          <Facilities facilities={facilities} />
         </Grid>
       </Grid>
     </>
