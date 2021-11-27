@@ -27,47 +27,42 @@ import json
 from rest_framework.views import APIView
 
 
-
-
 # Create your views here.
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
-@csrf_exempt
-@cache_page(60 * 15)
-def analyze(request):
-    # register user
-    if request.method == 'POST':
-        # enter your api key here
+class Analyze(APIView):
 
-        # url variable store url
+    def post(self, request):
 
-        json_data = json.loads(request.body)
+        try:
 
-        # user_id = str(uuid.uuid4())
-        # doc_ref = db.collection(u'user').document()
+            body = request.data
+            description = body.get('description')
+            location = body.get('location')
 
-        analysis = Analysis(description=json_data['description'])
-        analysis_results = analysis.results()
+            analysis_results = Analysis(
+                description=description).results()
 
-        potential_causes = analysis_results['potential_causes']
+            potential_causes = analysis_results['potential_causes']
 
-        if analysis_results['is_danger']['is_danger']:
-            potential_causes['is_danger'] = 'is_danger'
-        if analysis_results['is_suicide']['is_suicide']:
-            potential_causes['suicide'] = 'suicide'
+            closest_three_facilities = NearestFacilities(
+                location=location, potential_causes=potential_causes).obtain_relevent_data()
 
-        closest_three_facilities = NearestFacilities(
-            location=json_data['location'], potential_causes=potential_causes).obtain_relevent_data()
-        help_response = Help(analysis_results=analysis_results, description=json_data['description'], facilities=closest_three_facilities
-                             )
-        for key, value in potential_causes.items():
-            collections = db.collection(
-                'conflict_resources').document(key).get()
-            help_response.resources=([{"name": name, "url": url, "type": key}
-                                            for name, url in collections._data.items()])
-        response = help_response.to_dict()
-       
-        # doc_ref.set(User(json_data['name'], user_id, json_data['location'], conflict.to_dict()).to_dict())
-        return JsonResponse(response, safe=False)
+            help_response = Help(analysis_results=analysis_results, description=description, facilities=closest_three_facilities
+                                 )
+
+            for key, value in potential_causes.items():
+                if value:
+                    collections = db.collection(
+                        'conflict_resources').document(key).get()
+                    help_response.resources = ([{"name": name, "url": url, "type": key}
+                                                for name, url in collections._data.items()])
+
+            response = help_response.to_dict()
+
+            return JsonResponse(response)
+
+        except Exception as e:
+            HttpResponseServerError()

@@ -14,13 +14,9 @@ class NearestFacilities:
     def get_facility_type(self) -> Set[str]:
         
         facility_types = set()
-
-        if "danger" in self.potential_causes:
-            facility_types.add("anger managment")
-        if "suicide" in self.potential_causes:
-            facility_types.add("suicide support")
-        if "addiction" in self.potential_causes:
-            facility_types.add("addiction")
+        for key, value in self.potential_causes.items():
+            if value:
+                facility_types.add(key + " " + "support")
         
         return facility_types
 

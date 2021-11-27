@@ -1,16 +1,16 @@
-import sys
-sys.path.append("C:\\Users\\Jonathan\\Documents\\My_Workspaces\\new_project\\helpapp")
-from WordData.suicide_words import suicide_words
-from WordData.others_danger_context import others_danger_context
-from WordData.people_synonyms_pronouns import people_synonyms_pronouns
-from WordData.suicide_words_context import suicide_words_context
-from WordData.first_person_pronouns import first_person_pronouns
-from WordData.conflict_type import conflict_type
-from WordData.life_death_synonyms import life_death_synonyms
-import re
-
-from spellchecker import SpellChecker
 from typing import List, Dict
+from spellchecker import SpellChecker
+import re
+import sys
+sys.path.append(
+    "C:\\Users\\Jonathan\\Documents\\My_Workspaces\\new_project\\helpapp")
+from WordData.life_death_synonyms import life_death_synonyms
+from WordData.conflict_type import conflict_type
+from WordData.first_person_pronouns import first_person_pronouns
+from WordData.suicide_words_context import suicide_words_context
+from WordData.people_synonyms_pronouns import people_synonyms_pronouns
+from WordData.others_danger_context import others_danger_context
+from WordData.suicide_words import suicide_words
 
 
 
@@ -18,7 +18,7 @@ from typing import List, Dict
 class Analysis(object):
     def __init__(self, description: str):
         self.description = description
-
+        self.potential_causes = {}
         # self.results = {"suicidal":self.is_suicide(),"others_danger":self.others_danger(), "self_danger":self.self_danger(), "type":self.find_type(), "description":self.description}
 
     def __iter__(self) -> List[str]:
@@ -154,6 +154,7 @@ class Analysis(object):
                     suicide_mentioned += 1
         suicide_results = {'suicide_probability': suicide_probability if suicide_probability <
                            1.00 else 1.00, 'is_suicide': suicide_probability >= .75, 'suicide_mentioned': suicide_mentioned}
+        self.potential_causes["suicide"]="suicide" if suicide_probability >= .75 else None
         return suicide_results
 
     def is_danger(self):
@@ -253,31 +254,26 @@ class Analysis(object):
             #         suicide_mentioned += 1
         danger_results = {'danger_probability': danger_probability if danger_probability <
                           1.00 else 1.00, 'is_danger': danger_probability >= .75, 'danger_mentioned': danger_mentioned}
+        self.potential_causes["anger"]="anger" if danger_probability >= .75 else None
         return danger_results
-
-    def self_danger(self):
-        # comapre dict values to the string to see if there are words
-        # associated to high levels of danger to self.
-
-        # check for nouns related to self, check for nouns related to others
-        pass
 
     def find_causes(self) -> List[str]:
         # compare dict values to the string to see what type of conflict the
         # person is dealing with.
 
-        potential_causes: set[str] = {}
+        
         for words in self:
 
-            if words[0] in conflict_type and words[0] not in potential_causes:
+            if words[0] in conflict_type and words[0] not in self.potential_causes:
 
-                potential_causes[conflict_type[words[0]]] = words[0]
+                self.potential_causes[conflict_type[words[0]]] = words[0]
 
-            if len(words) >= 2 and words[1] in conflict_type and words[1] not in potential_causes:
-                potential_causes[conflict_type[words[1]]] = words[1]
-            if len(words) >= 3 and words[2] in conflict_type and words[2] not in potential_causes:
-                potential_causes[conflict_type[words[2]]] = words[2]
-        return potential_causes
+            if len(words) >= 2 and words[1] in conflict_type and words[1] not in self.potential_causes:
+                self.potential_causes[conflict_type[words[1]]] = words[1]
+            if len(words) >= 3 and words[2] in conflict_type and words[2] not in self.potential_causes:
+                self.potential_causes[conflict_type[words[2]]] = words[2]
+        
+        return self.potential_causes
 
     def results(self) -> Dict:
         results = {'is_suicide': self.is_suicide(), 'is_danger': self.is_danger(
