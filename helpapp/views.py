@@ -21,6 +21,7 @@ from .ResponseModels.location import Location
 from .ResponseModels.user import User
 from .Providers.analysis import Analysis
 from .Providers.nearest_facilities import NearestFacilities
+from .Providers.obtain_cause_resources import obtain_cause_resources
 import uuid
 import requests
 import json
@@ -36,7 +37,7 @@ class Analyze(APIView):
 
     def post(self, request):
 
-        try:
+        # try:
 
             body = request.data
             description = body.get('description')
@@ -53,16 +54,13 @@ class Analyze(APIView):
             help_response = Help(analysis_results=analysis_results, description=description, facilities=closest_three_facilities
                                  )
 
-            for key, value in potential_causes.items():
-                if value:
-                    collections = db.collection(
-                        'conflict_resources').document(key).get()
-                    help_response.resources = ([{"name": name, "url": url, "type": key}
-                                                for name, url in collections._data.items()])
+            resources_response = obtain_cause_resources(potential_causes)
+            
+            help_response.resources = resources_response.data
 
             response = help_response.to_dict()
 
             return JsonResponse(response)
 
-        except Exception as e:
-            HttpResponseServerError()
+        # except Exception as e:
+        #     return HttpResponseServerError()

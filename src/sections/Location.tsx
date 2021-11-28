@@ -48,16 +48,12 @@ export default function Location({ handleLocation, clickBack }: Props) {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const [isError, setIsError] = useState(false);
-  interface PlaceProps {
-    placePredictions: Array<Object>;
-    getPlacePredictions: (arg0: Object) => void;
-    isPlacePredictionsLoading: boolean;
-  }
+  
   const {
     placePredictions,
     getPlacePredictions,
     isPlacePredictionsLoading,
-  }: PlaceProps = useGoogle({
+  } = useGoogle({
     sessionToken: true,
     apiKey: api,
     options: {

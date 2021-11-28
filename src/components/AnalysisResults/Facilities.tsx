@@ -71,7 +71,7 @@ export default function Facilities({ facilities }: Props) {
     <Grid
       direction="column"
       sx={{
-        color: "white",
+        color: "red",
 
         padding: "15px 10px",
         height: "100%",
@@ -103,47 +103,50 @@ export default function Facilities({ facilities }: Props) {
         }}
       >
         <Typography variant="h3">Facilities</Typography>
-        {facilities.map((facility: any) => (
-          <GradesAccordion
-            key={facility.plus_code?.global_code}
-            expanded={expanded[facility.plus_code?.global_code] === true}
-            onChange={handleAccordionChange(facility.plus_code?.global_code)}
-            disableGutters
-          >
-            <GradesAccordionSummary>
-              <Typography variant="h3">{facility.name}</Typography> {}
-              <Avatar
-                sx={{ marginLeft: 5 }}
-                src={facility.icon}
-                alt={facility.icon}
-                variant="square"
-              />
-            </GradesAccordionSummary>
-            <GradesAccordionDetails>
-              <Grid sx={{ height: "30vh", width: "100%" }}>
-                {/* {facility.photos?.html_attributions?.map((pic:any)=><div>{pic}</div>
-              
-              )} */}
-                <GoogleMapReact
-                  defaultCenter={facility.geometry?.location}
-                  defaultZoom={11}
-                >
-                  <Destination
-                    lat={facility.geometry?.location?.lat}
-                    lng={facility.geometry?.location?.lng}
-                    text={facility.name}
-                  />
-                </GoogleMapReact>
-              </Grid>
-              <Grid>
-                <Rating name="read-only" value={facility.rating} readOnly />
-              </Grid>
-              <Grid>{facility.formatted_address}</Grid>
-              <Grid>
-                {facility.opening_hours?.open_now ? "Open Now" : "Closed"}
-              </Grid>
-            </GradesAccordionDetails>
-          </GradesAccordion>
+        {facilities.map((facility: any, idx:number) => (
+          <Grid item>
+            <Typography variant="h3">{(idx===0 || idx=== 3) && facility?.facility_type}</Typography>
+            <GradesAccordion
+              key={facility.plus_code?.global_code}
+              expanded={expanded[facility.plus_code?.global_code] === true}
+              onChange={handleAccordionChange(facility.plus_code?.global_code)}
+              disableGutters
+            >
+              <GradesAccordionSummary>
+                <Typography variant="h3">{facility.name}</Typography>
+                <Avatar
+                  sx={{ marginLeft: 5 }}
+                  src={facility.icon}
+                  alt={facility.icon}
+                  variant="square"
+                />
+              </GradesAccordionSummary>
+              <GradesAccordionDetails>
+                <Grid sx={{ height: "30vh", width: "100%" }}>
+                  {/* {facility.photos?.html_attributions?.map((pic:any)=><div>{pic}</div>
+  
+  )} */}
+                  <GoogleMapReact
+                    defaultCenter={facility.geometry?.location}
+                    defaultZoom={11}
+                  >
+                    <Destination
+                      lat={facility.geometry?.location?.lat}
+                      lng={facility.geometry?.location?.lng}
+                      text={facility.name}
+                    />
+                  </GoogleMapReact>
+                </Grid>
+                <Grid>
+                  <Rating name="read-only" value={facility.rating} readOnly />
+                </Grid>
+                <Grid>{facility.formatted_address}</Grid>
+                <Grid>
+                  {facility.opening_hours?.open_now ? "Open Now" : "Closed"}
+                </Grid>
+              </GradesAccordionDetails>
+            </GradesAccordion>
+          </Grid>
         ))}
       </Grid>
     </>

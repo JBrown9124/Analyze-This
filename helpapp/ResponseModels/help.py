@@ -15,5 +15,5 @@ class Help(object):
         return(f'Conflict(\
             resources = {self.resources}, \
                 description = {self.description}, \
-                        description = {self.facilities}, \
+                        facilities = {self.facilities}, \
                    analysisResults = {self.analysis_results},)')

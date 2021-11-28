@@ -24,16 +24,25 @@ export default function AnalysisResults({ resources }: Props) {
         <Grid item>
           <Typography variant="h3">Resources</Typography>
         </Grid>
-        {resources.map((resource) => (
+       
+        {resources?.map((resource:any) => (
+          
+          <Grid>
+          <Typography variant="h3"> { resource.resource_type}</Typography>
+          {resource.websites?.map((website:any) =>
           <Grid item>
             <Typography variant="h3">
-              <Link type="button" onClick={() => openInNewTab(resource.url)}>
+              <Link type="button" onClick={() => openInNewTab(website.url)}>
                 {" "}
-                {resource.name}
+                {website.name}
               </Link>
             </Typography>
           </Grid>
+          )}
+          </Grid>
+          
         ))}
+        
       </Grid>
     </>
   );
