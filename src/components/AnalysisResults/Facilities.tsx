@@ -4,7 +4,9 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
+import Rating from "@mui/material/Rating";
+
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
@@ -90,7 +92,16 @@ export default function Facilities({ facilities }: Props) {
   );
   return (
     <>
-      <Grid container direction="column">
+      <Grid
+        container
+        direction="column"
+        sx={{
+          boxShadow:
+            "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+          background: "white!important",
+          borderRadius: "5px",
+        }}
+      >
         <Typography variant="h3">Facilities</Typography>
         {facilities.map((facility: any) => (
           <GradesAccordion
@@ -101,7 +112,12 @@ export default function Facilities({ facilities }: Props) {
           >
             <GradesAccordionSummary>
               <Typography variant="h3">{facility.name}</Typography> {}
-              <Avatar  sx={{marginLeft:5}}src={facility.icon} alt={facility.icon}  variant="square"/>
+              <Avatar
+                sx={{ marginLeft: 5 }}
+                src={facility.icon}
+                alt={facility.icon}
+                variant="square"
+              />
             </GradesAccordionSummary>
             <GradesAccordionDetails>
               <Grid sx={{ height: "30vh", width: "100%" }}>
@@ -118,6 +134,9 @@ export default function Facilities({ facilities }: Props) {
                     text={facility.name}
                   />
                 </GoogleMapReact>
+              </Grid>
+              <Grid>
+                <Rating name="read-only" value={facility.rating} readOnly />
               </Grid>
               <Grid>{facility.formatted_address}</Grid>
               <Grid>
