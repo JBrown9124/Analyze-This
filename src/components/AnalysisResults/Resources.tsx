@@ -1,6 +1,8 @@
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
+import Divider from '@mui/material/Divider';
+
 interface Props {
   resources: [{ name: string; url: string }];
 }
@@ -22,13 +24,14 @@ export default function AnalysisResults({ resources }: Props) {
         }}
       >
         <Grid item>
-          <Typography variant="h3">Resources</Typography>
+          <Typography variant="h3" sx={{padding: "15px" }}>Resources</Typography>
         </Grid>
        
         {resources?.map((resource:any) => (
           
           <Grid>
-          <Typography variant="h3"> { resource.resource_type}</Typography>
+          <Typography variant="h3" sx={{padding: "15px" }}><Divider textAlign="center"> { resource.resource_type}</Divider></Typography>
+          <Typography variant="h3" sx={{padding: "15px" }}> Websites </Typography>
           {resource.websites?.map((website:any) =>
           <Grid item>
             <Typography variant="h3">

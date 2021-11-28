@@ -13,27 +13,27 @@ import MuiAccordionSummary, {
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import GoogleMapReact from "google-map-react";
 
-import api from "../../services/googleAPI";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
+import Divider from "@mui/material/Divider";
 
-const GradesAccordion = styled((props: AccordionProps) => (
+const CustomAccordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
   overflow: "hidden",
 
   backgroundColor: "white",
-  border: `1px solid ${theme.palette.divider}`,
-  "&:not(:last-child)": { backgroundColor: "white", borderBottom: 0 },
-  "&:before": { backgroundColor: "white", display: "none" },
+  // border: `1px solid ${theme.palette.divider}`,
+  // "&:not(:last-child)": { backgroundColor: "white", borderBottom: 0 },
+  // "&:before": { backgroundColor: "white", display: "none" },
 }));
 
-const GradesAccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+const CustomAccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   overflow: "hidden",
   backgroundColor: "white",
 }));
 
-const GradesAccordionSummary = styled((props: AccordionSummaryProps) => (
+const CustomAccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
     expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
     {...props}
@@ -45,7 +45,7 @@ const GradesAccordionSummary = styled((props: AccordionSummaryProps) => (
     backgroundColor: "white!important",
   },
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(0deg)",
+    transform: "rotate(90deg)",
     backgroundColor: "white",
   },
   "& .MuiAccordionSummary-content": {
@@ -102,50 +102,56 @@ export default function Facilities({ facilities }: Props) {
           borderRadius: "5px",
         }}
       >
-        <Typography variant="h3">Facilities</Typography>
-        {facilities.map((facility: any, idx:number) => (
+        <Typography variant="h3" sx={{ padding: "15px" }}>
+          Facilities
+        </Typography>
+        {facilities.map((facility: any, idx: number) => (
           <Grid item>
-            <Typography variant="h3">{(idx===0 || idx=== 3) && facility?.facility_type}</Typography>
-            <GradesAccordion
-              key={facility.plus_code?.global_code}
-              expanded={expanded[facility.plus_code?.global_code] === true}
-              onChange={handleAccordionChange(facility.plus_code?.global_code)}
-              disableGutters
-            >
-              <GradesAccordionSummary>
-                <Typography variant="h3">{facility.name}</Typography>
-                <Avatar
-                  sx={{ marginLeft: 5 }}
-                  src={facility.icon}
-                  alt={facility.icon}
-                  variant="square"
-                />
-              </GradesAccordionSummary>
-              <GradesAccordionDetails>
-                <Grid sx={{ height: "30vh", width: "100%" }}>
-                  {/* {facility.photos?.html_attributions?.map((pic:any)=><div>{pic}</div>
+            <Typography variant="h3" sx={{ padding: "15px" }}>
+              <Divider textAlign="center">{facility?.facilities_type}</Divider>
+            </Typography>
+            {facility.closest_facilities?.map((closest: any) => (
+              <CustomAccordion
+                key={closest.plus_code?.global_code}
+                expanded={expanded[closest.plus_code?.global_code] === true}
+                onChange={handleAccordionChange(closest.plus_code?.global_code)}
+                disableGutters
+              >
+                <CustomAccordionSummary>
+                  <Typography variant="h3">{closest.name}</Typography>
+                  <Avatar
+                    sx={{ marginLeft: 5 }}
+                    src={closest.icon}
+                    alt={closest.icon}
+                    variant="square"
+                  />
+                </CustomAccordionSummary>
+                <CustomAccordionDetails>
+                  <Grid sx={{ height: "30vh", width: "100%" }}>
+                    {/* {facility.photos?.html_attributions?.map((pic:any)=><div>{pic}</div>
   
   )} */}
-                  <GoogleMapReact
-                    defaultCenter={facility.geometry?.location}
-                    defaultZoom={11}
-                  >
-                    <Destination
-                      lat={facility.geometry?.location?.lat}
-                      lng={facility.geometry?.location?.lng}
-                      text={facility.name}
-                    />
-                  </GoogleMapReact>
-                </Grid>
-                <Grid>
-                  <Rating name="read-only" value={facility.rating} readOnly />
-                </Grid>
-                <Grid>{facility.formatted_address}</Grid>
-                <Grid>
-                  {facility.opening_hours?.open_now ? "Open Now" : "Closed"}
-                </Grid>
-              </GradesAccordionDetails>
-            </GradesAccordion>
+                    <GoogleMapReact
+                      defaultCenter={closest.geometry?.location}
+                      defaultZoom={11}
+                    >
+                      <Destination
+                        lat={closest.geometry?.location?.lat}
+                        lng={closest.geometry?.location?.lng}
+                        text={closest.name}
+                      />
+                    </GoogleMapReact>
+                  </Grid>
+                  <Grid>
+                    <Rating name="read-only" value={closest.rating} readOnly />
+                  </Grid>
+                  <Grid>{closest.formatted_address}</Grid>
+                  <Grid>
+                    {closest.opening_hours?.open_now ? "Open Now" : "Closed"}
+                  </Grid>
+                </CustomAccordionDetails>
+              </CustomAccordion>
+            ))}
           </Grid>
         ))}
       </Grid>

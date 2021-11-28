@@ -13,16 +13,16 @@ class NearestFacilities:
 
     def get_facility_type(self) -> Set[str]:
 
-        facility_types = set()
+        facility_types = []
         for key, value in self.potential_causes.items():
             if value:
-                facility_types.add(key + " " + "support")
+                facility_types.append(key + " " + "support")
 
         return facility_types
 
     def intitialize(self) -> Dict:
 
-        facility_types: Set[str] = self.get_facility_type()
+        facility_types: List[str] = self.get_facility_type()
         results = []
         url = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
 
@@ -34,21 +34,20 @@ class NearestFacilities:
             map_results = json_data['results']
 
             if len(map_results) >= 3:
-                map_results[0]['facility_type'] = facility_type
-                map_results[1]['facility_type'] = facility_type
-                map_results[2]['facility_type'] = facility_type
 
-                closest_three = [
+                closest_facilities_list = [
                     map_results[0], map_results[1], map_results[2]]
-
-                results += closest_three
+                closest_facilities_dict = {
+                    "closest_facilities": closest_facilities_list, "facilities_type": facility_type}
+                results.append(closest_facilities_dict)
 
             else:
-
+                closest_dict = {"closest_facilities": [],
+                                "facilities_type": facility_type}
                 for map_result in map_results:
-                    map_result['facility_type'] = facility_type
-                    results.append(map_result)
 
+                    closest_dict["closest_facilities"].append(map_result)
+                results.append(closest_dict)
         return results
 
     def obtain_relevent_data(self):
