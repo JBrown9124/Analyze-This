@@ -27,7 +27,7 @@ theme.typography.body2 = {
   fontFamily: "Open Sans, sans-serif",
   color: "black",
   [theme.breakpoints.up("sm")]: {
-    fontSize: "1.0rem",
+    fontSize: ".1rem",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: ".6rem",

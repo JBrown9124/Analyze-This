@@ -173,21 +173,7 @@ function App() {
   //     setIsSignedIn(true)
   //   }
   // },[isSignedIn])
-  const splashScreen = () => {
-    return (
-      <Grid
-        sx={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          background: "#009688",
-        }}
-        container
-      ></Grid>
-    );
-  };
+  
   return (
     <>
       <Grid
@@ -198,6 +184,8 @@ function App() {
           width: "100%",
           height: "100%",
           background: "#009688",
+          overflowY:"auto",
+    
         }}
         container
       >
