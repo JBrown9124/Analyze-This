@@ -56,7 +56,7 @@ class Analyze(APIView):
 
             resources_response = obtain_cause_resources(potential_causes)
             
-            help_response.resources = resources_response.data
+            help_response.resources = resources_response
 
             response = help_response.to_dict()
 

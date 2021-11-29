@@ -10,7 +10,7 @@ class Resources(object):
 
     def store_resource(self) -> None:
 
-        resource = {self.doc_type: [{"name": name, "url": url}
-                         for name, url in self.doc_dict.items()]}
+        resource = {{name: value}
+                    for name, value in self.doc_dict.items()}
         resource["resource_type"] = self.potential_cause_key
         self.data.append(resource)

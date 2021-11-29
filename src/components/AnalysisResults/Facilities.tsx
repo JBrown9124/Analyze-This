@@ -102,55 +102,76 @@ export default function Facilities({ facilities }: Props) {
           borderRadius: "5px",
         }}
       >
-        <Typography variant="h3" sx={{ padding: "15px" }}>
-          Facilities
-        </Typography>
+        <Grid item>
+          <Typography variant="h3" sx={{ padding: "15px" }}>
+            Help Near You
+          </Typography>
+        </Grid>
         {facilities.map((facility: any, idx: number) => (
-          <Grid item>
-            <Typography variant="h3" sx={{ padding: "15px" }}>
-              <Divider textAlign="center">{facility?.facilities_type}</Divider>
-            </Typography>
-            {facility.closest_facilities?.map((closest: any) => (
-              <CustomAccordion
-                key={closest.plus_code?.global_code}
-                expanded={expanded[closest.plus_code?.global_code] === true}
-                onChange={handleAccordionChange(closest.plus_code?.global_code)}
-                disableGutters
-              >
-                <CustomAccordionSummary>
-                  <Typography variant="h3">{closest.name}</Typography>
-                  <Avatar
-                    sx={{ marginLeft: 5 }}
-                    src={closest.icon}
-                    alt={closest.icon}
-                    variant="square"
-                  />
-                </CustomAccordionSummary>
-                <CustomAccordionDetails>
-                  <Grid sx={{ height: "30vh", width: "100%" }}>
-                    {/* {facility.photos?.html_attributions?.map((pic:any)=><div>{pic}</div>
+          <Grid container direction="column">
+            <Grid item>
+              <Typography variant="h4" sx={{ padding: "30px" }}>
+               
+                 
+                  {facility?.facilities_type === "suicide support"
+                    ? "Because we noticed you are feeling down."
+                    : facility?.facilities_type === "anger support"
+                    ? "Because we noticed you are a little tense."
+                    : facility?.facilities_type === "addiction support"
+                    ? "Because we noticed you are fixated on some things."
+                    : ""}
+             
+              </Typography>
+            </Grid>
+            {facility.closest_facilities?.map((closest: any, idx:number) => (
+              <Grid item>
+                <CustomAccordion
+                  sx={{ width: "100%", height: "100%" }}
+                  key={`${closest.plus_code?.global_code}${facility?.facilities_type}`}
+                  expanded={expanded[`${closest.plus_code?.global_code}${facility?.facilities_type}`] === true}
+                  onChange={handleAccordionChange(
+                    `${closest.plus_code?.global_code}${facility?.facilities_type}`
+                  )}
+                  disableGutters
+                >
+                  <CustomAccordionSummary>
+                    <Typography variant="h6" sx={{ textAlign: "left" }}>{closest.name}</Typography>
+                
+                  </CustomAccordionSummary>
+                  <CustomAccordionDetails>
+                    <Grid container direction="column">
+                      <Grid item sx={{ height: "30vh", width: "100%" }}>
+                        {/* {facility.photos?.html_attributions?.map((pic:any)=><div>{pic}</div>
   
   )} */}
-                    <GoogleMapReact
-                      defaultCenter={closest.geometry?.location}
-                      defaultZoom={11}
-                    >
-                      <Destination
-                        lat={closest.geometry?.location?.lat}
-                        lng={closest.geometry?.location?.lng}
-                        text={closest.name}
-                      />
-                    </GoogleMapReact>
-                  </Grid>
-                  <Grid>
-                    <Rating name="read-only" value={closest.rating} readOnly />
-                  </Grid>
-                  <Grid>{closest.formatted_address}</Grid>
-                  <Grid>
-                    {closest.opening_hours?.open_now ? "Open Now" : "Closed"}
-                  </Grid>
-                </CustomAccordionDetails>
-              </CustomAccordion>
+                        <GoogleMapReact
+                          defaultCenter={closest.geometry?.location}
+                          defaultZoom={11}
+                        >
+                          <Destination
+                            lat={closest.geometry?.location?.lat}
+                            lng={closest.geometry?.location?.lng}
+                            text={closest.name}
+                          />
+                        </GoogleMapReact>
+                      </Grid>
+                      <Grid item>
+                        <Rating
+                          name="read-only"
+                          value={closest.rating}
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid item>{closest.formatted_address}</Grid>
+                      <Grid item>
+                        {closest.opening_hours?.open_now
+                          ? "Open Now"
+                          : "Closed"}
+                      </Grid>
+                    </Grid>
+                  </CustomAccordionDetails>
+                </CustomAccordion>
+              </Grid>
             ))}
           </Grid>
         ))}

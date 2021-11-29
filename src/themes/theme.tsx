@@ -4,7 +4,7 @@ import {createTheme} from "@mui/material/styles";
 let theme = createTheme();
 
 theme.typography.h6 = {
-  fontFamily: "Oswald, sans-serif",
+  fontFamily: "Open Sans, sans-serif",
   color: "black",
   [theme.breakpoints.up("sm")]: {
     fontSize: "1rem",
@@ -34,9 +34,9 @@ theme.typography.body2 = {
   },
 };
 theme.typography.h5 = {
-  fontFamily: "Oswald, sans-serif",
+  fontFamily: "Open Sans, sans-serif",
   color: "black",
-  textAlign: "center",
+
   [theme.breakpoints.up("sm")]: {
     fontSize: "1.6rem",
   },
@@ -45,7 +45,7 @@ theme.typography.h5 = {
   },
 };
 theme.typography.h2 = {
-  fontFamily: "Oswald, sans-serif",
+  fontFamily: "Open Sans, sans-serif",
   
   color: "black",
 
@@ -53,7 +53,7 @@ theme.typography.h2 = {
     fontSize: "1.6rem",
   },
   [theme.breakpoints.down("sm")]: {
-    fontSize: ".9rem",
+    fontSize: ".4rem",
   },
 };
 theme.typography.h1 = {
@@ -73,7 +73,7 @@ theme.typography.h3 = {
   color: "black",
   fontWeight:100,
   [theme.breakpoints.up("sm")]: {
-    fontSize: "2.0rem",
+    fontSize: "2.3rem",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: ".6rem",
@@ -82,9 +82,9 @@ theme.typography.h3 = {
 theme.typography.h4 = {
   fontFamily: "Open Sans, sans-serif",
   color: "black",
-
+  fontWeight:200,
   [theme.breakpoints.up("sm")]: {
-    fontSize: "2.3rem",
+    fontSize: "2.0rem",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: "1.5rem",

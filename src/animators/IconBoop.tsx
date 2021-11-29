@@ -9,9 +9,11 @@ interface Props {
   scale: number;
   isBooped: boolean;
   children: React.ReactNode;
+  
 }
 const IconBoop = ({
   x = 0,
+  
   beforeColor = "#e2f1f8",
   afterColor = "rgba(87,188,144,1)",
   y = 0,

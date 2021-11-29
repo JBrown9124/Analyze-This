@@ -5,7 +5,7 @@ import Facilities from "../components/AnalysisResults/Facilities";
 
 import Grid from "@mui/material/Grid";
 
-import Resources from "../components/AnalysisResults/Resources";
+import Resources from "../components/AnalysisResults/Resources/Resources";
 interface Props {
   results: ResultsProps;
 }
