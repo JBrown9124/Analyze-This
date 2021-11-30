@@ -53,10 +53,12 @@ export default function Location({ handleLocation, clickBack }: Props) {
     placePredictions,
     getPlacePredictions,
     isPlacePredictionsLoading,
-  } = useGoogle({
+  }:any = useGoogle({
     sessionToken: true,
     apiKey: api,
+    debounce:500,
     options: {
+      fields: ["name", "place_id", "formatted_address"],
       componentRestrictions: { country: "us" },
     },
   });
@@ -102,9 +104,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
   useEffect(() => {
     setPlaces(placePredictions);
 
-    return () => {
-      placePredictions.forEach((element) => (element = []));
-    };
+   
   }, [location, location.length]);
   return (
     <>

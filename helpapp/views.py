@@ -26,6 +26,8 @@ import uuid
 import requests
 import json
 from rest_framework.views import APIView
+from django.utils.decorators import method_decorator
+from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 
 
 # Create your views here.
@@ -34,7 +36,8 @@ def index(request):
 
 
 class Analyze(APIView):
-
+    @method_decorator(vary_on_cookie)
+    @method_decorator(cache_page(60*60*2))
     def post(self, request):
 
         # try:

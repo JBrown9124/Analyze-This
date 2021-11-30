@@ -74,22 +74,22 @@ export default function WelcomeTransition({
     trail: 1500,
   });
   const [isSignedIn, setIsSignedIn] = useState(false);
-  useEffect(() => {
-    /* when to allow timed animations for signedIn and !signedIn states*/
-    /* timed animations are primarly slides without input required and are meant only for dispaly effect */
-    if (!signedIn) {
-      if (index < 2 || slides[index] === helloSlide ) {
-        const t = setInterval(() => setIndex(index + 1), 6000);
+  // useEffect(() => {
+  //   /* when to allow timed animations for signedIn and !signedIn states*/
+  //   /* timed animations are primarly slides without input required and are meant only for dispaly effect */
+  //   if (!signedIn) {
+  //     if (index < 2 || slides[index] === helloSlide ) {
+  //       const t = setInterval(() => setIndex(index + 1), 6000);
 
-        return () => clearTimeout(t);
-      }
-    } else if (signedIn) {
-      if (signedInSlides[index] === helloSlide) {
-        const t = setInterval(() => setIndex(index + 1), 6000);
-        return () => clearTimeout(t);
-      }
-    }
-  }, [index]);
+  //       return () => clearTimeout(t);
+  //     }
+  //   } else if (signedIn) {
+  //     if (signedInSlides[index] === helloSlide) {
+  //       const t = setInterval(() => setIndex(index + 1), 6000);
+  //       return () => clearTimeout(t);
+  //     }
+  //   }
+  // }, [index]);
   useEffect(() => {
     if (isClicked) {
       /* increment index by 1 if continue is toggled */
@@ -138,8 +138,8 @@ export default function WelcomeTransition({
           className="welcomeTransitionContainer"
           style={{ ...style }}
         >
-          {signedIn ? signedInSlides[i] : slides[i]}
-          {/* {signedInSlides[4]} */}
+          {/* {signedIn ? signedInSlides[i] : slides[i]} */}
+          {signedInSlides[3]}
         </animated.div>
       ))}
     </>

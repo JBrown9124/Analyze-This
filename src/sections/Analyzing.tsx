@@ -10,10 +10,7 @@ import Typography from "@mui/material/Typography";
 import { ResultsProps } from "../models/Results";
 import Grid from "@mui/material/Grid";
 
-interface Props{
-  fetchResults:boolean
-}
-export default function Analyzing({fetchResults}:Props) {
+export default function Analyzing() {
   const [index, setIndex] = useState(0);
   const slides = [".", ".", "."];
 
@@ -44,27 +41,35 @@ export default function Analyzing({fetchResults}:Props) {
 
   return (
     <>
+    
       <Grid
         sx={{
-          display: "flex",
-
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: "translate(-15%, 200%)",
+          transform: "translate(-50%, 350%)",
+          textAlign:"center",
+          display:"flex",
+          justifyContent: "center",
+          
+         
         }}
+        spacing={0}
         container
       >
-        <Typography variant="h1"> Analyzing </Typography>
-
+       <Grid item  >
+          <Typography variant="h1"> Analyzing </Typography>
+          </Grid>
         {transitions((style, item: any) => (
-          <animated.div
-            style={{
-              ...style,
-            }}
-          >
-            <Typography variant="h1">{slides[index]}</Typography>
-          </animated.div>
+           <Grid item>
+            <animated.div
+              style={{
+                ...style,
+              }}
+            >
+              <Typography variant="h1">{slides[index]}</Typography>
+            </animated.div>
+            </Grid>
         ))}
       </Grid>
     </>

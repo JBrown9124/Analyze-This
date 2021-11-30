@@ -184,6 +184,7 @@ function App() {
           width: "100%",
           height: "100%",
           background: "#009688",
+          overflowX:"hidden",
           overflowY:"auto",
     
         }}
@@ -239,7 +240,7 @@ function App() {
                 handleDescription={(props) => descriptionChange(props)}
               />
             }
-            analyzingSlide={<Analyzing fetchResults={fetchingResults} />}
+            analyzingSlide={<Analyzing />}
             analysisResultsSlide={<AnalysisResults results={results} />}
           />
           {/* <EnableCookies isCookiesEnabled={(props) => handleCookieEnabled(props)} /> */}
