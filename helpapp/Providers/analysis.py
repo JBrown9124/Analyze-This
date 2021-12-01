@@ -11,7 +11,7 @@ from WordData.suicide_words_context import suicide_words_context
 from WordData.people_synonyms_pronouns import people_synonyms_pronouns
 from WordData.others_danger_context import others_danger_context
 from WordData.suicide_words import suicide_words
-
+from WordData.anger_words import anger_words
 
 
 
@@ -218,40 +218,40 @@ class Analysis(object):
                         danger_mentioned += 1
                         danger_probability += 1.0
                         continue
-            # The conditions below are to catch anywords synonymous with suicide that are not caught by our context loop.
-            # Suicide probability only increased by .25 because they are not in context of the person's self. ex of word synonymous with suicide:"Kill"
-            # ex. of words in context of the person's self in context with synonym of suicide: ex. kill my self'
-            # if words[0] in suicide_words:
-            #     suicide_probability += .25
-            # if len(words) == 2 and words[1] in suicide_words:
-            #     suicide_probability += .25
-            # if len(words) == 3 and words[2] in suicide_words:
-            #     suicide_probability += .25
-            # if words[0] in life_death_synonyms:
-            #     suicide_probability += .25
-            #     if len(words) == 2 and words[1] in suicide_words:
-            #         suicide_mentioned += 1
-            #         suicide_probability +=.50
-            #     if len(words) == 3 and words[2] in suicide_words:
-            #         suicide_mentioned += 1
-            #         suicide_probability +=.50
-            # if len(words) == 2 and words[1] in life_death_synonyms:
-            #     suicide_probability += .25
+            # The conditions below are to catch anywords synonymous with anger deteriminant words that are not caught by our context loop.
+            # Danger probability only increased by .25 because they are not in context of the person's self. ex of word synonymous with anger:"Kill"
+            # ex. of words in context of the person's self in context with synonym of anger: ex. kill others'
+            if words[0] in anger_words:
+                danger_probability += .25
+            if len(words) == 2 and words[1] in anger_words:
+                danger_probability += .25
+            if len(words) == 3 and words[2] in anger_words:
+                danger_probability += .25
+            if words[0] in life_death_synonyms:
+                danger_probability += .25
+                if len(words) == 2 and words[1] in anger_words:
+                    danger_mentioned += 1
+                    danger_probability +=.50
+                if len(words) == 3 and words[2] in anger_words:
+                    danger_mentioned += 1
+                    danger_probability +=.50
+            if len(words) == 2 and words[1] in life_death_synonyms:
+                danger_probability += .25
 
-            #     if len(words) == 2 and words[0] in suicide_words:
-            #         suicide_probability +=.50
-            #         suicide_mentioned += 1
-            #     if len(words) == 3 and words[2] in suicide_words:
-            #         suicide_probability +=.50
-            #         suicide_mentioned += 1
-            # if len(words) == 3 and words[2] in life_death_synonyms:
-            #     suicide_probability += .25
-            #     if len(words) == 2 and words[0] in suicide_words:
-            #         suicide_probability +=.50
-            #         suicide_mentioned += 1
-            #     if len(words) == 3 and words[1] in suicide_words:
-            #         suicide_probability +=.50
-            #         suicide_mentioned += 1
+                if len(words) == 2 and words[0] in anger_words:
+                    danger_probability +=.50
+                    danger_mentioned += 1
+                if len(words) == 3 and words[2] in anger_words:
+                    danger_probability +=.50
+                    danger_mentioned += 1
+            if len(words) == 3 and words[2] in life_death_synonyms:
+                danger_probability += .25
+                if len(words) == 2 and words[0] in anger_words:
+                    danger_probability +=.50
+                    danger_mentioned += 1
+                if len(words) == 3 and words[1] in anger_words:
+                    danger_probability +=.50
+                    danger_mentioned += 1
         danger_results = {'danger_probability': danger_probability if danger_probability <
                           1.00 else 1.00, 'is_danger': danger_probability >= .75, 'danger_mentioned': danger_mentioned}
         self.potential_causes["anger"]="anger" if danger_probability >= .75 else None
@@ -276,7 +276,7 @@ class Analysis(object):
         return self.potential_causes
 
     def results(self) -> Dict:
-        results = {'is_suicide': self.is_suicide(), 'is_danger': self.is_danger(
+        results = {'suicide_stats': self.is_suicide(), 'danger_stats': self.is_danger(
         ), 'potential_causes': self.find_causes()}
         return results
 

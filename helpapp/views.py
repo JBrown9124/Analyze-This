@@ -28,20 +28,25 @@ import json
 from rest_framework.views import APIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.vary import vary_on_cookie, vary_on_headers
-
+from django.core.cache import cache
 
 # Create your views here.
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
+def object_id(request, object):
 
+    return HttpResponse(object)
 
 class Analyze(APIView):
     @method_decorator(vary_on_cookie)
     @method_decorator(cache_page(60*60*2))
-    def post(self, request):
+    def post(self, request, object):
 
         # try:
-
+            
+            my_cache = cache.get(object)
+            if my_cache is not None:
+                return JsonResponse(my_cache)
             body = request.data
             description = body.get('description')
             location = body.get('location')
@@ -62,7 +67,7 @@ class Analyze(APIView):
             help_response.resources = resources_response
 
             response = help_response.to_dict()
-
+            cache.set(object, response, None)
             return JsonResponse(response)
 
         # except Exception as e:

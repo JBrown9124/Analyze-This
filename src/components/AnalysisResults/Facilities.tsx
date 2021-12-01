@@ -19,18 +19,19 @@ import Divider from "@mui/material/Divider";
 
 const CustomAccordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
+))(({ theme, accordionColor}:any) => ({
   overflow: "hidden",
-
-  backgroundColor: "white",
+ 
+  "& .MuiAccordion:hover":{background:"black"},
+  backgroundColor: accordionColor,
   // border: `1px solid ${theme.palette.divider}`,
   // "&:not(:last-child)": { backgroundColor: "white", borderBottom: 0 },
   // "&:before": { backgroundColor: "white", display: "none" },
 }));
 
-const CustomAccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+const CustomAccordionDetails = styled(MuiAccordionDetails)(({ theme , accordionColor}:any) => ({
   overflow: "hidden",
-  backgroundColor: "white",
+  backgroundColor: accordionColor,
 }));
 
 const CustomAccordionSummary = styled((props: AccordionSummaryProps) => (
@@ -38,19 +39,19 @@ const CustomAccordionSummary = styled((props: AccordionSummaryProps) => (
     expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
     {...props}
   />
-))(({ theme }) => ({
-  backgroundColor: "white",
+))(({ theme, accordionColor}:any) => ({
+  backgroundColor: accordionColor,
   overflow: "hidden",
   "&.MuiAccordionSummary-focused": {
-    backgroundColor: "white!important",
+    backgroundColor: accordionColor,
   },
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
-    backgroundColor: "white",
+    backgroundColor: accordionColor,
   },
   "& .MuiAccordionSummary-content": {
     marginLeft: theme.spacing(1),
-    backgroundColor: "white",
+    backgroundColor: accordionColor,
   },
 }));
 
@@ -63,6 +64,7 @@ export default function Facilities({ facilities }: Props) {
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded({ ...expanded, [panel]: newExpanded ? true : false });
     };
+  const accordionColor = ["#ede7f6","#bbb5c3"]
   function openInNewTab(url: string) {
     const win = window.open(url, "_blank")?.focus();
     return win;
@@ -101,44 +103,42 @@ export default function Facilities({ facilities }: Props) {
           background: "white!important",
           borderRadius: "5px",
         }}
+        
       >
-        <Grid item>
-          <Typography variant="h3" sx={{ padding: "15px" }}>
-            Help Near You
-          </Typography>
-        </Grid>
         {facilities.map((facility: any, idx: number) => (
-          <Grid container direction="column">
+          <Grid container direction="column" >
             <Grid item>
               <Typography variant="h4" sx={{ padding: "30px" }}>
-               
-                 
-                  {facility?.facilities_type === "suicide support"
-                    ? "Because we noticed you are feeling down."
-                    : facility?.facilities_type === "anger support"
-                    ? "Because we noticed you are a little tense."
-                    : facility?.facilities_type === "addiction support"
-                    ? "Because we noticed you are fixated on some things."
-                    : ""}
-             
+                {facility?.facilities_type === "suicide support"
+                  ? "Because we noticed you are feeling down."
+                  : facility?.facilities_type === "anger support"
+                  ? "Because we noticed you are a little tense."
+                  : facility?.facilities_type === "addiction support"
+                  ? "Because we noticed you are fixated on some things."
+                  : ""}
               </Typography>
             </Grid>
-            {facility.closest_facilities?.map((closest: any, idx:number) => (
+            {facility.closest_facilities?.map((closest: any, idx: number) => (
               <Grid item>
                 <CustomAccordion
-                  sx={{ width: "100%", height: "100%" }}
+                accordionColor={accordionColor[Math.round(idx % accordionColor.length )]}
                   key={`${closest.plus_code?.global_code}${facility?.facilities_type}`}
-                  expanded={expanded[`${closest.plus_code?.global_code}${facility?.facilities_type}`] === true}
+                  expanded={
+                    expanded[
+                      `${closest.plus_code?.global_code}${facility?.facilities_type}`
+                    ] === true
+                  }
                   onChange={handleAccordionChange(
                     `${closest.plus_code?.global_code}${facility?.facilities_type}`
                   )}
                   disableGutters
                 >
-                  <CustomAccordionSummary>
-                    <Typography variant="h6" sx={{ textAlign: "left" }}>{closest.name}</Typography>
-                
+                  <CustomAccordionSummary   accordionColor={accordionColor[Math.round(idx % accordionColor.length )]}>
+                    <Typography variant="h6" sx={{ textAlign: "left" }}>
+                      {closest.name}
+                    </Typography>
                   </CustomAccordionSummary>
-                  <CustomAccordionDetails>
+                  <CustomAccordionDetails   accordionColor={accordionColor[Math.round(idx % accordionColor.length )]}>
                     <Grid container direction="column">
                       <Grid item sx={{ height: "30vh", width: "100%" }}>
                         {/* {facility.photos?.html_attributions?.map((pic:any)=><div>{pic}</div>
@@ -162,11 +162,26 @@ export default function Facilities({ facilities }: Props) {
                           readOnly
                         />
                       </Grid>
-                      <Grid item>{closest.formatted_address}</Grid>
+
                       <Grid item>
-                        {closest.opening_hours?.open_now
-                          ? "Open Now"
-                          : "Closed"}
+                        {" "}
+                        <Typography variant="body1">
+                          {closest.formatted_address}{" "}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            color: closest.opening_hours?.open_now
+                              ? "green"
+                              : "red",
+                          }}
+                        >
+                          {closest.opening_hours?.open_now
+                            ? "Open Now"
+                            : "Closed"}
+                        </Typography>
                       </Grid>
                     </Grid>
                   </CustomAccordionDetails>

@@ -20,7 +20,7 @@ import { useCookies } from "react-cookie";
 import { ThemeProvider } from "@mui/material/styles";
 import Analyzing from "./sections/Analyzing";
 import Grid from "@mui/material/Grid";
-
+import { v4 as uuidv4 } from 'uuid';
 import theme from "./themes/theme";
 import EnableCookies from "./components/EnableCookies";
 import GoogleLogin, {
@@ -34,20 +34,19 @@ function App() {
     "profileObj",
   ]);
   const [fetchingResults, setFetchingResults] = useState(false);
- 
-  
+
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [results, setResults] = useState<ResultsProps>({
     resources: [{ name: "", url: "" }],
     facilities: [{}],
     analysisResults: {
-      is_suicide: {
+     suicide_stats: {
         suicide_probability: 0,
         is_suicide: false,
         suicide_mentiond: 0,
       },
 
-      is_danger: {
+      danger_stats: {
         danger_probability: 0,
         is_danger: false,
         danger_mentioned: 0,
@@ -56,8 +55,10 @@ function App() {
     },
     description: "",
   });
-  const [toggleContinue, setToggleContinue] = useState<boolean>(false);
-  const [toggleBack, setToggleBack] = useState<boolean>(false);
+  const [toggleContinue, setToggleContinue] = useState<boolean | undefined>(
+    false
+  );
+  const [toggleBack, setToggleBack] = useState<boolean | undefined>(false);
 
   const nameChange = (nameInput: string): void => {
     /*Tell welcome transition to go to the next section then set the name input to our name state */
@@ -79,10 +80,11 @@ function App() {
   };
   const descriptionChange = (descriptionInput: string): void => {
     handleContinue();
+    const newObjectId = uuidv4()
 
     setSessionCookie(
       "profileObj",
-      { ...sessionCookie.profileObj, description: descriptionInput },
+      { ...sessionCookie.profileObj, description: descriptionInput, objectId:newObjectId },
       { path: "/" }
     );
     setFetchingResults(true);
@@ -124,46 +126,69 @@ function App() {
       };
       const analyzeData = async (body: Object) => {
         const { data } = await axios.post<ResultsProps>(
-          "http://127.0.0.1:8000/helpapp/analyze",
-          body
+          `http://127.0.0.1:8000/helpapp/${sessionCookie?.profileObj?.objectId}/analyze`,
+          body, {
+            
+            headers: { Cookie: `cookie1=${sessionCookie?.profileObj?.objectId}`
+        }}
         );
-        
+        console.log(data, "DATA")
         return data;
       };
-      const storeData = async ()  => {
+      const storeData = async () => {
+        try{
         const data = await analyzeData(reqBody);
+        
 
-        
        
-        setResults(data);
-        await setTimeout(()=>handleContinue(), 1500)
+        await setTimeout(() =>setToggleContinue(true), 1500);
+       setResults(data);
+      }
         
+        catch(error){
+          console.error(error);
+          return Promise.reject(error);
+        }
       };
 
       storeData();
-      
     }
   }, [fetchingResults]);
   const handleBack = (): Promise<void> => {
-    const backTrigger = async (): Promise<boolean> => {
-      setToggleBack(true);
-      return false;
+    const backTrigger = async (): Promise<boolean | undefined> => {
+     
+        setToggleBack(true);
+        return false;
+   
+      
     };
     const backUntrigger = async (): Promise<void> => {
-      const data: boolean = await backTrigger();
+      try {
+        const {data}: any = await backTrigger();
 
-      setToggleBack(data);
+        setToggleBack(data);
+      } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+      }
     };
     return backUntrigger();
   };
-  const handleContinue = (): Promise<void> => {
-    const continueTrigger = async (): Promise<boolean> => {
-      setToggleContinue(true);
-      return false;
+  const handleContinue = ()=> {
+    const continueTrigger = async (): Promise<boolean | undefined> => {
+      
+        setToggleContinue(true);
+        return false;
+      
     };
-    const continueUntrigger = async (): Promise<void> => {
-      const data: boolean = await continueTrigger();
-      setToggleContinue(data);
+    const continueUntrigger = async () => {
+      try {
+        const {data}: any  = await continueTrigger();
+        setToggleContinue(data);
+      } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+      }
     };
     return continueUntrigger();
   };
@@ -173,7 +198,7 @@ function App() {
   //     setIsSignedIn(true)
   //   }
   // },[isSignedIn])
-  
+
   return (
     <>
       <Grid
@@ -184,9 +209,8 @@ function App() {
           width: "100%",
           height: "100%",
           background: "#009688",
-          overflowX:"hidden",
-          overflowY:"auto",
-    
+          overflowX: "hidden",
+          overflowY: "auto",
         }}
         container
       >
@@ -196,6 +220,8 @@ function App() {
               sessionCookie?.profileObj?.signedIn &&
               sessionCookie?.profileObj?.index >= 1
             }
+            newAnalysis = {sessionCookie?.profileObj?.name?.length>=1 &&
+              sessionCookie?.profileObj?.index >= 1}
             handleLogOut={handleLogOut}
           />
 

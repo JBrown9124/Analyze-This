@@ -1,13 +1,14 @@
 import { animated, useSpring } from "react-spring";
 import React from "react";
 interface Props{
-    x:number | string;
-    y:number | string;
-    rotation:number;
-    scale:number;
+    x?:number | string;
+    y?:number | string;
+    rotation?:number;
+    scale?:number;
     children:React.ReactNode
-    fromY:number,
-  fromX:number,
+    fromY?:number,
+  fromX?:number,
+  randomColor?:string|null
 }
 const CertificateBoop = ({
   x = 0,
@@ -16,15 +17,17 @@ const CertificateBoop = ({
   scale = 1.00,
   fromY = 0,
   fromX = 0,
+  randomColor,
   children,
 }:Props) => {
   const [isBooped, setIsBooped] = React.useState(false);
+  const safeRandomColor = randomColor===undefined?"green":randomColor
   const style = useSpring({
- 
+    
     display: "inline-block",
     backfaceVisibility: "hidden",
-    boxShadow: isBooped?"-1px 1px  #9147ff, -2px 2px  #9147ff, -3px 3px  #9147ff, -4px 4px  #9147ff, -5px 5px  #9147ff, -6px 6px  #9147ff, -7px 7px  #9147ff, -8px 8px  #9147ff":
-    "-0px 0px  #9147ff, -0px 0px  #9147ff, -0px 0px  #9147ff, -0px 0px  #9147ff, -0px 0px  #9147ff, -0px 0px  #9147ff, -0px 0px  #9147ff, -0px 0px  #9147ff",
+    boxShadow: isBooped?`-1px 1px  ${safeRandomColor}, -2px 2px  ${safeRandomColor}, -3px 3px  ${safeRandomColor}, -4px 4px  ${safeRandomColor}, -5px 5px  ${safeRandomColor}, -6px 6px  ${safeRandomColor}, -7px 7px  ${safeRandomColor}, -8px 8px  ${safeRandomColor}`:
+    `-0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}`,
     
     transform: isBooped
       ? `translate(${x}px, ${y}px)

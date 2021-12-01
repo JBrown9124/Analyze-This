@@ -13,16 +13,16 @@ export default function Literature({ books }: Props) {
   }
   return (
     <>
-    <Grid container direction="column" spacing={2}>
+    <Grid container direction="column" sx={{ borderRadius:"15px", }} >
       <Grid item>
-      <Typography variant="h5" >
+      <Typography variant="h5" sx={{ marginTop: "10px", marginBottom: "10px"}} >
         {" "}
         Literature{" "}
       </Typography>
       </Grid>
       {books?.map((book: any) => (
-        <Grid item>
-          <CoverBoop x={5} y={-5} rotation={0} scale={1} fromY={0} fromX={0}>
+        <Grid item sx={{marginBottom:5}} >
+          <CoverBoop randomColor={"#" + (Math.floor(Math.random()*16777215).toString(16))}x={5} y={-5} rotation={0} scale={1} fromY={0} fromX={0}>
             <img
               style={{ cursor: "pointer", width: "100%", height: "100%" }}
               src={book.cover}

@@ -4,8 +4,10 @@ import {createTheme} from "@mui/material/styles";
 let theme = createTheme();
 
 theme.typography.h6 = {
-  fontFamily: "Open Sans, sans-serif",
+  fontFamily: "Open Sans",
+  fontWeight:100,
   color: "black",
+  fontStyle:"none",
   [theme.breakpoints.up("sm")]: {
     fontSize: "1rem",
   },
@@ -34,9 +36,9 @@ theme.typography.body2 = {
   },
 };
 theme.typography.h5 = {
-  fontFamily: "Open Sans, sans-serif",
+  fontFamily: "Roboto, sans-serif",
   color: "black",
-
+  fontWeight:100,
   [theme.breakpoints.up("sm")]: {
     fontSize: "1.6rem",
   },
@@ -45,15 +47,14 @@ theme.typography.h5 = {
   },
 };
 theme.typography.h2 = {
-  fontFamily: "Open Sans, sans-serif",
-  
-  color: "black",
-
+  fontFamily: "Roboto",
+  color: "white",
+  fontWeight:100,
   [theme.breakpoints.up("sm")]: {
-    fontSize: "1.6rem",
+    fontSize: "2.8rem",
   },
   [theme.breakpoints.down("sm")]: {
-    fontSize: ".4rem",
+    fontSize: ".9rem",
   },
 };
 theme.typography.h1 = {
@@ -73,15 +74,16 @@ theme.typography.h3 = {
   color: "black",
   fontWeight:100,
   [theme.breakpoints.up("sm")]: {
-    fontSize: "2.3rem",
+    fontSize: "2.0rem",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: ".6rem",
   },
 };
 theme.typography.h4 = {
-  fontFamily: "Open Sans, sans-serif",
+  fontFamily: "Source Sans Pro, sans-serif",
   color: "black",
+  fontStyle:"normal",
   fontWeight:200,
   [theme.breakpoints.up("sm")]: {
     fontSize: "2.0rem",

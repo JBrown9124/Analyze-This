@@ -9,27 +9,27 @@ import MenuIcon from "@mui/icons-material/Menu";
 interface Props {
   handleLogOut: () => void;
   signedIn: boolean;
+  newAnalysis: boolean;
 }
-export default function NavBar({ signedIn, handleLogOut }: Props) {
+export default function NavBar({ signedIn, handleLogOut, newAnalysis }: Props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{background:"transparent", boxShadow:"none"}}>
+      <AppBar
+        position="static"
+        sx={{ background: "transparent", boxShadow: "none" }}
+      >
         <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography> */}
-          {signedIn ? (
+          {/* {signedIn ? (
             <Button color="inherit" onClick={() => signedIn && handleLogOut()}>
               {signedIn ? "Logout" : ""}
+            </Button>
+          ) : null} */}
+          {newAnalysis ? (
+            <Button
+              color="inherit"
+              onClick={() => newAnalysis && handleLogOut()}
+            >
+              {newAnalysis ? "New Analysis" : ""}
             </Button>
           ) : null}
         </Toolbar>

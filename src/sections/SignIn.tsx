@@ -58,13 +58,13 @@ export default function SignIn({
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: "translate(-50%, 150%)",
+          transform: "translate(-50%, 110%)",
         }}
         container
         direction="column"
       >
         <Typography variant="h3" sx={{ borderRadius: "5px", padding: "15px" }}>
-          Would you like to sign in?
+          To save some time, would you like to sign in with Google?
         </Typography>
         <Grid sx={{ borderRadius: "5px", padding: "15px" }}>
           <GoogleLogin
@@ -73,6 +73,7 @@ export default function SignIn({
             onSuccess={responseGoogle}
             onFailure={error}
             onRequest={loading}
+            theme={"dark"}
             isSignedIn={false}
             style={{ backgroundColor: "blue" }}
            

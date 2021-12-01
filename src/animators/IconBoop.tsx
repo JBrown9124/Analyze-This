@@ -1,13 +1,13 @@
 import { animated, useSpring } from "react-spring";
 import React from "react";
 interface Props {
-  x: number;
-  beforeColor: string;
-  afterColor: string;
-  y: number;
-  rotation: number;
-  scale: number;
-  isBooped: boolean;
+  x?: number;
+  beforeColor?: string;
+  afterColor?: string;
+  y?: number;
+  rotation?: number;
+  scale?: number;
+  isBooped?: boolean;
   children: React.ReactNode;
   
 }
