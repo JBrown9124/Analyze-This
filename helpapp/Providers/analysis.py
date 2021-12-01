@@ -1,17 +1,19 @@
-from typing import List, Dict
-from spellchecker import SpellChecker
-import re
 import sys
 sys.path.append(
     "C:\\Users\\Jonathan\\Documents\\My_Workspaces\\new_project\\helpapp")
-from WordData.life_death_synonyms import life_death_synonyms
-from WordData.conflict_type import conflict_type
-from WordData.first_person_pronouns import first_person_pronouns
-from WordData.suicide_words_context import suicide_words_context
-from WordData.people_synonyms_pronouns import people_synonyms_pronouns
-from WordData.others_danger_context import others_danger_context
-from WordData.suicide_words import suicide_words
 from WordData.anger_words import anger_words
+from WordData.suicide_words import suicide_words
+from WordData.others_danger_context import others_danger_context
+from WordData.people_synonyms_pronouns import people_synonyms_pronouns
+from WordData.suicide_words_context import suicide_words_context
+from WordData.first_person_pronouns import first_person_pronouns
+from WordData.conflict_type import conflict_type
+from WordData.life_death_synonyms import life_death_synonyms
+from typing import List, Dict
+from spellchecker import SpellChecker
+from  WordData.very_synonyms import very_synonyms
+import re
+
 
 
 
@@ -19,7 +21,7 @@ class Analysis(object):
     def __init__(self, description: str):
         self.description = description
         self.potential_causes = {}
-        # self.results = {"suicidal":self.is_suicide(),"others_danger":self.others_danger(), "self_danger":self.self_danger(), "type":self.find_type(), "description":self.description}
+       
 
     def __iter__(self) -> List[str]:
         # Turn string to lowercase.
@@ -30,8 +32,8 @@ class Analysis(object):
         description: List[str] = description.split()
         # spell = SpellChecker(distance=1)
         i = 0
-        j = i+1
-        k = j+1
+        j = i + 1
+        k = j + 1
         # This while loop ensures we do not miss any elements.
 
         while i <= len(description) - 1:
@@ -41,11 +43,11 @@ class Analysis(object):
             output.append(description[i])
             i += 1
 
-            if j <= len(description)-1:
+            if j <= len(description) - 1:
                 output.append(description[j])
                 j += 1
 
-            if k <= len(description)-1:
+            if k <= len(description) - 1:
                 output.append(description[k])
                 k += 1
 
@@ -154,7 +156,7 @@ class Analysis(object):
                     suicide_mentioned += 1
         suicide_results = {'suicide_probability': suicide_probability if suicide_probability <
                            1.00 else 1.00, 'is_suicide': suicide_probability >= .75, 'suicide_mentioned': suicide_mentioned}
-        self.potential_causes["suicide"]="suicide" if suicide_probability >= .75 else None
+        self.potential_causes["suicide"] = "suicide" if suicide_results['is_suicide'] else None
         return suicide_results
 
     def is_danger(self):
@@ -221,47 +223,27 @@ class Analysis(object):
             # The conditions below are to catch anywords synonymous with anger deteriminant words that are not caught by our context loop.
             # Danger probability only increased by .25 because they are not in context of the person's self. ex of word synonymous with anger:"Kill"
             # ex. of words in context of the person's self in context with synonym of anger: ex. kill others'
-            if words[0] in anger_words:
-                danger_probability += .25
+          
             if len(words) == 2 and words[1] in anger_words:
-                danger_probability += .25
+                danger_probability += .50
             if len(words) == 3 and words[2] in anger_words:
-                danger_probability += .25
-            if words[0] in life_death_synonyms:
-                danger_probability += .25
-                if len(words) == 2 and words[1] in anger_words:
-                    danger_mentioned += 1
-                    danger_probability +=.50
-                if len(words) == 3 and words[2] in anger_words:
-                    danger_mentioned += 1
-                    danger_probability +=.50
-            if len(words) == 2 and words[1] in life_death_synonyms:
-                danger_probability += .25
-
-                if len(words) == 2 and words[0] in anger_words:
-                    danger_probability +=.50
-                    danger_mentioned += 1
-                if len(words) == 3 and words[2] in anger_words:
-                    danger_probability +=.50
-                    danger_mentioned += 1
-            if len(words) == 3 and words[2] in life_death_synonyms:
-                danger_probability += .25
-                if len(words) == 2 and words[0] in anger_words:
-                    danger_probability +=.50
-                    danger_mentioned += 1
-                if len(words) == 3 and words[1] in anger_words:
-                    danger_probability +=.50
-                    danger_mentioned += 1
+                danger_probability += .50
+            if words[0] in anger_words:
+                danger_probability += .50
+            if len(words) == 2 and words[1] in anger_words:
+                danger_probability += .50
+            if len(words) == 3 and words[2] in anger_words:
+                danger_probability += .50
+            
         danger_results = {'danger_probability': danger_probability if danger_probability <
-                          1.00 else 1.00, 'is_danger': danger_probability >= .75, 'danger_mentioned': danger_mentioned}
-        self.potential_causes["anger"]="anger" if danger_probability >= .75 else None
+                          1.00 else 1.00, 'is_danger': danger_probability >= .50, 'danger_mentioned': danger_mentioned}
+        self.potential_causes["anger"] = "anger" if danger_results['is_danger'] else None
         return danger_results
 
     def find_causes(self) -> List[str]:
         # compare dict values to the string to see what type of conflict the
         # person is dealing with.
 
-        
         for words in self:
 
             if words[0] in conflict_type and words[0] not in self.potential_causes:
@@ -272,7 +254,7 @@ class Analysis(object):
                 self.potential_causes[conflict_type[words[1]]] = words[1]
             if len(words) >= 3 and words[2] in conflict_type and words[2] not in self.potential_causes:
                 self.potential_causes[conflict_type[words[2]]] = words[2]
-        
+
         return self.potential_causes
 
     def results(self) -> Dict:
@@ -283,6 +265,6 @@ class Analysis(object):
 
 if __name__ == "__main__":
     analysis = Analysis(
-        description=u"slay him")
+        description=u"fuck fuck fuck fuck")
 
     print(analysis.results())

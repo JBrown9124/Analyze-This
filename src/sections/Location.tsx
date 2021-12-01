@@ -154,6 +154,7 @@ export default function Location({ handleLocation, clickBack }: Props) {
           </IconBoop>
           <CustomTextField
             onFocus={() => handleClickInside()}
+            // helperText={isError && "A location must be selected!"}
             isSuccess={isSuccess}
             ref={clickRef}
             autoComplete="off"

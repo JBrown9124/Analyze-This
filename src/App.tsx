@@ -20,7 +20,7 @@ import { useCookies } from "react-cookie";
 import { ThemeProvider } from "@mui/material/styles";
 import Analyzing from "./sections/Analyzing";
 import Grid from "@mui/material/Grid";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import theme from "./themes/theme";
 import EnableCookies from "./components/EnableCookies";
 import GoogleLogin, {
@@ -40,7 +40,7 @@ function App() {
     resources: [{ name: "", url: "" }],
     facilities: [{}],
     analysisResults: {
-     suicide_stats: {
+      suicide_stats: {
         suicide_probability: 0,
         is_suicide: false,
         suicide_mentiond: 0,
@@ -80,11 +80,15 @@ function App() {
   };
   const descriptionChange = (descriptionInput: string): void => {
     handleContinue();
-    const newObjectId = uuidv4()
+    const newObjectId = uuidv4();
 
     setSessionCookie(
       "profileObj",
-      { ...sessionCookie.profileObj, description: descriptionInput, objectId:newObjectId },
+      {
+        ...sessionCookie.profileObj,
+        description: descriptionInput,
+        objectId: newObjectId,
+      },
       { path: "/" }
     );
     setFetchingResults(true);
@@ -114,6 +118,8 @@ function App() {
   };
   const handleLogOut = () => {
     removeSessionCookie("profileObj");
+    setToggleContinue(false);
+    window.location.reload();
   };
 
   /* if the length of description changes we can say that the user has completed the entire form and we can send location, name, description data to our database. */
@@ -126,26 +132,21 @@ function App() {
       };
       const analyzeData = async (body: Object) => {
         const { data } = await axios.post<ResultsProps>(
-          `http://127.0.0.1:8000/helpapp/${sessionCookie?.profileObj?.objectId}/analyze`,
-          body, {
-            
-            headers: { Cookie: `cookie1=${sessionCookie?.profileObj?.objectId}`
-        }}
+          // `http://127.0.0.1:8000/helpapp/${sessionCookie?.profileObj?.objectId}/analyze`,
+          `https://tranquil-journey-341e7.web.app/${sessionCookie?.profileObj?.objectId}/analyze`,
+          body,
+          
         );
-        console.log(data, "DATA")
+        console.log(data, "DATA");
         return data;
       };
       const storeData = async () => {
-        try{
-        const data = await analyzeData(reqBody);
-        
+        try {
+          const data = await analyzeData(reqBody);
 
-       
-        await setTimeout(() =>setToggleContinue(true), 1500);
-       setResults(data);
-      }
-        
-        catch(error){
+          setTimeout(() => setToggleContinue(true), 1500);
+          return setResults(data);
+        } catch (error) {
           console.error(error);
           return Promise.reject(error);
         }
@@ -156,15 +157,12 @@ function App() {
   }, [fetchingResults]);
   const handleBack = (): Promise<void> => {
     const backTrigger = async (): Promise<boolean | undefined> => {
-     
-        setToggleBack(true);
-        return false;
-   
-      
+      setToggleBack(true);
+      return false;
     };
     const backUntrigger = async (): Promise<void> => {
       try {
-        const {data}: any = await backTrigger();
+        const { data }: any = await backTrigger();
 
         setToggleBack(data);
       } catch (error) {
@@ -174,16 +172,14 @@ function App() {
     };
     return backUntrigger();
   };
-  const handleContinue = ()=> {
+  const handleContinue = () => {
     const continueTrigger = async (): Promise<boolean | undefined> => {
-      
-        setToggleContinue(true);
-        return false;
-      
+      setToggleContinue(true);
+      return false;
     };
     const continueUntrigger = async () => {
       try {
-        const {data}: any  = await continueTrigger();
+        const { data }: any = await continueTrigger();
         setToggleContinue(data);
       } catch (error) {
         console.error(error);
@@ -220,8 +216,10 @@ function App() {
               sessionCookie?.profileObj?.signedIn &&
               sessionCookie?.profileObj?.index >= 1
             }
-            newAnalysis = {sessionCookie?.profileObj?.name?.length>=1 &&
-              sessionCookie?.profileObj?.index >= 1}
+            newAnalysis={
+              sessionCookie?.profileObj?.name?.length >= 1 &&
+              sessionCookie?.profileObj?.index >= 1
+            }
             handleLogOut={handleLogOut}
           />
 

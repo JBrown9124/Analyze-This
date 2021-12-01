@@ -39,7 +39,7 @@ export default function Websites({ websites }: Props) {
           </Typography>
         </Grid>
         {websites?.map((website: any) => (
-          <Grid item>
+          <Grid item key={website.link}>
             <CoverBoop randomColor={null}scale={1.1}>
               <CustomLink
                 variant="h6"

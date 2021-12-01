@@ -21,7 +21,7 @@ export default function Literature({ books }: Props) {
       </Typography>
       </Grid>
       {books?.map((book: any) => (
-        <Grid item sx={{marginBottom:5}} >
+        <Grid item key={book.link} sx={{marginBottom:5}} >
           <CoverBoop randomColor={"#" + (Math.floor(Math.random()*16777215).toString(16))}x={5} y={-5} rotation={0} scale={1} fromY={0} fromX={0}>
             <img
               style={{ cursor: "pointer", width: "100%", height: "100%" }}

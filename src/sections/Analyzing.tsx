@@ -47,7 +47,7 @@ export default function Analyzing() {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: "translate(-50%, 350%)",
+          transform: "translate(-50%, 300%)",
           textAlign:"center",
           display:"flex",
           justifyContent: "center",

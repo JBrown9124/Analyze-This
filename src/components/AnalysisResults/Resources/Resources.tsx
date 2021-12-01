@@ -6,7 +6,7 @@ import CoverBoop from "../../../animators/CoverBoop";
 import Literature from "./Literature";
 import Websites from "./Websites";
 interface Props {
-  resources: [{ name: string; url: string }];
+  resources: Object[];
 }
 export default function AnalysisResults({ resources }: Props) {
   function openInNewTab(url: string) {
@@ -22,12 +22,11 @@ export default function AnalysisResults({ resources }: Props) {
           boxShadow:
             "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
           background: "#ffffff!important",
-          borderRadius: "5px", border:"1px solid black",
+          borderRadius: "5px",
+          border: "1px solid black",
         }}
       >
-        
-
-        {resources?.map((resource: any) => (
+        {resources?.map((resource:any) => (
           <Grid container>
             <Grid container direction="column">
               <Grid item>
@@ -42,11 +41,11 @@ export default function AnalysisResults({ resources }: Props) {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid xs={6} item sx={{ background: "#bbb5c3", }}>
+            <Grid xs={6} item sx={{ background: "#bbb5c3" }}>
               <Websites websites={resource.websites} />
             </Grid>
 
-            <Grid xs={6} item sx={{ background: "#ede7f6",   }}>
+            <Grid xs={6} item sx={{ background: "#ede7f6" }}>
               <Literature books={resource.books} />
             </Grid>
           </Grid>

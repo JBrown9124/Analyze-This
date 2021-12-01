@@ -29,21 +29,27 @@ from rest_framework.views import APIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 from django.core.cache import cache
-
+from django.views.decorators.cache import never_cache
+from django.views.generic import TemplateView
 # Create your views here.
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+
+
+# def index(request):
+#     return HttpResponse("Hello, world. You're at the polls index.")
+index = never_cache(TemplateView.as_view(template_name='index.html'))
+
 def object_id(request, object):
 
     return HttpResponse(object)
+
 
 class Analyze(APIView):
     @method_decorator(vary_on_cookie)
     @method_decorator(cache_page(60*60*2))
     def post(self, request, object):
 
-        # try:
-            
+        try:
+
             my_cache = cache.get(object)
             if my_cache is not None:
                 return JsonResponse(my_cache)
@@ -63,12 +69,13 @@ class Analyze(APIView):
                                  )
 
             resources_response = obtain_cause_resources(potential_causes)
-            
+
             help_response.resources = resources_response
 
             response = help_response.to_dict()
-            cache.set(object, response, None)
+            # Make cache with object as the key for 12 hours.
+            cache.set(object, response, 43200)
             return JsonResponse(response)
 
-        # except Exception as e:
-        #     return HttpResponseServerError()
+        except Exception as e:
+            return HttpResponseServerError()

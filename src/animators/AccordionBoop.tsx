@@ -29,8 +29,9 @@ const CoverBoop = ({
     display: "inline-block",
     backfaceVisibility: "hidden",
     boxShadow: isBooped
-      ? `-1px 1px  ${safeRandomColor}, -2px 2px  ${safeRandomColor}, -3px 3px  ${safeRandomColor}, -4px 4px  ${safeRandomColor}, -5px 5px  ${safeRandomColor}, -6px 6px  ${safeRandomColor}, -7px 7px  ${safeRandomColor}, -8px 8px  ${safeRandomColor}`
-      : `-0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}, -0px 0px  ${safeRandomColor}`,
+    
+      ? ` rgb(187, 181, 195) 0px 4px `
+      : ` rgb(187, 181, 195) 0px 0px`,
 
     transform: isBooped
       ? `translate(${x}px, ${y}px)

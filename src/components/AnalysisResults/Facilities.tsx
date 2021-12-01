@@ -6,7 +6,7 @@ import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import Avatar from "@mui/material/Avatar";
 import Rating from "@mui/material/Rating";
-
+import AccordionBoop from "../../animators/AccordionBoop"
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
@@ -19,28 +19,31 @@ import Divider from "@mui/material/Divider";
 
 const CustomAccordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme, accordionColor}:any) => ({
+))(({ theme, accordionColor }: any) => ({
   overflow: "hidden",
- 
-  "& .MuiAccordion:hover":{background:"black"},
+  "&.MuiAccordion-hover": { background: "#bbb5c3" },
+  "& hover": { background: "#bbb5c3" },
   backgroundColor: accordionColor,
-  // border: `1px solid ${theme.palette.divider}`,
-  // "&:not(:last-child)": { backgroundColor: "white", borderBottom: 0 },
-  // "&:before": { backgroundColor: "white", display: "none" },
+  border: `1px solid ${theme.palette.divider}`,
+  "&:not(:last-child)": { backgroundColor: "white", borderBottom: 0 },
+  "&:before": { backgroundColor: "white", display: "none" },
 }));
 
-const CustomAccordionDetails = styled(MuiAccordionDetails)(({ theme , accordionColor}:any) => ({
-  overflow: "hidden",
-  backgroundColor: accordionColor,
-}));
+const CustomAccordionDetails = styled(MuiAccordionDetails)(
+  ({ theme, accordionColor }: any) => ({
+    overflow: "hidden",
+    backgroundColor: accordionColor,
+  })
+);
 
 const CustomAccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
     expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
     {...props}
   />
-))(({ theme, accordionColor}:any) => ({
+))(({ theme, accordionColor }: any) => ({
   backgroundColor: accordionColor,
+
   overflow: "hidden",
   "&.MuiAccordionSummary-focused": {
     backgroundColor: accordionColor,
@@ -60,11 +63,12 @@ interface Props {
 }
 export default function Facilities({ facilities }: Props) {
   const [expanded, setExpanded] = useState<any>(false);
+  const [accordionColor, setAccordionColor] = useState("#ede7f6");
   const handleAccordionChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded({ ...expanded, [panel]: newExpanded ? true : false });
     };
-  const accordionColor = ["#ede7f6","#bbb5c3"]
+
   function openInNewTab(url: string) {
     const win = window.open(url, "_blank")?.focus();
     return win;
@@ -102,11 +106,12 @@ export default function Facilities({ facilities }: Props) {
             "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
           background: "white!important",
           borderRadius: "5px",
+      
+          border: "1px solid black",
         }}
-        
       >
         {facilities.map((facility: any, idx: number) => (
-          <Grid container direction="column" >
+          <Grid container direction="column">
             <Grid item>
               <Typography variant="h4" sx={{ padding: "30px" }}>
                 {facility?.facilities_type === "suicide support"
@@ -119,9 +124,10 @@ export default function Facilities({ facilities }: Props) {
               </Typography>
             </Grid>
             {facility.closest_facilities?.map((closest: any, idx: number) => (
-              <Grid item>
+              <Grid item key={`${closest.plus_code?.global_code}${facility?.facilities_type}`}>
+                   <AccordionBoop width={"100%"} randomColor={"#009688"}>
                 <CustomAccordion
-                accordionColor={accordionColor[Math.round(idx % accordionColor.length )]}
+                  accordionColor={"#ede7f6"}
                   key={`${closest.plus_code?.global_code}${facility?.facilities_type}`}
                   expanded={
                     expanded[
@@ -133,12 +139,14 @@ export default function Facilities({ facilities }: Props) {
                   )}
                   disableGutters
                 >
-                  <CustomAccordionSummary   accordionColor={accordionColor[Math.round(idx % accordionColor.length )]}>
+               
+                  <CustomAccordionSummary accordionColor={"#ede7f6"}>
                     <Typography variant="h6" sx={{ textAlign: "left" }}>
                       {closest.name}
                     </Typography>
                   </CustomAccordionSummary>
-                  <CustomAccordionDetails   accordionColor={accordionColor[Math.round(idx % accordionColor.length )]}>
+                
+                  <CustomAccordionDetails accordionColor={"#ede7f6"}>
                     <Grid container direction="column">
                       <Grid item sx={{ height: "30vh", width: "100%" }}>
                         {/* {facility.photos?.html_attributions?.map((pic:any)=><div>{pic}</div>
@@ -186,6 +194,7 @@ export default function Facilities({ facilities }: Props) {
                     </Grid>
                   </CustomAccordionDetails>
                 </CustomAccordion>
+                </AccordionBoop>
               </Grid>
             ))}
           </Grid>

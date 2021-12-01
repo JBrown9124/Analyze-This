@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-import FeelSafeTransition from "../animators/FeelSafeTransition";
+
 
 import FeelSafeButton from "../components/FeelSafeButton";
 
-import { alpha, styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
+
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import { OutlinedInputProps } from "@mui/material/OutlinedInput";
-import { number } from "prop-types";
+
 import Grid from "@mui/material/Grid";
 
 interface Props {
@@ -21,12 +16,17 @@ interface Props {
 
 export default function Analysis({ handleDescription, clickBack }: Props) {
   const [description, setDescription] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleSubmit = (): void => {
-    const descriptionData = {
-      description: description,
-    };
+    
+    if (description.length > 0){
+      setIsError(false);
     handleDescription(description);
+  }
+    else{
+      setIsError(true);
+    }
   };
 
   return (
@@ -47,10 +47,12 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
         direction="column"
       >
         <Typography variant="h3"  sx={{ borderRadius: "5px", padding: "15px"}}>
-          What would you like us to analyze for you today?
+          What's on your mind? 
         </Typography>
+        <Typography variant="body2" sx={{ borderRadius: "5px", padding: "15px"}}> For the results to be as accurate as possible, please no typos!</Typography>
 
         <TextField
+        placeholder="I am feeling really tense. Sometimes I feel like I just want to die. I really need a smoke"
           multiline={true}
           autoComplete="off"
           sx={{
@@ -62,10 +64,13 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
             marginBottom:"15px",
           }}
           rows={5}
+          error={isError}
+          // helperText={isError && "Empty field"}
           variant="outlined"
           id="custom-css-outlined-input"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onClick={()=>setIsError(false)}
+          onChange={(e) => setDescription(e.target.value) }
         />
         <Grid item sx={{ padding: "15px"}}>
           <FeelSafeButton

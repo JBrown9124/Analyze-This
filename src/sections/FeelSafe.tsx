@@ -21,7 +21,7 @@ export default function FeelSafe({ clickContinue, clickBack }: Props) {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: "translate(-50%, 200%)",
+          transform: "translate(-50%, 240%)",
         }}
         container
         direction="column"

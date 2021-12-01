@@ -29,7 +29,7 @@ export default function NavBar({ signedIn, handleLogOut, newAnalysis }: Props) {
               color="inherit"
               onClick={() => newAnalysis && handleLogOut()}
             >
-              {newAnalysis ? "New Analysis" : ""}
+              {newAnalysis ? "Start a New Analysis" : ""}
             </Button>
           ) : null}
         </Toolbar>

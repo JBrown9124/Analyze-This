@@ -4,7 +4,7 @@ import { ResultsProps } from "../models/Results";
 import Facilities from "../components/AnalysisResults/Facilities";
 import Analyzing from "./Analyzing";
 import Grid from "@mui/material/Grid";
-
+import NoResults from "./NoResults";
 import Resources from "../components/AnalysisResults/Resources/Resources";
 interface Props {
   results: ResultsProps;
@@ -14,7 +14,7 @@ export default function AnalysisResults({ results }: Props) {
   
   return (
     <>
-      {facilities?.length > 1 ? (
+      {facilities?.length >= 1 && resources.length >= 1 ? (
         <Grid
           container
           sx={{
@@ -49,7 +49,7 @@ export default function AnalysisResults({ results }: Props) {
         </Grid>
       ) : (
         <>
-          <Analyzing />
+          <NoResults />
         </>
       )}
     </>
