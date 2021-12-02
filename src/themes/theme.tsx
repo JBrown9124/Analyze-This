@@ -89,7 +89,7 @@ theme.typography.h4 = {
     fontSize: "2.0rem",
   },
   [theme.breakpoints.down("sm")]: {
-    fontSize: "1.5rem",
+    fontSize: "1.0rem",
   },
 };
 export default theme;

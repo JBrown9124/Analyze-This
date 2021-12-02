@@ -1,11 +1,9 @@
-import React, { ReactNode, Ref, useEffect, useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import Typography from "@mui/material/Typography";
 import CustomTextField from "../components/CustomTextField";
 import FeelSafeButton from "../components/FeelSafeButton";
-import { alpha, styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import useGoogle from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import api from "../services/googleAPI";
@@ -49,18 +47,15 @@ export default function Location({ handleLocation, clickBack }: Props) {
 
   const [isError, setIsError] = useState(false);
 
-  const {
-    placePredictions,
-    getPlacePredictions,
-    isPlacePredictionsLoading,
-  }= useGoogle({
-    sessionToken: true,
-    apiKey: api,
-    debounce: 500,
-    options: {
-      componentRestrictions: { country: "us" },
-    },
-  });
+  const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } =
+    useGoogle({
+      sessionToken: true,
+      apiKey: api,
+      debounce: 500,
+      options: {
+        componentRestrictions: { country: "us" },
+      },
+    });
 
   const handleClickOutside = (): void => {
     setShowPlaces(false);

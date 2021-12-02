@@ -1,9 +1,8 @@
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
 import CoverBoop from "../../../animators/CoverBoop";
-import { alpha, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 const CustomLink = styled(Link)(
   ({ randomColor }: any) => `
@@ -40,7 +39,7 @@ export default function Websites({ websites }: Props) {
         </Grid>
         {websites?.map((website: any) => (
           <Grid item key={website.link}>
-            <CoverBoop randomColor={null}scale={1.1}>
+            <CoverBoop randomColor={null} scale={1.1}>
               <CustomLink
                 variant="h6"
                 randomColor={"#ede7f6"}

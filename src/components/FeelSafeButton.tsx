@@ -1,14 +1,13 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import PropTypes from "prop-types";
+
 
 const ColorButton = styled(Button)(({ theme }) => ({
   backgroundColor: "transparent",
   "&:hover": {
     backgroundColor: "#ede7f6",
-    boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px",
- 
+    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
   },
   fontFamily: "Open-sans, sans-serif",
   color: "black",
@@ -30,8 +29,12 @@ const ColorButton = styled(Button)(({ theme }) => ({
 interface Props {
   onClick: () => void;
   message: string;
-  sx:any
+  sx: any;
 }
-export default function FeelSafeButton({ message, onClick, sx}: Props) {
-  return <ColorButton sx={sx}onClick={() => onClick()}>{message}</ColorButton>;
+export default function FeelSafeButton({ message, onClick, sx }: Props) {
+  return (
+    <ColorButton sx={sx} onClick={() => onClick()}>
+      {message}
+    </ColorButton>
+  );
 }

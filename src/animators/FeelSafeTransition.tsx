@@ -1,24 +1,21 @@
-import { animated, useSpring, useTransition } from "react-spring";
-import React, { useEffect, FC,useState, ReactNode } from "react";
-import Typography from "@mui/material/Typography";
+import { animated, useSpring } from "react-spring";
+import React, {  useState, ReactNode } from "react";
+
 interface Props {
- 
- delay:number,
- x:number,
- y:number,
- fromY:number,
- fromX:number,
- rotation:number,
- scale:number,
- fromScale:number,
- children:ReactNode
+  delay: number;
+  x: number;
+  y: number;
+  fromY: number;
+  fromX: number;
+  rotation: number;
+  scale: number;
+  fromScale: number;
+  children: ReactNode;
 }
 
-const  FeelSafeTransition=({
-  
-  
-  delay= 0,
-  x= 0,
+const FeelSafeTransition = ({
+  delay = 0,
+  x = 0,
   y = 0,
   fromY = 0,
   fromX = 0,
@@ -26,12 +23,9 @@ const  FeelSafeTransition=({
   scale = 1.0,
   fromScale = 1,
   children,
-  
-}:Props) =>{
-  
+}: Props) => {
   const [fade, setFade] = useState(false);
-  
-  
+
   const style = useSpring({
     from: {
       transform: `translate(${fromX}px, ${fromY}px)
@@ -40,30 +34,25 @@ const  FeelSafeTransition=({
       scale(${fromScale})`,
       opacity: 0,
     },
-    
+
     transform: `translate(${x}px, ${y}px)
          rotate(${rotation}deg)
          scale(${scale})`,
-      opacity:  1,
-   
+    opacity: 1,
+
     delay: delay,
-  
+
     //   opacity: 0,
 
     // },
-    
-   
-   
-    config: { mass: 1, tension: 280, friction: 180}
-    ,
+
+    config: { mass: 1, tension: 280, friction: 180 },
     //   onRest: () => set(!flip),
   });
 
-  return <animated.div style={style}>{children}
-  
-  </animated.div>;
-}
-export default FeelSafeTransition
+  return <animated.div style={style}>{children}</animated.div>;
+};
+export default FeelSafeTransition;
 // export default FadeIn;
 // import { animated, useSpring, useSpringRef, useTransition, useChain } from "react-spring";
 // import React, { useEffect, useState } from "react";
@@ -85,7 +74,7 @@ export default FeelSafeTransition
 //     from: {
 //       transform: `translate(${fromX}px, ${fromY}px)
 //       rotate(0deg)
-      
+
 //       scale(${fromScale})`,
 //       opacity: 0,
 //     },
@@ -96,7 +85,7 @@ export default FeelSafeTransition
 //          scale(${scale})`,
 //       opacity: 1,
 //     },
-   
+
 //     delay: delay,
 
 //     //   opacity: 0,
@@ -112,7 +101,7 @@ export default FeelSafeTransition
 //   from: {
 //     transform: `translate(${fromX}px, ${fromY}px)
 //     rotate(0deg)
-    
+
 //     scale(${fromScale})`,
 //     opacity: 0,
 //   },
@@ -123,7 +112,7 @@ export default FeelSafeTransition
 //        scale(${scale})`,
 //     opacity: 1,
 //   },
- 
+
 //   delay: delay,
 
 //   //   opacity: 0,
@@ -138,7 +127,7 @@ export default FeelSafeTransition
 // useChain([springRef, transitionRef])
 //   return <animated.div style={props}>
 //     {children}
-  
+
 //   </animated.div>;
 // }
 

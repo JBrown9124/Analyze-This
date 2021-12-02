@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Typography from "@mui/material/Typography";
-
 
 import FeelSafeButton from "../components/FeelSafeButton";
 
-
-import TextField, { TextFieldProps } from "@mui/material/TextField";
+import TextField from "@mui/material/TextField";
 
 import Grid from "@mui/material/Grid";
 
@@ -19,12 +17,10 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
   const [isError, setIsError] = useState(false);
 
   const handleSubmit = (): void => {
-    
-    if (description.length > 0){
+    if (description.length > 0) {
       setIsError(false);
-    handleDescription(description);
-  }
-    else{
+      handleDescription(description);
+    } else {
       setIsError(true);
     }
   };
@@ -46,13 +42,19 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
         }}
         direction="column"
       >
-        <Typography variant="h3"  sx={{ borderRadius: "5px", padding: "15px"}}>
-          What's on your mind? 
+        <Typography variant="h3" sx={{ borderRadius: "5px", padding: "15px" }}>
+          What's on your mind?
         </Typography>
-        <Typography variant="body2" sx={{ borderRadius: "5px", padding: "15px"}}> For the results to be as accurate as possible, please no typos!</Typography>
+        <Typography
+          variant="body2"
+          sx={{ borderRadius: "5px", padding: "15px" }}
+        >
+          {" "}
+          For the results to be as accurate as possible, please no typos!
+        </Typography>
 
         <TextField
-        placeholder="I am feeling really tense. Sometimes I feel like I just want to die. I really need a smoke"
+          placeholder="I am feeling really tense. Sometimes I feel like I just want to die. I really need a smoke."
           multiline={true}
           autoComplete="off"
           sx={{
@@ -60,8 +62,8 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
             margin: "auto",
             justifyContent: "center",
             textAlign: "center",
-            marginTop:"15px",
-            marginBottom:"15px",
+            marginTop: "15px",
+            marginBottom: "15px",
           }}
           rows={5}
           error={isError}
@@ -69,15 +71,11 @@ export default function Analysis({ handleDescription, clickBack }: Props) {
           variant="outlined"
           id="custom-css-outlined-input"
           value={description}
-          onClick={()=>setIsError(false)}
-          onChange={(e) => setDescription(e.target.value) }
+          onClick={() => setIsError(false)}
+          onChange={(e) => setDescription(e.target.value)}
         />
-        <Grid item sx={{ padding: "15px"}}>
-          <FeelSafeButton
-            sx=""
-            onClick={() => clickBack()}
-            message={"Back"}
-          />
+        <Grid item sx={{ padding: "15px" }}>
+          <FeelSafeButton sx="" onClick={() => clickBack()} message={"Back"} />
           <FeelSafeButton
             sx={{ marginLeft: "1vw" }}
             onClick={() => handleSubmit()}

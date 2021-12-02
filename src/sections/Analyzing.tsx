@@ -1,13 +1,6 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  ReactNode,
-} from "react";
-import { useTransition, animated, config } from "react-spring";
+import React, { useState, useEffect } from "react";
+import { useTransition, animated } from "react-spring";
 import Typography from "@mui/material/Typography";
-import { ResultsProps } from "../models/Results";
 import Grid from "@mui/material/Grid";
 
 export default function Analyzing() {
@@ -41,27 +34,24 @@ export default function Analyzing() {
 
   return (
     <>
-    
       <Grid
         sx={{
           position: "absolute",
           left: "50%",
           top: "50%",
           transform: "translate(-50%, 300%)",
-          textAlign:"center",
-          display:"flex",
+          textAlign: "center",
+          display: "flex",
           justifyContent: "center",
-          
-         
         }}
         spacing={0}
         container
       >
-       <Grid item  >
-          <Typography variant="h1"> Analyzing </Typography>
-          </Grid>
+        <Grid item>
+          <Typography variant="h1"> Finding Resources and Locations</Typography>
+        </Grid>
         {transitions((style, item: any) => (
-           <Grid item>
+          <Grid item>
             <animated.div
               style={{
                 ...style,
@@ -69,7 +59,7 @@ export default function Analyzing() {
             >
               <Typography variant="h1">{slides[index]}</Typography>
             </animated.div>
-            </Grid>
+          </Grid>
         ))}
       </Grid>
     </>

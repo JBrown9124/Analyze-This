@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 interface Props {
   isCookiesEnabled: (arg: boolean) => void;

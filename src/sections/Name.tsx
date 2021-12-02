@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {  useState, useRef } from "react";
 import Typography from "@mui/material/Typography";
-
 import FeelSafeButton from "../components/FeelSafeButton";
-import { green } from "@mui/material/colors";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { styled } from "@mui/material/styles";
 import CustomTextField from "../components/CustomTextField";
 import Box from "@mui/material/Box";
 import IconBoop from "../animators/IconBoop";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";

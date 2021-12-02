@@ -132,8 +132,8 @@ function App() {
       };
       const analyzeData = async (body: Object) => {
         const { data } = await axios.post<ResultsProps>(
-          // `http://127.0.0.1:8000/helpapp/${sessionCookie?.profileObj?.objectId}/analyze`,
-          `https://tranquil-journey-341e7.web.app/${sessionCookie?.profileObj?.objectId}/analyze`,
+          `http://127.0.0.1:8000/helpapp/${sessionCookie?.profileObj?.objectId}/analyze`,
+          // `https://analyze-this1.herokuapp.com/${sessionCookie?.profileObj?.objectId}/analyze`,
           body,
           
         );

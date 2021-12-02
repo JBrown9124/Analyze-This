@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Typography from "@mui/material/Typography";
 import { ResultsProps } from "../models/Results";
 import Facilities from "../components/AnalysisResults/Facilities";
-import Analyzing from "./Analyzing";
 import Grid from "@mui/material/Grid";
 import NoResults from "./NoResults";
 import Resources from "../components/AnalysisResults/Resources/Resources";
@@ -11,7 +10,7 @@ interface Props {
 }
 export default function AnalysisResults({ results }: Props) {
   const { analysisResults, description, resources, facilities } = results;
-  
+
   return (
     <>
       {facilities?.length >= 1 && resources.length >= 1 ? (

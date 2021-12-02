@@ -1,7 +1,5 @@
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
 import CoverBoop from "../../../animators/CoverBoop";
 interface Props {
   books: Object[];

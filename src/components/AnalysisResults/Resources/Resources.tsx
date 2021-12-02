@@ -1,8 +1,5 @@
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
-import CoverBoop from "../../../animators/CoverBoop";
 import Literature from "./Literature";
 import Websites from "./Websites";
 interface Props {

@@ -1,8 +1,4 @@
-import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-import { ResultsProps } from "../models/Results";
-import Facilities from "../components/AnalysisResults/Facilities";
-import Analyzing from "./Analyzing";
 import Grid from "@mui/material/Grid";
 
 export default function NoResults() {

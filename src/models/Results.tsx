@@ -15,8 +15,5 @@ export interface ResultsProps {
     };
     potential_causes: {};
   };
-  description:string
-
+  description: string;
 }
-
-

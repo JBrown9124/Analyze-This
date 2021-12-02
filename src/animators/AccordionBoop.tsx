@@ -23,13 +23,12 @@ const CoverBoop = ({
   children,
 }: Props) => {
   const [isBooped, setIsBooped] = React.useState(false);
-  const safeRandomColor = randomColor === undefined ? "green" : randomColor;
+
   const style = useSpring({
     width: width,
     display: "inline-block",
     backfaceVisibility: "hidden",
     boxShadow: isBooped
-    
       ? ` rgb(187, 181, 195) 0px 4px `
       : ` rgb(187, 181, 195) 0px 0px`,
 

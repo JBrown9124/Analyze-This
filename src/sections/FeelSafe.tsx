@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-import FeelSafeTransition from "../animators/FeelSafeTransition";
 import Grid from "@mui/material/Grid";
 import FeelSafeButton from "../components/FeelSafeButton";
 interface Props {
@@ -34,12 +32,8 @@ export default function FeelSafe({ clickContinue, clickBack }: Props) {
           Do you feel safe enough to continue?
         </Typography>
         <Grid sx={{ padding: "15px" }}>
-        <FeelSafeButton
-           sx=""
-            onClick={() => clickBack()}
-            message="Back"
-          />
-            <FeelSafeButton
+          <FeelSafeButton sx="" onClick={() => clickBack()} message="Back" />
+          <FeelSafeButton
             sx={{ marginLeft: "1vw" }}
             onClick={() => clickContinue()}
             message="Yes"

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-import FeelSafeTransition from "../animators/FeelSafeTransition";
 import GoogleLogin, {
   GoogleLoginProps,
   GoogleLoginResponse,
@@ -76,16 +74,11 @@ export default function SignIn({
             theme={"dark"}
             isSignedIn={false}
             style={{ backgroundColor: "blue" }}
-           
             cookiePolicy={"single_host_origin"}
           />
         </Grid>
         <Grid sx={{ borderRadius: "5px", padding: "15px" }}>
-          <FeelSafeButton
-            sx=""
-            onClick={() => clickBack()}
-            message="Back"
-          />
+          <FeelSafeButton sx="" onClick={() => clickBack()} message="Back" />
           <FeelSafeButton
             sx={{ marginLeft: "1vw" }}
             onClick={() => clickContinue()}

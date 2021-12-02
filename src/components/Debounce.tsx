@@ -1,24 +1,12 @@
-import { Input, List } from "antd";
-
-import React, { Ref, useEffect, useRef, useState } from "react";
-import Typography from "@mui/material/Typography";
-import FeelSafeTransition from "../animators/FeelSafeTransition";
-
-
-import FeelSafeButton from "../components/FeelSafeButton";
+import { List } from "antd";
+import React, { useRef, useState } from "react";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { alpha, styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import useGoogle from "react-google-autocomplete/lib/usePlacesAutocompleteService";
-import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { usePlacesWidget } from "react-google-autocomplete";
-import { number } from "prop-types";
-import Autocomplete from "react-google-autocomplete";
 import { green } from "@mui/material/colors";
 import api from "../services/googleAPI";
 
