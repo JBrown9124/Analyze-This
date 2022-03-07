@@ -1,6 +1,5 @@
 # Analyze-This
-Created a full-stack web application that parses strings for signs of mental illness. Results help provide support to the user.
-At the moment, it detects signs of suicide, anger, and addiction. To analyze strings, I developed an algorithm that works with a large pool of words to find determinants of mental illness. Determinant words must be in a certain order to be flagged. Analysis results and Google Maps/Places API are used to find the nearest support facilities (rehab, support groups, etc.) and resources. Client was created with TypeScript React.js, the REST API with Python (Django), and data is stored and queried from Firestore (NoSQL).
+Created a full-stack web application that parses strings for signs of mental illness. Results help provide support to the user. At the moment it detects signs of suicide, anger, and addiction. To analyze strings, I developed an algorithm that works with a large pool of words to find determinants of mental illness. Determinant words must be in a certain order to be flagged. Analysis results and Google Maps/Places API are used to find the nearest support facilities (rehab, support groups, etc.) and resources. The client was created with TypeScript React.js, the REST API with Python (Django), and data is stored in and queried from a Firestore (NoSQL) database. Deployed using Heroku.
 
 
 ## Available Scripts for Server
